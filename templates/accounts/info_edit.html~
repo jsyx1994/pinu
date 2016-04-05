@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+    <form name = "edit" action = "{% url 'accounts:info_edit' %}" method = "post" >
+        {%csrf_token%}
+        nickname<input type = "text" name = "nick_name" value = "{{nick_name}}"/>
+        phonenum<input type = "text" name = "phone_num" value = "{{phone_num}}"/>
+        work<input type = "text" name = "work" value = "{{work}}"/>
+        email<input type = "text" name = "email" value = "{{email}}"/> 
+        <input type = "submit" value = "submit">
+    </form>
+    我的好友
+    <ul>
+    {% for fri in friend_list %}
+    <!--点击好友昵称生成操作列表，如发消息,查看详情等。先简陋点pass-->
+  		<li>{{fri.nick_name}}</li>
+  	 {% endfor %}
+	 </ul>
+{% endblock %}

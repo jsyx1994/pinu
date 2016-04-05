@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+        <ul>
+            <li>{{real_name}}</li>
+            <li>{{nick_name}}</li>
+            <li>{{sex}}</li>
+            <li>{{birthday}}</li>
+            <li>{{phone_num}}</li>
+            <li>{{work}}</li>
+            <li>{{email}}</li>        
+        </ul>
+       <a class="btn btn-default" href="{% url accounts:edit %}" role="button">编辑</a>
+{%endblock%}

@@ -1,0 +1,143 @@
+#coding:utf-8
+from __future__ import unicode_literals
+
+from django.db import models
+
+# Create your models here.
+from django.contrib.auth.models import(
+	BaseUserManager,AbstractBaseUser
+	)
+class MyUserManager(BaseUserManager):
+    def create_user(self, email,nick_name,real_name,password=None):
+        """
+        Creates and saves a User with the given email, and password.
+        """
+        if not email:
+            raise ValueError('Users must have an email address')
+
+        user = self.model(
+            email=self.normalize_email(email),
+            nick_name=nick_name,
+			real_name=real_name,
+        )
+
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_superuser(self, email,nick_name,real_name, password):
+        """
+        Creates and saves a superuser with the given email, date of
+        birth and password.
+        """
+        user = self.create_user(email,
+            password=password,
+            nick_name=nick_name,
+	    real_name=real_name,
+        )
+        user.is_admin = True
+        user.save(using=self._db)
+        return user
+
+
+class MyUser(AbstractBaseUser):
+	USER_SEX = (
+		('M','男'),
+		('F','女'),
+   		)
+	email = models.EmailField(
+		verbose_name='email address',
+		max_length=255,
+		unique=True,
+		)
+	sex = models.CharField(
+		max_length = 1,
+		choices = USER_SEX,
+		default = 'M',
+		)
+	nick_name = models.CharField(
+		primary_key = True,
+		max_length = 100,
+		)
+	work = models.CharField(
+		max_length = 20,
+		blank = True,
+		#nul=True,
+		)
+	phone_num = models.CharField(
+		unique = True,
+		max_length = 15,
+		blank = True,
+		null=True,
+		)
+	height = models.PositiveSmallIntegerField(
+		blank=True,
+		null = True,
+		)
+	weight = models.PositiveSmallIntegerField(
+		blank=True,
+		null =True,
+		)
+	birthday = models.DateField(
+		blank=True,
+		null = True,
+		)
+	real_name = models.CharField(
+		unique = True,
+		max_length = 100,
+		)
+
+	is_active = models.BooleanField(default=True)
+	is_admin = models.BooleanField(default=False)
+
+	objects = MyUserManager()
+
+	USERNAME_FIELD = 'email'
+	REQUIRED_FIELDS = [
+		#'email',
+		'nick_name',
+		'real_name',
+		]
+	friends=models.ManyToManyField(
+		'self',
+		related_name = 'friShip',
+		through = 'FriendShip',
+		through_fields = ('subject','friend'),
+		symmetrical=False,
+		)
+	def get_full_name(self):
+		# The user is identified by their email address
+	    return self.real_name
+	def get_short_name(self):
+		# The user is identified by their email address
+		return self.nick_name
+	def __unicode__(self):              # __unicode__ on Python 2
+		return self.email
+	def has_perm(self, perm, obj=None):
+		"Does the user have a specific permission?"
+		# Simplest possible answer: Yes, always
+		return True
+	def has_module_perms(self, app_label):
+		return True
+	@property
+	def is_staff(self):
+		# Simplest possible answer: All admins are staff
+		return self.is_admin
+
+class FriendShip(models.Model):
+	subject=models.ForeignKey(
+		MyUser,
+		related_name='subject',
+		)
+	friend=models.ForeignKey(
+		MyUser,
+		related_name='friend',
+		)
+	friend_each_other=models.BooleanField(
+		default=False,
+		)
+	level=models.PositiveSmallIntegerField(
+		default=0
+		)
+	def __unicode__(self):
+		return self.subject.nick_name+u'\'s friend'

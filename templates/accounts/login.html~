@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+	{% block title %}
+		拼游
+	{% endblock %}
+	{% block content %}
+		<form name="login" action="{% url 'accounts:login' %}" method="post">
+		{% csrf_token %}
+			<input type="text" name="email" placeholder="email"/>
+			<input type="password" name="password" placeholder="password"/>
+			<input type="submit" value="登录"/>
+		</form>
+	{% endblock %}
