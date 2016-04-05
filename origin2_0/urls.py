@@ -16,14 +16,11 @@ Including another URLconf
 from django.conf.urls import url,include
 from django.contrib import admin
 from Accounts import views as lend_views
-from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$',lend_views.index,name = 'index'),
     url(r'^accounts/',include('Accounts.urls',namespace = 'accounts')),
-    url(r'^activities/',include('Activities.urls',namespace = 'activites')),
+    url(r'^activities/',include('Activities.urls',namespace = 'activities')),
     url(r'^messages/',include('Messages.urls',namespace = 'messages')),
     ]
-
-urlpatterns += staticfiles_urlpatterns()
 

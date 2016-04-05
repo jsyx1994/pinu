@@ -16,7 +16,11 @@ class ActivityManager(models.Manager):
                 person_num_limit = person_num_limit,
                 )
         return activity
-
+    def get_valid_activity(self):
+        list = filter(lambda a:a.is_active,
+                super(ActivityManager,self).all()
+                )
+        return list
 class Activity(models.Model):
 	#各种类型的活动，一级活动下可以再分二级。。。。。。
 	CATEGORY_LIST=(
@@ -97,10 +101,12 @@ class Activity(models.Model):
         def get_place(self):
             pass
 
-        #是否可参与
+        #是否可参与,人数未满并且在可参与的时间段
         @property
 	def is_active(self):
-	    return self.get_pub_time() < timezone.now() < self.get_start_time()
+            time_ok = self.get_pub_time() < timezone.now() < self.get_start_time()
+            num_ok = not self.is_full
+	    return (time_ok and num_ok)
 
         #是否在进行中
         @property
