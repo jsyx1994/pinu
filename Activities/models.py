@@ -47,7 +47,7 @@ class Activity(models.Model):
 
 	#place=models.
 
-    advocator = models.OneToOneField(
+    advocator = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         related_name = 'advocator',
         default = None,
