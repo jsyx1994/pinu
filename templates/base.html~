@@ -9,7 +9,7 @@
 
     <link rel="icon" href="../../favicon.ico">
 
-    <title>Starter Template for Bootstrap</title>
+    <title>{%block title%}Starter Template for Bootstrap{%endblock%}</title>
 
     <!-- Bootstrap core CSS -->
     <link href="{% static 'bootstrap-3.3.5/dist/css/bootstrap.min.css' %}" rel="stylesheet">
@@ -43,14 +43,18 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="#">主页</a></li>
-            <li><a href="#about">活动</a></li>
+            <li class="active"><a href="{% url 'index' %}">主页</a></li>
+            <li><a href="{% url 'activities:index' %}">活动</a></li>
             <li><a href="#contact">日记</a></li>
-            {% if not user %} 
-            <li><a class="btn btn-default" href="{% url 'accounts:login' %}" role="button">登录/注册</a></li>
- 				{% elif user %}
- 				<li><h5><a href="{% url 'accounts:user_info' %}">welcome {{user.nick_name}}</a></h5></li>
- 				<li><a class="btn btn-default" href="{% url 'accounts:logout' %}" role="button">注销</a></li>
+            {% if user == None %}
+            	<li><a class="btn btn-default" href="{% url 'accounts:login' %}" role="button">登录</a></li>
+            	    <form class="navbar-form pull-right">
+      	<input type="text" class="span2">
+      	<button type="submit" class="btn">提交</button>
+    		</form>
+ 				{% else %}
+ 					<li><h5><a href="{% url 'accounts:user_info' %}">欢迎 {{user.nick_name}}</a></h5></li>
+ 					<li><a class="btn btn-default pull-right" href="{% url 'accounts:logout' %}" role="button">注销</a></li>
  				{% endif %}         
           </ul>
         </div><!--/.nav-collapse -->
@@ -61,6 +65,9 @@
       <div class="starter-template">
         <h1>Bootstrap starter template</h1>
         {% block content%}
+            <div class="progress progress-striped active">
+      <div class="bar" style="width: 40%;"></div>
+    </div>
         {% endblock %}
         <p class="lead">Use this document as a way to quickly start any new project.<br> All you get is this text and a mostly barebones HTML document.</p>
       </div>

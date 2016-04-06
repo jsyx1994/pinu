@@ -8,7 +8,11 @@ from django.contrib.auth.decorators import login_required
 from .forms import RegisterForm
 from .models import MyUser as User
 def index(request):
-    return render(request,'base.html',{'user':None})
+    if not request.user.is_authenticated():
+        user = None
+    else:
+        user = request.user
+    return render(request,'base.html',{'user':user})
 def register(request):
     if request.method == 'POST':
 	form = RegisterForm(request.POST)
