@@ -33,7 +33,25 @@ def register(request):
                     )
 	    return render(request,'accounts/login.html')
         '''
-
+        post = request.POST
+        email = post['email']
+        password = post['password1']
+        real_name = post['first_name']+post['last_name']
+        nick_name =post['nick_name']
+        sex = post['sex']
+        phone_num = post['phone_num']
+        try:
+            User.objects.create_user(
+                email = email,
+		        password = password,
+		        nick_name = nick_name,
+		        real_name = real_name,
+                phone_num = phone_num,
+                sex = sex,
+            )
+        except:
+            return HttpResponse('nick_name or email already be taken')
+        return render(request,'accounts/login.html')
     else:
         #form = RegisterForm()
         return render(request,'accounts/register.html')

@@ -13,7 +13,8 @@ from Activities.models import Activity
 from Messages.models import Message
 from Diaries.models import Diary
 class MyUserManager(BaseUserManager):
-    def create_user(self, email,nick_name,real_name,password=None):
+    def create_user(self,
+    email,nick_name,real_name,sex,password=None,phone_num=None):
         """
         Creates and saves a User with the given email, and password.
         """
@@ -23,8 +24,9 @@ class MyUserManager(BaseUserManager):
         user = self.model(
             email=self.normalize_email(email),
             nick_name=nick_name,
-	    real_name=real_name,
-        )
+            real_name=real_name,
+            phone_num = phone_num,
+            )
 
         user.set_password(password)
         user.save(using=self._db)
@@ -91,7 +93,7 @@ class MyUser(AbstractBaseUser):
 		null = True,
 		)
 	real_name = models.CharField(
-		unique = True,
+		#unique = True,
 		max_length = 100,
 		)
         online = models.NullBooleanField()
@@ -105,6 +107,7 @@ class MyUser(AbstractBaseUser):
 	REQUIRED_FIELDS = [
 		'nick_name',
 		'real_name',
+        'sex'
 		]
 
 	friends=models.ManyToManyField(
