@@ -5,7 +5,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
-from .forms import RegisterForm
+#from .forms import RegisterForm
 from .models import MyUser as User
 def index(request):
     if not request.user.is_authenticated():
@@ -15,8 +15,9 @@ def index(request):
     return render(request,'base.html',{'user':user})
 def register(request):
     if request.method == 'POST':
+        '''
 	form = RegisterForm(request.POST)
-	if form.is_valid():
+        if form.is_valid():
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
 	    sex = form.cleaned_data['sex']
@@ -31,9 +32,11 @@ def register(request):
 		    real_name = real_name,
                     )
 	    return render(request,'accounts/login.html')
+        '''
+
     else:
-        form = RegisterForm()
-        return render(request,'accounts/register.html',{'form':form})
+        #form = RegisterForm()
+        return render(request,'accounts/register.html')
 
 def log_in(request):
     user = None
@@ -53,8 +56,7 @@ def log_in(request):
 	    else:
 		pass
 	else:
-	    return HttpResponse(password)
-            pass
+            return render(request,'accounts/login.html',{'error':'账户或密码错误'})
     else:
         return render(request,'accounts/login.html',{'user':user})
 
