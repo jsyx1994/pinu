@@ -47,97 +47,99 @@ class MyUserManager(BaseUserManager):
         return user
 
 class MyUser(AbstractBaseUser):
-	USER_SEX = (
+    LNG = None
+    LNT = None
+    USER_SEX = (
 		('M','男'),
 		('F','女'),
    		)
-	email = models.EmailField(
+    email = models.EmailField(
 		verbose_name='email address',
 		max_length=255,
 		unique=True,
 		)
-        profile = models.ImageField(
-                upload_to = 'profiles',
-                null = True,
-                blank = True
-                )
-	sex = models.CharField(
-		max_length = 1,
-		choices = USER_SEX,
-		default = 'M',
-		)
-	nick_name = models.CharField(
-		#primary_key = True,
-		unique = True,
+    profile = models.ImageField(
+            upload_to = 'profiles',
+            null = True,
+            blank = True
+            )
+    sex = models.CharField(
+    	max_length = 1,
+    	choices = USER_SEX,
+    	default = 'M',
+    	)
+    nick_name = models.CharField(
+    	#primary_key = True,
+    	unique = True,
                 max_length = 100,
-		)
-	work = models.CharField(
-		max_length = 20,
-		blank = True,
+    	)
+    work = models.CharField(
+    	max_length = 20,
+    	blank = True,
     		)
-	phone_num = models.CharField(
-		max_length = 15,
+    phone_num = models.CharField(
+    	max_length = 15,
                # unique = True,通过后台来验证
-		blank = True,
+    	blank = True,
                 null = True,
-		)
-	height = models.PositiveSmallIntegerField(
-		blank=True,
-		null = True,
-		)
-	weight = models.PositiveSmallIntegerField(
-		blank=True,
-		null =True,
-		)
-	birthday = models.DateField(
-		blank=True,
-		null = True,
-		)
-	real_name = models.CharField(
-		#unique = True,
-		max_length = 100,
-		)
-        online = models.NullBooleanField()
+    	)
+    height = models.PositiveSmallIntegerField(
+    	blank=True,
+    	null = True,
+    	)
+    weight = models.PositiveSmallIntegerField(
+    	blank=True,
+    	null =True,
+    	)
+    birthday = models.DateField(
+    	blank=True,
+    	null = True,
+    	)
+    real_name = models.CharField(
+    	#unique = True,
+    	max_length = 100,
+    	)
+    online = models.NullBooleanField()
 
-	is_active = models.BooleanField(default=True)
-	is_admin = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
+    is_admin = models.BooleanField(default=False)
 
-	objects = MyUserManager()
+    objects = MyUserManager()
 
-	USERNAME_FIELD = 'email'
-	REQUIRED_FIELDS = [
-		'nick_name',
-		'real_name',
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = [
+    	'nick_name',
+    	'real_name',
         'sex'
-		]
+    	]
 
-	friends=models.ManyToManyField(
-		'self',
-		related_name = 'friShip',
-		through = 'FriendShip',
-		through_fields = ('subject','friend'),
-		symmetrical=False,
-		)
-
-        #blow are the basic mehtods
-	def get_full_name(self):
-		# The user is identified by their email address
-	    return self.real_name
-	def get_short_name(self):
-		# The user is identified by their email address
-	    return self.nick_name
-	def __unicode__(self):              # __unicode__ on Python 2
-	    return self.email
-	def has_perm(self, perm, obj=None):
-	    "Does the user have a specific permission?"
-	    # Simplest possible answer: Yes, always
-	    return True
-	def has_module_perms(self, app_label):
-	    return True
-	@property
-	def is_staff(self):
-	    # Simplest possible answer: All admins are staff
-	    return self.is_admin
+    friends=models.ManyToManyField(
+    	'self',
+    	related_name = 'friShip',
+    	through = 'FriendShip',
+    	through_fields = ('subject','friend'),
+    	symmetrical=False,
+    	)
+    def get_frist_name(self):
+        return self.real_name[0]
+    def get_full_name(self):
+    	# The user is identified by their email address
+        return self.real_name
+    def get_short_name(self):
+    	# The user is identified by their email address
+        return self.nick_name
+    def __unicode__(self):              # __unicode__ on Python 2
+        return self.email
+    def has_perm(self, perm, obj=None):
+        "Does the user have a specific permission?"
+        # Simplest possible answer: Yes, always
+        return True
+    def has_module_perms(self, app_label):
+        return True
+    @property
+    def is_staff(self):
+        # Simplest possible answer: All admins are staff
+        return self.is_admin
         #above are the basic methods
 
 
@@ -340,16 +342,16 @@ class FriendManager(models.Manager):
 
 class FriendShip(models.Model):
     subject = models.ForeignKey(
-            MyUser,
-	    related_name = 'subject',
-	    )
+        MyUser,
+        related_name = 'subject',
+        )
     friend = models.ForeignKey(
-            MyUser,
-            related_name = 'friend',
-            )
+        MyUser,
+        related_name = 'friend',
+        )
     level = models.PositiveSmallIntegerField(
-            default = 0
-            )
+        default = 0
+        )
     #is 's' a friend of 'o'? obviously initiate it with Default false
     friend_each_other = models.BooleanField(default = False)
 

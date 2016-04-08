@@ -5,7 +5,6 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
-#from .forms import RegisterForm
 from .models import MyUser as User
 def index(request):
     if not request.user.is_authenticated():
