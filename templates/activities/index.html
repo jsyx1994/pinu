@@ -1,20 +1,80 @@
 {% extends "base.html" %}
+{% load staticfiles %}
+{%block headex%}
+    <script src="{%static 'bootstrap-3.3.5/dist/js/jquery.js'%}"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="{%static 'bootstrap-3.3.5/dist/js/bootstrap.min.js'%}"></script>
+{%endblock%}
 {%block content%}
 <div class = "container">
 	<div class ="col-md-12">
+		<table id="table" class="table table-hover table-striped" style="display: none;">
+		<th>Title</th>
+		<th>Category</th>
+		<th>Advocator</th>
+		<th>Process</th>
+		<th>Action</th>
 		{% for act in act_list %}
-		<p>{{act.title}}</p>
-		<p>{{act.get_category}}</p>
-		<form action="" method="post">
-		{%csrf_token%}
-			<input type="text" name ="id" value="{{act.id}}"  style="display:none;"/>
-			<input class="btn btn-default" type="submit" value="加入">		
-		</form>
-		<hr>
-	{%endfor%}
+		<tr>
+			<td>{{act.title}}</td>
+			<td>{{act.get_category}}</td>
+			<td>{{act.advocator.nick_name}}</td>
+			<td></td>
+			<td>
+				<!--<form action="" method="post">
+				{%csrf_token%}
+					<input type="text" name ="id" value="{{act.id}}"  style="display:none;"/>
+					<input class="btn btn-default btn-sm" type="submit" value="加入">		
+				</form>-->
+				<button class="btn btn-info btn-xs" data-toggle="modal" data-target="#myModal" role="button">detail</button>
+				<div class="modal fade" id="detail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+				  <div class="modal-dialog" role="document">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+				      </div>
+				      <div class="modal-body">
+				        ...
+				      </div>
+				      <div class="modal-footer">
+				        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+				        <button type="button" class="btn btn-primary">Join</button>
+				      </div>
+				    </div>
+				  </div>
+				</div>
+			</td>
+		</tr>
+		{%endfor%}
+		</table>
 	</div>
-	
-	<a href="{% url 'activities:create' %}" >创建</a>
 </div>
-	
+
+
+
+
+
+<script>
+$(document).ready(function(){
+  $("button").click(function(){
+    $("#div1").fadeIn();
+    $("#div2").fadeIn("slow");
+    $("#div3").fadeIn(3000);
+  });
+});
+</script>
+<button>点击这里，使三个矩形淡入</button>
+<br><br>
+<div id="div1" style="width:80px;height:80px;display:none;background-color:red;"></div>
+<br>
+<div id="div2" style="width:80px;height:80px;display:none;background-color:green;"></div>
+<br>
+<div id="div3" style="width:80px;height:80px;display:none;background-color:blue;"></div>
+<script>
+	$(document).ready(function()
+	{
+		$("container").fadeIn();
+	});
+</script>
 {%endblock%}

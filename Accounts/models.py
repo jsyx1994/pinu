@@ -58,7 +58,8 @@ class MyUser(AbstractBaseUser):
 		)
         profile = models.ImageField(
                 upload_to = 'profiles',
-                null = True
+                null = True,
+                blank = True
                 )
 	sex = models.CharField(
 		max_length = 1,
