@@ -1,14 +1,9 @@
 {% extends "base.html" %}
 {% load staticfiles %}
-{%block headex%}
-    <script src="{%static 'bootstrap-3.3.5/dist/js/jquery.js'%}"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="{%static 'bootstrap-3.3.5/dist/js/bootstrap.min.js'%}"></script>
-{%endblock%}
 {%block content%}
 <div class = "container">
 	<div class ="col-md-12">
-		<table id="table" class="table table-hover table-striped" style="display: none;">
+		<table id="table" class="table table-hover table-striped">
 		<th>Title</th>
 		<th>Category</th>
 		<th>Advocator</th>
@@ -26,8 +21,8 @@
 					<input type="text" name ="id" value="{{act.id}}"  style="display:none;"/>
 					<input class="btn btn-default btn-sm" type="submit" value="加入">		
 				</form>-->
-				<button class="btn btn-info btn-xs" data-toggle="modal" data-target="#myModal" role="button">detail</button>
-				<div class="modal fade" id="detail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+				<button class="btn btn-info btn-xs" data-toggle="modal" data-target="#myModal" type="button">detail</button>
+				<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 				  <div class="modal-dialog" role="document">
 				    <div class="modal-content">
 				      <div class="modal-header">
@@ -51,30 +46,7 @@
 	</div>
 </div>
 
-
-
-
-
-<script>
-$(document).ready(function(){
-  $("button").click(function(){
-    $("#div1").fadeIn();
-    $("#div2").fadeIn("slow");
-    $("#div3").fadeIn(3000);
-  });
-});
-</script>
-<button>点击这里，使三个矩形淡入</button>
-<br><br>
-<div id="div1" style="width:80px;height:80px;display:none;background-color:red;"></div>
-<br>
-<div id="div2" style="width:80px;height:80px;display:none;background-color:green;"></div>
-<br>
-<div id="div3" style="width:80px;height:80px;display:none;background-color:blue;"></div>
-<script>
-	$(document).ready(function()
-	{
-		$("container").fadeIn();
-	});
-</script>
+<script src="{%static 'bootstrap-3.3.5/dist/js/jquery.js'%}"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="{%static 'bootstrap-3.3.5/dist/js/bootstrap.min.js'%}"></script>
 {%endblock%}
