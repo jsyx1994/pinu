@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {%block content%}
-	{% for act in act_list %}
+<div class = "container">
+	<div class ="col-md-12">
+		{% for act in act_list %}
 		<p>{{act.title}}</p>
 		<p>{{act.get_category}}</p>
 		<form action="" method="post">
@@ -10,5 +12,9 @@
 		</form>
 		<hr>
 	{%endfor%}
+	</div>
+	
 	<a href="{% url 'activities:create' %}" >创建</a>
+</div>
+	
 {%endblock%}
