@@ -18,15 +18,15 @@
       <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+    <script src="{%static 'bootstrap-3.3.5/dist/js/jquery.js'%}"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="{%static 'bootstrap-3.3.5/dist/js/bootstrap.min.js'%}"></script>
   </head>
  {%block body%}<!--由于body中可能含有css类，所以将block body 至此-->
   <body><!--body 中必含元素，其余可在其他中扩展--> 
   	{%block content%}
   	{%endblock%}
-   <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="{%static 'bootstrap-3.3.5/dist/js/jquery.js'%}"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="{%static 'bootstrap-3.3.5/dist/js/bootstrap.min.js'%}"></script>
 	</body>
  {%endblock%}
 </html>

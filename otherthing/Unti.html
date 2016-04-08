@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <title>两点间距离</title>
+    <link rel="stylesheet" href="http://cache.amap.com/lbs/static/main1119.css"/>
+    <script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=9e96a5e2d1484110e610c4df54838615"></script>
+    <script type="text/javascript" src="http://cache.amap.com/lbs/static/addToolbar.js"></script>
+</head>
+<body>
+<div id="container"></div>
+<div class="button-group" >
+    <input id="calc" type="button" class="button" value="计算两点间距离"/>
+</div>
+<script type="text/javascript">
+    //初始化地图对象，加载地图
+    var map = new AMap.Map("container", {
+        resizeEnable: true,
+        zoom: 13
+    });
+    new AMap.Marker({
+        map: map,
+        position: [116.368904, 39.923423]
+    });
+    new AMap.Marker({
+        map: map,
+        position: [116.387271, 39.922501]
+    });
+    map.setFitView();
+    var lnglat = new AMap.LngLat(116.368904, 39.923423);
+    AMap.event.addDomListener(document.getElementById('calc'), 'click', function() {
+        alert('两点间距离为：' + lnglat.distance([116.387271, 39.922501]) + '米');
+    });
+</script>
+</body>
+</html>
