@@ -8,7 +8,6 @@ from django.utils import timezone
 from django.contrib.auth.models import(
 	BaseUserManager,AbstractBaseUser
 	)
-
 from Activities.models import Activity
 from Messages.models import Message
 from Diaries.models import Diary
@@ -40,24 +39,38 @@ class MyUserManager(BaseUserManager):
         user = self.create_user(email,
             password=password,
             nick_name=nick_name,
-	    real_name=real_name,
+	        real_name=real_name,
         )
         user.is_admin = True
         user.save(using=self._db)
         return user
 
 class MyUser(AbstractBaseUser):
-    LNG = None
-    LNT = None
+    #longtitude
+    lng = models.FloatField(
+        default = None,
+        null = True,
+        blank =True,
+        )
+    #latitude
+    lat = models.FloatField(
+        default = None,
+        null = True,
+        blank = True,
+        )
+    last_login_city = models.CharField(
+        max_length = 20,
+        blank = True,
+        )
     USER_SEX = (
-		('M','男'),
-		('F','女'),
-   		)
+    	('M','男'),
+    	('F','女'),
+    	)
     email = models.EmailField(
-		verbose_name='email address',
-		max_length=255,
-		unique=True,
-		)
+    	verbose_name='email address',
+    	max_length=255,
+    	unique=True,
+    	)
     profile = models.ImageField(
             upload_to = 'profiles',
             null = True,
@@ -110,7 +123,7 @@ class MyUser(AbstractBaseUser):
     REQUIRED_FIELDS = [
     	'nick_name',
     	'real_name',
-        'sex'
+        'sex',
     	]
 
     friends=models.ManyToManyField(
@@ -143,184 +156,196 @@ class MyUser(AbstractBaseUser):
         #above are the basic methods
 
 
-#Set method
-	def set_real_name(self,real_name):
-	    self.real_name = real_name
+    #Set method
+    def set_last_login_city(self,city):
+        self.last_login_city = city
+    def set_lng(self,lng):
+        self.lng = eval(lng)
+    def set_lat(self,lat):
+        self.lat = eval(lat)
+    def set_real_name(self,real_name):
+        self.real_name = real_name
 
-	def set_nick_name(self,nick_name):
-	    self.nick_name = nick_name
+    def set_nick_name(self,nick_name):
+        self.nick_name = nick_name
 
-	def set_sex(self,choice):
-	    self.sex = unicode(choice)
+    def set_sex(self,choice):
+        self.sex = unicode(choice)
 
-	def set_birthday(self,birthday):
-	    self.birthday = birthday
+    def set_birthday(self,birthday):
+        self.birthday = birthday
 
-	def set_work(self,work):
-	    self.work = work
+    def set_work(self,work):
+        self.work = work
 
-	def set_email(self,email):
-	    self.email = email
+    def set_email(self,email):
+        self.email = email
 
-        def set_pswd(self,raw_password):
-            self.set_password(raw_password)
+    def set_pswd(self,raw_password):
+        self.set_password(raw_password)
 
-	def set_profile(self):
-	    pass
+    def set_profile(self):
+        pass
 
-	def set_phone_num(self,phone_num):
-	    self.phone_num = phone_num
+    def set_phone_num(self,phone_num):
+        self.phone_num = phone_num
 
-	def set_height(self,height):
-	    self.height = height
+    def set_height(self,height):
+        self.height = height
 
-	def set_weight(self,weight):
+    def set_weight(self,weight):
             self.weight = weight
 
-	def set_online(self):
-	    self.online = True
+    def set_online(self):
+        self.online = True
 
-	def set_offline(self):
-	    self.online = False
-#Get method
+    def set_offline(self):
+        self.online = False
+    
+    #Get method
+    def get_last_login_city(self):
+        return self.last_login_city
+    def get_lng(self):
+        return self.lng
+    def get_lat(self):
+        return self.lat
+    def get_real_name(self):
+        return self.real_name
 
-	def get_real_name(self):
-	    return self.real_name
+    def get_nick_name(self):
+        return self.nick_name
 
-	def get_nick_name(self):
-	    return self.nick_name
-
-	def get_sex(self):
+    def get_sex(self):
             return self.get_sex_display()
 
-	def get_age(self):
-            date_of_birth=self.get_birthday()
-            if date_of_birth :
-                now = timezone.now()
-                age = now.year - date_of_birth.year
-                delta = now.month - date_of_birth.month
-                if delta <0:
-                    age -= 1
-	        return age
-            else:
-                pass
+    def get_age(self):
+        date_of_birth=self.get_birthday()
+        if date_of_birth :
+            now = timezone.now()
+            age = now.year - date_of_birth.year
+            delta = now.month - date_of_birth.month
+            if delta <0:
+                age -= 1
+            return age
+        else:
+            pass
 
-	def get_birthday(self):
-            if self.birthday :
-	        return self.birthday
-            else:
-                pass
+    def get_birthday(self):
+        if self.birthday :
+            return self.birthday
+        else:
+            pass
 
-	def get_work(self):
-	    return self.work
+    def get_work(self):
+        return self.work
 
-	def get_email(self):
-	    return self.email
+    def get_email(self):
+        return self.email
 
         #见密码管理http://python.usyiyi.cn/django_182/topics/auth/passwords.html
-	def get_pswd():
+    def get_pswd():
             pass
 
-	def get_profile():
-	    pass
+    def get_profile():
+        pass
 
-	def get_phone_num(self):
-            if self.phone_num:
-	        return self.phone_num
-            else:
-                return ''
-	def get_height(self):
-	    return self.height
+    def get_phone_num(self):
+        if self.phone_num:
+            return self.phone_num
+        else:
+            return ''
+    def get_height(self):
+        return self.height
 
-	def get_weight(self):
-	    return self.weight
+    def get_weight(self):
+        return self.weight
 
-        @property
-	def is_online(self):
-	    return self.online
+    @property
+    def is_online(self):
+        return self.online
 
-        #通过昵称来添加好友,返回是否添加成功
-        def add_friend(self,nick_name):
-            try:
-                obj = MyUser.objects.get(nick_name = nick_name)
-            except MyUser.DoesNotExist:
-                return False
-            else:
-                FriendShip.objects.create_friendship(self,obj)
-                return True
-
-        #通过昵称来删除好友,返回是否成功
-        def del_friend(self,nick_name):
-            try:
-                fri = FriendShip.objects.get(friend__nick_name = nick_name)
-            except FriendShip.DoesNotExist:
-                return False
-            else:
-                fri.delete()
-                return True
-
-        def invite_friend(self):
-            pass
-
-        def new_act(self,title,category,start_time,due_time,person_num_limit):
-            act = Activity.objects.create_activity(
-                    title = title,
-                    start_time = start_time,
-                    due_time = due_time,
-                    person_num_limit = person_num_limit,
-                    )
-            act.person_joined.add(self)
-
-        def join_act(self,pk):
-            '''
-            join the activity via its primary key(id)
-            '''
-            try:
-                obj = Activity.objects.get(pk = pk)
-            except Activity.DoesNotExist:
-                return False
-            else:
-                obj.person_joined.add(self)
-                return True
-
-        def quit_act(self,act_pk):
-            try:
-                obj = Activity.objects.get(pk = act_pk)
-            except Activity.DoesNotExist:
-                return False
-            else:
-                obj.person_joined.remove(self)
-                return True
-        def send_message(self,title,message,nick_name):
+    #通过昵称来添加好友,返回是否添加成功
+    def add_friend(self,nick_name):
+        try:
             obj = MyUser.objects.get(nick_name = nick_name)
-            Message.objects.create_message(
-                    title = title,
-                    message = message,
-                    sender = self,
-                    receiver = obj,
-                    )
+        except MyUser.DoesNotExist:
+            return False
+        else:
+            FriendShip.objects.create_friendship(self,obj)
+            return True
 
-        def delete_message(self,pk):
-            try:
-                obj = Message.objects.get(pk = pk)
-            except Message.DoesNotExist:
-                return False
+    #通过昵称来删除好友,返回是否成功
+    def del_friend(self,nick_name):
+        try:
+            fri = FriendShip.objects.get(friend__nick_name = nick_name)
+        except FriendShip.DoesNotExist:
+            return False
+        else:
+            fri.delete()
+            return True
+
+    def invite_friend(self):
+        pass
+
+    def new_act(self,title,category,start_time,due_time,person_num_limit):
+        act = Activity.objects.create_activity(
+                title = title,
+                start_time = start_time,
+                due_time = due_time,
+                person_num_limit = person_num_limit,
+                )
+        act.person_joined.add(self)
+
+    def join_act(self,pk):
+        '''
+        join the activity via its primary key(id)
+        '''
+        try:
+            obj = Activity.objects.get(pk = pk)
+        except Activity.DoesNotExist:
+            return False
+        else:
+            obj.person_joined.add(self)
+            return True
+
+    def quit_act(self,act_pk):
+        try:
+            obj = Activity.objects.get(pk = act_pk)
+        except Activity.DoesNotExist:
+            return False
+        else:
+            obj.person_joined.remove(self)
+            return True
+    def send_message(self,title,message,nick_name):
+        obj = MyUser.objects.get(nick_name = nick_name)
+        Message.objects.create_message(
+                title = title,
+                message = message,
+                sender = self,
+                receiver = obj,
+                )
+
+    def delete_message(self,pk):
+        try:
+            obj = Message.objects.get(pk = pk)
+        except Message.DoesNotExist:
+            return False
+        else:
+            if self == obj.sender:
+                obj.seder_preserved = False
+            elif self == obj.receiver:
+                obj.rcver_preserved = False
             else:
-                if self == obj.sender:
-                    obj.seder_preserved = False
-                elif self == obj.receiver:
-                    obj.rcver_preserved = False
-                else:
-                    pass
-                obj.save(update_fields = ['seder_preserved','rcver_preserved'])
-                return True
+                pass
+            obj.save(update_fields = ['seder_preserved','rcver_preserved'])
+            return True
 
-        def keep_diary(self,title,content):
-            diary = Diary.objects.create_diary(
-                    title = title,
-                    content = content,
-                    )
-            diary.author = self
+    def keep_diary(self,title,content):
+        diary = Diary.objects.create_diary(
+                title = title,
+                content = content,
+                )
+        diary.author = self
 
 class FriendManager(models.Manager):
     def create_friendship(self,subject,friend):

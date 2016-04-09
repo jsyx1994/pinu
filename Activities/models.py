@@ -31,10 +31,12 @@ class Activity(models.Model):
     lng = models.FloatField(
         default = None,
         null = True,
+        blank = True,
         )
-    lnt = models.FloatField(
+    lat = models.FloatField(
         default = None,
         null = True,
+        blank = True,
         )
     title = models.CharField(max_length=50)
     category = models.CharField(max_length=2,choices=CATEGORY_LIST)
@@ -53,7 +55,10 @@ class Activity(models.Model):
     #人数限制
     person_num_limit = models.PositiveSmallIntegerField()
 
-    place=models.CharField(max_length=50)
+    place=models.CharField(
+        max_length=50,
+        blank = True,
+        )
 
     advocator = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -72,9 +77,9 @@ class Activity(models.Model):
         return self.title
 
     #set method
-    def set_lnt(self,lnt):
-        self.lnt = lnt
-    def set_lng(self,lng):
+    def set_lnt(self,lat):
+        self.lat = lat
+    def set_lat(self,lat):
         self.lng = lng
     def set_title(self,title):
 	    self.title = title
@@ -82,7 +87,6 @@ class Activity(models.Model):
         self.place = place
     def set_category(self,category):
         self.category = category
-
     def set_start_time(self,start_time):
         self.start_time = start_time
     def set_due_time(self,duetime):
@@ -91,8 +95,10 @@ class Activity(models.Model):
     def set_place():
         pass
     #get method
-    def get_lnt(self):
-        return self.lnt
+    def get_title(self):
+        return self.title
+    def get_lat(self):
+        return self.lat
     def get_lng(self):
         return self.lng
     def get_place(self):

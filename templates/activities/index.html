@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 {% load staticfiles %}
+{%block headex%}
+<script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=9e96a5e2d1484110e610c4df54838615"></script>
+<link rel="stylesheet" href="http://cache.amap.com/lbs/static/main1119.css"/>
+{%endblock%}
 {%block content%}
 <div class = "container">
 	<div class ="col-md-12">
@@ -11,9 +15,9 @@
 		<th>Action</th>
 		{% for act in act_list %}
 		<tr>
-			<td>{{act.title}}</td>
+			<td>{{act.get_title}}</td>
 			<td>{{act.get_category}}</td>
-			<td>{{act.advocator.nick_name}}</td>
+			<td>{{act.advocator.get_nick_name}}</td>
 			<td></td>
 			<td>
 				<!--<form action="" method="post">
@@ -29,8 +33,28 @@
 				        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 				        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
 				      </div>
-				      <div class="modal-body">
-				        ...
+				      <div class="modal-body" style="height: 600px">
+				      	<div class="row">
+				      		<div class="col-lg-5">
+				      	  		<div class="container" id="container" style="height: 200px"></div>
+					      	  	<script type="text/javascript">
+									var map =new AMap.Map('container',{
+								        resizeEnable: true,
+								        zoom:15,
+								        center: [{{act.get_lng}}, {{act.get_lat}}],
+								    });
+								    var marker = new AMap.Marker({
+							            map:map,
+							            bubble:true
+							        })
+							        var point = new AMap.LngLat({{act.get_lng}},{{act.get_lat}});
+							        marker.setPosition(point);
+							  	</script>
+				      	  	</div>
+				      	  	<div class="col-lg-7">
+				      	  		
+				      	  	</div>
+				      	</div>
 				      </div>
 				      <div class="modal-footer">
 				        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>

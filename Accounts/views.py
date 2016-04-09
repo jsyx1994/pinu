@@ -1,5 +1,5 @@
 #coding:utf-8
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 
 # Create your views here.
 from django.http import HttpResponse
@@ -12,26 +12,9 @@ def index(request):
     else:
         user = request.user
     return render(request,'base.html',{'user':user})
+
 def register(request):
     if request.method == 'POST':
-        '''
-	form = RegisterForm(request.POST)
-        if form.is_valid():
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
-	    sex = form.cleaned_data['sex']
-	    nick_name = form.cleaned_data['nick_name']
-	    real_name = form.cleaned_data['real_name']
-            #由于自定义过管理器，所以不能再用父类的
-            #create方法，否则将无法认证！原因是父类中的唯一身份标志是username，在这里是email!
-	    User.objects.create_user(
-                    email = username,
-		    password = password,
-		    nick_name = nick_name,
-		    real_name = real_name,
-                    )
-	    return render(request,'accounts/login.html')
-        '''
         post = request.POST
         email = post['email']
         password = post['password1']
@@ -59,20 +42,26 @@ def log_in(request):
     user = None
     if request.method == 'POST':
         email = request.POST['email']
-	password = request.POST['password']
-	user = authenticate(
-	username = email,
-	password = password,
-        )
-	if user is not None:
+    	password = request.POST['password']
+    	user = authenticate(
+        	username = email,
+        	password = password,
+            )
+    	if user is not None:
             if user.is_active:
-		login(request,user)
-                request.user.set_online()
-                request.user.save()
-                return render(request,'base.html',{'user':user})
-	    else:
-		pass
-	else:
+    	        login(request,user)
+                user.set_lng(request.POST['lng'])
+                user.set_lat(request.POST['lat'])
+                #should check if the location is changed
+                if user.get_last_login_city() != request.POST['city']:
+                    pass
+                user.set_last_login_city(request.POST['city'])
+                user.set_online()
+                user.save()
+                return redirect('index')
+    	    else:
+    		    pass
+    	else:
             return render(request,'accounts/login.html',{'error':'账户或密码错误'})
     else:
         return render(request,'accounts/login.html',{'user':user})

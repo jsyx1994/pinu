@@ -40,10 +40,10 @@
          <a class="btn btn-default" href="{% url 'accounts:login' %}" role="button">Sign in</a>
          <a class="btn btn-default" href="{% url 'accounts:register' %}" role="button">Sign up</a>
          {% else %}
-         <div class="btn-group">
-            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              {{user.nick_name}} <span class="caret"></span>
-            </button>
+         <div>
+            <div class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <img src="{{user.profile.url}}" width="30" height="30" class="img-circle"><span class="caret"></span>
+            </div>
             <ul class="dropdown-menu">
               <li><a href="{% url 'accounts:user_info' %}">User info</a></li>
               <li><a href="">New Activity</a></li>
@@ -61,7 +61,6 @@
   </nav>
 
       {%block content%}
-      
       {%endblock%}
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

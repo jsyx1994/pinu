@@ -48,7 +48,7 @@ class UserChangeForm(forms.ModelForm):
 
     class Meta:
         model = MyUser
-        fields = ('email','profile', 'password', 'nick_name','real_name','birthday',
+        fields = ('lng','lat','last_login_city','email','profile', 'password', 'nick_name','real_name','birthday',
                 'work','sex','height','weight','phone_num', 'is_active', 'is_admin')
 
     def clean_password(self):
@@ -70,6 +70,7 @@ class MyUserAdmin(UserAdmin):
     list_filter = ('is_admin',)
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
+        ('Personal location',{'fields':('lng','lat','last_login_city')}),
         ('Personal info', {'fields': ('profile','nick_name','real_name','birthday',
                                       'sex','work','height','weight','phone_num',)}),
         ('Permissions', {'fields': ('is_admin',)}),
@@ -79,7 +80,7 @@ class MyUserAdmin(UserAdmin):
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('email','profile','nick_name','real_name','birthday',
+            'fields': ('lng','lat','last_login_city','email','profile','nick_name','real_name','birthday',
                         'sex','work','height','weight',
                         'phone_num', 'password1', 'password2')}
         ),

@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url,include
 from django.contrib import admin
+from django.conf import settings
 from Accounts import views as lend_views
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
@@ -23,4 +24,7 @@ urlpatterns = [
     url(r'^activities/',include('Activities.urls',namespace = 'activities')),
     url(r'^messages/',include('Messages.urls',namespace = 'messages')),
     ]
-
+if settings.DEBUG:
+    urlpatterns += (
+            url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root':settings.MEDIA_ROOT}),
+            )
