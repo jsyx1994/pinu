@@ -41,9 +41,9 @@
          <a class="btn btn-default" href="{% url 'accounts:register' %}" role="button">Sign up</a>
          {% else %}
          <div>
-            <div class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <img src="{{user.profile.url}}" width="30" height="30" class="img-circle"><span class="caret"></span>
-            </div>
+            </a>
             <ul class="dropdown-menu">
               <li><a href="{% url 'accounts:user_info' %}">User info</a></li>
               <li><a href="">New Activity</a></li>
