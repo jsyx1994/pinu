@@ -35,24 +35,21 @@
 				      </div>
 				      <div class="modal-body" style="height: 600px">
 				      	<div class="row">
-				      		<div class="col-lg-5">
-				      	  		<div class="container" id="container" style="height: 200px"></div>
+				      		<div class="container">
+				      	  		<div class="container" id="container" style="height: 300px"></div>
 					      	  	<script type="text/javascript">
 									var map =new AMap.Map('container',{
 								        resizeEnable: true,
-								        zoom:15,
-								        center: [{{act.get_lng}}, {{act.get_lat}}],
+								        zoom:11,
+								        center: [{{act.get_dlng}}, {{act.get_dlat}}],
 								    });
 								    var marker = new AMap.Marker({
 							            map:map,
 							            bubble:true
 							        })
-							        var point = new AMap.LngLat({{act.get_lng}},{{act.get_lat}});
+							        var point = new AMap.LngLat({{act.get_dlng}},{{act.get_dlat}});
 							        marker.setPosition(point);
 							  	</script>
-				      	  	</div>
-				      	  	<div class="col-lg-7">
-				      	  		
 				      	  	</div>
 				      	</div>
 				      </div>
@@ -69,4 +66,11 @@
 		</table>
 	</div>
 </div>
+<form enctype="multipart/form-data" method="POST" action="."> 
+{%csrf_token%}
+   <input type="file" name="profile" />
+   <br /> 
+   <input type="submit" value="上传文件" /> 
+</form>
+
 {%endblock%}

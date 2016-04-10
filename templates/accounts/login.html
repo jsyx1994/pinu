@@ -19,7 +19,6 @@
     	AMap.event.addListener(geolocation, 'complete', onComplete);//返回定位信息
     	AMap.event.addListener(geolocation, 'error', onError);      //返回定位出错信息
 		});
-
 	    function onComplete(data) {
 	    	document.getElementById("lat").value=data.position.getLat();
 	    	document.getElementById("lng").value=data.position.getLng();

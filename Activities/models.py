@@ -28,12 +28,24 @@ class Activity(models.Model):
 		('KT','KTV'),
 		('TR','旅行'),
 	)
-    lng = models.FloatField(
+    #start position of an activity(optional)
+    slng = models.FloatField(
         default = None,
         null = True,
         blank = True,
         )
-    lat = models.FloatField(
+    slat = models.FloatField(
+        default = None,
+        null = True,
+        blank = True,
+        )
+    #destination of an activity
+    dlng = models.FloatField(
+        default = None,
+        null = True,
+        blank = True,
+        )
+    dlat = models.FloatField(
         default = None,
         null = True,
         blank = True,
@@ -77,10 +89,14 @@ class Activity(models.Model):
         return self.title
 
     #set method
-    def set_lnt(self,lat):
-        self.lat = lat
-    def set_lat(self,lat):
-        self.lng = lng
+    def set_slng(self,slng):
+        self.slng = slng
+    def set_slat(self,slat):
+        self.slat = slat
+    def set_dlng(self,dlat):
+        self.dlat = dlat
+    def set_dlat(self,dlat):
+        self.dlng = dlng
     def set_title(self,title):
 	    self.title = title
     def set_place(self,place):
@@ -95,12 +111,16 @@ class Activity(models.Model):
     def set_place():
         pass
     #get method
+    def get_slat(self):
+        return self.slat
+    def get_slng(self):
+        return self.slng
+    def get_dlat(self):
+        return self.dlat
+    def get_dlng(self):
+        return self.dlng
     def get_title(self):
         return self.title
-    def get_lat(self):
-        return self.lat
-    def get_lng(self):
-        return self.lng
     def get_place(self):
         return self.place
     def get_pub_time(self):

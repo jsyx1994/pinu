@@ -11,9 +11,9 @@ from django.contrib.auth.models import(
 from Activities.models import Activity
 from Messages.models import Message
 from Diaries.models import Diary
+from haversine import calc_dis
 class MyUserManager(BaseUserManager):
-    def create_user(self,
-    email,nick_name,real_name,sex,password=None,phone_num=None):
+    def create_user(self,email,nick_name,real_name,sex,password=None,phone_num=None):
         """
         Creates and saves a User with the given email, and password.
         """
@@ -84,7 +84,7 @@ class MyUser(AbstractBaseUser):
     nick_name = models.CharField(
     	#primary_key = True,
     	unique = True,
-                max_length = 100,
+        max_length = 100,
     	)
     work = models.CharField(
     	max_length = 20,
@@ -184,8 +184,8 @@ class MyUser(AbstractBaseUser):
     def set_pswd(self,raw_password):
         self.set_password(raw_password)
 
-    def set_profile(self):
-        pass
+    def set_profile(self,profile):
+        self.profile = profile
 
     def set_phone_num(self,phone_num):
         self.phone_num = phone_num
@@ -316,6 +316,44 @@ class MyUser(AbstractBaseUser):
         else:
             obj.person_joined.remove(self)
             return True
+
+    def nearby_person(self,accuracy = 5000):
+        '''
+        return a list of nearby person,accuracy(meter)
+        '''
+        lng1 = self.get_lng();
+        lat1 = self.get_lat();
+        person_list = filter(
+            lambda x: ( calc_dis(lng1=lng1,lat1=lat1,lng2=x.get_lng(),lat2=x.get_lat()) ) < accuracy,
+            MyUser.objects.all()
+            )
+        return person_list
+        
+    def nearby_act(self,accuracy = 5000):
+        '''
+        return a list of nearby activity
+        '''
+        lng1 = self.get_lng();
+        lat1 = self.get_lat();
+        act_list = filter(
+            lambda x: (( calc_dis(lng1=lng1,lat1=lat1,lng2=x.get_dlng(),lat2=x.get_dlat()) ) < accuracy)
+                        or (( calc_dis(lng1=lng1,lat1=lat1,lng2=x.get_slng(),lat2=x.get_slat()) ) < accuracy),
+            Activity.objects.get_valid_activity()
+            )
+        return act_list
+
+    def nearby_advocator_act(self,accuracy = 5000):
+        '''
+        return a list of the activity via the distance between advocator and you
+        '''
+        lng1 = self.get_lng();
+        lat1 = self.get_lat();
+        act_list = filter(
+            lambda x: ( calc_dis(lng1=lng1,lat1=lat1,lng2=x.advocator.get_lng(),lat2=x.advocator.get_lat()) ) < accuracy,
+            Activity.objects.get_valid_activity()
+            )
+        return act_list
+
     def send_message(self,title,message,nick_name):
         obj = MyUser.objects.get(nick_name = nick_name)
         Message.objects.create_message(

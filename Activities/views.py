@@ -8,7 +8,10 @@ from django.http import HttpResponse
 @login_required
 def list(request):
     if request.method == 'POST':
-        request.user.join_act(pk = int(request.POST['id']))
+        #request.user.join_act(pk = int(request.POST['id']))
+        #if request.FILES['profile']:
+        request.user.set_profile(request.FILES['profile'])
+        request.user.save()
         return HttpResponse('ok')
     else:
         act_list = Activity.objects.get_valid_activity

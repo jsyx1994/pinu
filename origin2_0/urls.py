@@ -17,6 +17,7 @@ from django.conf.urls import url,include
 from django.contrib import admin
 from django.conf import settings
 from Accounts import views as lend_views
+from django.views.static import serve
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$',lend_views.index,name = 'index'),
@@ -26,5 +27,5 @@ urlpatterns = [
     ]
 if settings.DEBUG:
     urlpatterns += (
-            url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root':settings.MEDIA_ROOT}),
+            url(r'^media/(?P<path>.*)$', serve, {'document_root':settings.MEDIA_ROOT}),
             )

@@ -21,7 +21,7 @@
          <li class="active"><a href="{% url 'index' %}">Home<span class="sr-only">(current)</span></a></li>
          <li><a href="{% url 'activities:index' %}">Activity</a></li>
          <li><a href="#">Blog</a></li>
-         <li class="dropdown">
+         <!--<li class="dropdown">
            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">DownMenu <span class="caret"></span></a>
            <ul class="dropdown-menu">
              <li><a href="">Action</a></li>
@@ -32,7 +32,7 @@
              <li role="separator" class="divider"></li>
              <li><a href="#">One more separated link</a></li>
            </ul>
-         </li>
+         </li>-->
        </ul>
        <form class="navbar-form navbar-right" role="search">
          <div class="form-group">
@@ -42,9 +42,15 @@
          {% else %}
          <div>
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            {% if request.user.profile %}
             <img src="{{user.profile.url}}" width="30" height="30" class="img-circle"><span class="caret"></span>
+            {% else %}
+            <img src="/media/profiles/default_profile.jpg" width="30" height="30" class="img-circle"><span class="caret"></span>
+            {% endif %}
             </a>
             <ul class="dropdown-menu">
+              <li style="padding-left: 20px">Hello,{{user.get_nick_name}}</li>
+              <li role="separator" class="divider"></li>
               <li><a href="{% url 'accounts:user_info' %}">User info</a></li>
               <li><a href="">New Activity</a></li>
               <li><a href="#">Friends</a></li>
@@ -59,10 +65,8 @@
      </div>
    </div><!-- /.container-fluid -->
   </nav>
-
       {%block content%}
       {%endblock%}
-
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
   </body>
   {%endblock%}
