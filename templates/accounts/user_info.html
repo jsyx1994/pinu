@@ -1,13 +1,104 @@
-{% extends "base.html" %}
-{% block content %}
-        <ul>
-            <li>{{real_name}}</li>
-            <li>{{nick_name}}</li>
-            <li>{{sex}}</li>
-            <li>{{birthday}}</li>
-            <li>{{phone_num}}</li>
-            <li>{{work}}</li>
-            <li>{{email}}</li>        
-        </ul>
-       <a class="btn btn-default" href="{% url 'accounts:info_edit' %}" role="button">编辑</a>
+{%extends "base.html"%}
+{%load staticfiles%}
+{%block headex%}
+<link href="{%static 'bootstrap-3.3.5/dist/css/user_info.css'%}" rel="stylesheet" type="text/css" />
+<link href="{%static 'bootstrap-3.3.5/dist/css/bootstrap-datetimepicker.min.css'%}" rel="stylesheet" type="text/css">
+{%endblock%}
+
+{%block content%}
+	<div class="personal">
+			<div class="header">
+			</div>
+	  		<div class="content">
+		 			<div class="information_3 ">
+		 					<div style="padding-bottom: 20px;padding-top:50px;text-align: center;">
+		 						<img src="{{request.user.profile.url}}" class="img-circle" width="150" height="150">
+		 					</div>
+							<div class="information_5">
+									 <p>Real Name：胡嘉睿</p>
+							</div>
+							<div class="information_5">
+									 <p>Emil Address：1114274965@qq.com</p>
+							</div>
+							<div class="information_5">
+									 <p>Sex：male</p>
+							</div>
+		  			</div>
+	  		</div>
+			<div class="main">
+					<div>
+						<h2 style="text-align: center;padding-bottom: 20px">Personal Information</h2>	
+					</div>
+					<form  class="form-horizontal">
+						<div class="form-group">
+							<label for="nickname" class="col-lg-3 control-label">Nickname</label>
+							<div class="col-lg-6">
+								<input type="text" id="nickname" class="form-control" readonly placeholder="Nick Name">
+							</div>
+	  					</div>							
+						<div class="form-group">
+							<label for="height" class="col-lg-3 control-label" >Height</label>
+							<div class="col-lg-6">
+								<input type="text" id="height" class="form-control" readonly placeholder="Height">
+							</div>
+	                     	
+	                   	</div>
+						<div class="form-group">
+							<label for="weight" class="col-lg-3 control-label" >Weight</label>
+							<div class="col-lg-6">
+								<input type="text" id="weight" class="form-control" readonly placeholder="Weight">
+							</div>
+	                        
+						</div>						
+
+						<div class="form-group">
+							<label for="work" class="col-lg-3 control-label">Work</label>
+							<div class="col-lg-6">
+								<input id="work" type="text" class="form-control" readonly placeholder="Work">
+							</div>
+	    				</div>
+						<div class="form-group">
+							<label for="address" class="col-lg-3 control-label">Address</label>
+							<div class="col-lg-6">
+								<input id="address" type="text" class="form-control" readonly placeholder="Address">
+							</div>	   	
+	  					</div>	
+						<div class="form-group">
+							<label for="phone" class="col-lg-3 control-label">Phone number</label>
+							<div class="col-lg-6">	    						
+								<input id="phone" type="text" class="form-control" readonly placeholder="Phone number">
+							</div>
+	  					</div>
+	  					<div class="form-group" >
+							<label for="birthday" class="col-lg-3 control-label" >Birthday</label>
+	                		<div id="birthday" class="input-group date form_date col-lg-6" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+	                   		    <input class="form-control col-lg-6" size="16" type="text" placeholder="Birthday" readonly>
+	                    		<span class="input-group-addon"><i class="glyphicon glyphicon-remove"></i></span>
+								<span class="input-group-addon"><i class="glyphicon-th glyphicon"></i></span>
+	                		</div>
+						</div>
+						<div class="form-group">
+								<div class="loop_1">
+								<!--设置按钮-->
+								<button type="button" class="btn btn-primary btn-lg btn-block"> Button Edit</button>
+								</div>
+						</div>
+					</form>
+			</div>		
+	</div>
+
+<script language="JavaScript" type="text/javascript" src="{%static 'bootstrap-3.3.5/dist/js/bootstrap-datetimepicker.js'%}"></script>
+<script language="JavaScript" type="text/javascript" src="{%static 'bootstrap-3.3.5/dist/js/bootstrap-datetimepicker.zh-CN.js'%}"></script>
+<script type="text/javascript">
+    $('.form_date').datetimepicker({
+        language: 'zh-CN',
+        weekStart: 1,
+        todayBtn: 1,
+  	    autoclose: 1,
+  	    todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        forceParse: 0
+    });
+</script>
 {%endblock%}

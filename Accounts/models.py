@@ -12,6 +12,7 @@ from Activities.models import Activity
 from Messages.models import Message
 from Diaries.models import Diary
 from haversine import calc_dis
+from django.conf import settings
 class MyUserManager(BaseUserManager):
     def create_user(self,email,nick_name,real_name,sex,password=None,phone_num=None):
         """
@@ -28,6 +29,8 @@ class MyUserManager(BaseUserManager):
             )
 
         user.set_password(password)
+        profile = open(settings.MEDIA_URL+'default_profile.jpg')
+        user.set_profile(profile)
         user.save(using=self._db)
         return user
 

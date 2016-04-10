@@ -33,9 +33,9 @@ def register(request):
             )
         except:
             return HttpResponse('nick_name or email already be taken')
-        return render(request,'accounts/login.html')
+        else:
+            return redirect('accounts:login')
     else:
-        #form = RegisterForm()
         return render(request,'accounts/register.html')
 
 def log_in(request):
