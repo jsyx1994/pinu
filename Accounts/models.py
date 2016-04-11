@@ -286,7 +286,11 @@ class MyUser(AbstractBaseUser):
     def add_friend(self,nick_name):
         try:
             obj = MyUser.objects.get(nick_name = nick_name)
+            # if not added yet then....
+            assert FriendShip.objects.filter(subject = self,friend = obj) == None
         except MyUser.DoesNotExist:
+            return False
+        except AssertionError:
             return False
         else:
             FriendShip.objects.create_friendship(self,obj)
@@ -409,6 +413,7 @@ class FriendManager(models.Manager):
                 subject = subject,
                 friend = friend,
                 )
+        fri.save(using=self._db)
         if self.is_abs_friend_each_other(subject,friend):
             x = FriendShip.objects.get(subject = subject,friend = friend )
             x.friend_each_other = True

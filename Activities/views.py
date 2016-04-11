@@ -10,8 +10,13 @@ from django.http import HttpResponse
 def list(request):
     if request.method == 'POST':
         #cannot join if have conflict time between two:pass  
-
-        request.user.join_act(pk = int(request.POST['act_id']))
+        act_id = int(request.POST['act_id'])
+        request.user.join_act(pk = act_id)
+        #add all the followers in the activity you joined to your friend list
+        ps_list = Activity.objects.get(pk=act_id).person_joined.all()
+        for i in ps_list:
+            if i!=request.user:
+                request.user.add_friend(nick_name = i.nick_name)
         return redirect('activities:myself')
     else:
         act_list = Activity.objects.get_valid_activity

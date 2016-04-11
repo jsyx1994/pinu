@@ -24,8 +24,8 @@ class ActivityManager(models.Manager):
 class Activity(models.Model):
 	#各种类型的活动，一级活动下可以再分二级。。。。。。
     CATEGORY_LIST=(
-		('BL','球类'),
-		('KT','KTV'),
+		('SP','运动'),
+		('ET','娱乐'),
 		('TR','旅行'),
 	)
     #start position of an activity(optional)
