@@ -14,6 +14,13 @@
 		 					<div style="padding-bottom: 20px;padding-top:50px;text-align: center;">
 		 						<img src="{{request.user.profile.url}}" class="img-circle" width="150" height="150">
 		 					</div>
+		 					<form  enctype="multipart/form-data" method="post" action="{%url 'accounts:user_info' 'img'%}" > 
+							{%csrf_token%}
+							   <input type="file" name="profile" />
+							   <br /> 
+							   <input type="submit" value="submit" /> 
+							</form>
+
 							<div class="information_5">
 									 <p>Real Name：{{real_name}}</p>
 							</div>
@@ -87,7 +94,7 @@
 								<div class="loop_1">
 								<!--设置按钮-->
 								<button id="promote" type="button" onclick="change()"  class="btn btn-primary btn-lg btn-block"> Promote</button>
-								<button id="submit" type="submit" style="display: none" class="btn btn-primary btn-lg btn-block"> Submit</button>
+								<button id="submit" type="submit" style="display: none" class="btn btn-primary btn-lg btn-block"> Save</button>
 								</div>
 						</div>
 					</form>

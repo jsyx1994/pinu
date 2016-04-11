@@ -14,6 +14,7 @@ from Diaries.models import Diary
 from haversine import calc_dis
 from django.conf import settings
 from datetime import date
+import os
 class MyUserManager(BaseUserManager):
     def create_user(self,email,nick_name,real_name,sex,password=None,phone_num=None):
         """
@@ -30,8 +31,6 @@ class MyUserManager(BaseUserManager):
             )
 
         user.set_password(password)
-        #profile = open(settings.MEDIA_URL+'default_profile.jpg')        
-        #user.set_profile(profile)
         user.save(using=self._db)
         return user
 
@@ -77,8 +76,9 @@ class MyUser(AbstractBaseUser):
     	)
     profile = models.ImageField(
             upload_to = 'profiles',
-            null = True,
-            blank = True
+            default = os.path.join(settings.MEDIA_URL,'profiles','default_profile.jpg')
+            #null = True,
+            #blank = True
             )
     address = models.CharField(
         max_length = 100,
