@@ -13,6 +13,7 @@ from Messages.models import Message
 from Diaries.models import Diary
 from haversine import calc_dis
 from django.conf import settings
+from datetime import date
 class MyUserManager(BaseUserManager):
     def create_user(self,email,nick_name,real_name,sex,password=None,phone_num=None):
         """
@@ -29,8 +30,8 @@ class MyUserManager(BaseUserManager):
             )
 
         user.set_password(password)
-        profile = open(settings.MEDIA_URL+'default_profile.jpg')
-        user.set_profile(profile)
+        #profile = open(settings.MEDIA_URL+'default_profile.jpg')        
+        #user.set_profile(profile)
         user.save(using=self._db)
         return user
 
@@ -79,6 +80,10 @@ class MyUser(AbstractBaseUser):
             null = True,
             blank = True
             )
+    address = models.CharField(
+        max_length = 100,
+        blank = True,
+        )
     sex = models.CharField(
     	max_length = 1,
     	choices = USER_SEX,
@@ -175,8 +180,11 @@ class MyUser(AbstractBaseUser):
     def set_sex(self,choice):
         self.sex = unicode(choice)
 
-    def set_birthday(self,birthday):
-        self.birthday = birthday
+    def set_birthday(self,year,month,day):
+        self.birthday = date(year,month,day)
+        #self.birthday.year = year,
+        #self.birthday.month = month,
+        #self.birthday.day = day,
 
     def set_work(self,work):
         self.work = work
@@ -197,8 +205,9 @@ class MyUser(AbstractBaseUser):
         self.height = height
 
     def set_weight(self,weight):
-            self.weight = weight
-
+        self.weight = weight
+    def set_address(self,address):
+        self.address = address
     def set_online(self):
         self.online = True
 
@@ -237,7 +246,7 @@ class MyUser(AbstractBaseUser):
         if self.birthday :
             return self.birthday
         else:
-            pass
+            return ''
 
     def get_work(self):
         return self.work
@@ -258,11 +267,17 @@ class MyUser(AbstractBaseUser):
         else:
             return ''
     def get_height(self):
-        return self.height
-
+        if self.height:
+            return self.height
+        else:
+            return ''
     def get_weight(self):
-        return self.weight
-
+        if self.weight:
+            return self.weight
+        else:
+            return ''
+    def get_address(self):
+        return self.address
     @property
     def is_online(self):
         return self.online

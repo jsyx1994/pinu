@@ -10,43 +10,47 @@
 			<div class="header">
 			</div>
 	  		<div class="content">
-		 			<div class="information_3 ">
+		 			<div class="information_3 " style="text-align: center;">
 		 					<div style="padding-bottom: 20px;padding-top:50px;text-align: center;">
 		 						<img src="{{request.user.profile.url}}" class="img-circle" width="150" height="150">
 		 					</div>
 							<div class="information_5">
-									 <p>Real Name：胡嘉睿</p>
+									 <p>Real Name：{{real_name}}</p>
 							</div>
 							<div class="information_5">
-									 <p>Emil Address：1114274965@qq.com</p>
+									 <p>Email：{{email}}</p>
 							</div>
 							<div class="information_5">
-									 <p>Sex：male</p>
+									 <p>Sex：{{sex}}</p>
+							</div>
+							<div class="information_5">
+						 		<p>age：{{age}}</p>
 							</div>
 		  			</div>
 	  		</div>
-			<div class="main">
+			<div class="main" id ="main">
 					<div>
 						<h2 style="text-align: center;padding-bottom: 20px">Personal Information</h2>	
 					</div>
-					<form  class="form-horizontal">
+					<form  class="form-horizontal" action="." method="post">
+					{%csrf_token%}
 						<div class="form-group">
 							<label for="nickname" class="col-lg-3 control-label">Nickname</label>
 							<div class="col-lg-6">
-								<input type="text" id="nickname" class="form-control" readonly placeholder="Nick Name">
+								<input name="nick_name" type="text" id="nickname" class="form-control" readonly placeholder="Nick Name" value="{{nick_name}}">
 							</div>
 	  					</div>							
 						<div class="form-group">
 							<label for="height" class="col-lg-3 control-label" >Height</label>
 							<div class="col-lg-6">
-								<input type="text" id="height" class="form-control" readonly placeholder="Height">
+								<input name="height" type="text" id="height" class="form-control" readonly placeholder="Height(cm)"  value="{{height}}">
 							</div>
 	                     	
 	                   	</div>
 						<div class="form-group">
 							<label for="weight" class="col-lg-3 control-label" >Weight</label>
 							<div class="col-lg-6">
-								<input type="text" id="weight" class="form-control" readonly placeholder="Weight">
+								<input name="weight" type="text" id="weight" class="form-control" readonly placeholder="Weight(kg)" value="{{weight}}">
 							</div>
 	                        
 						</div>						
@@ -54,25 +58,27 @@
 						<div class="form-group">
 							<label for="work" class="col-lg-3 control-label">Work</label>
 							<div class="col-lg-6">
-								<input id="work" type="text" class="form-control" readonly placeholder="Work">
+								<input name="work" id="work" type="text" class="form-control" readonly placeholder="Work" value="{{work}}">
 							</div>
 	    				</div>
 						<div class="form-group">
 							<label for="address" class="col-lg-3 control-label">Address</label>
 							<div class="col-lg-6">
-								<input id="address" type="text" class="form-control" readonly placeholder="Address">
+								<input name="address" id="address" type="text" class="form-control" readonly placeholder="Address" value="{{address}}">
 							</div>	   	
 	  					</div>	
 						<div class="form-group">
 							<label for="phone" class="col-lg-3 control-label">Phone number</label>
 							<div class="col-lg-6">	    						
-								<input id="phone" type="text" class="form-control" readonly placeholder="Phone number">
+								<input name="phone_num" id="phone" type="text" class="form-control" readonly placeholder="Phone number" value="{{phone_num}}">
 							</div>
 	  					</div>
 	  					<div class="form-group" >
 							<label for="birthday" class="col-lg-3 control-label" >Birthday</label>
 	                		<div id="birthday" class="input-group date form_date col-lg-6" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
-	                   		    <input class="form-control col-lg-6" size="16" type="text" placeholder="Birthday" readonly>
+	                   		    <input name="birthday" class="form-control col-lg-6" size="16" type="text" placeholder="Birthday" readonly 
+	                   		    {%if birthday%}value="{{birthday.year}}-{{birthday.month}}-{{birthday.day}}"{%endif%}
+	                   		    >
 	                    		<span class="input-group-addon"><i class="glyphicon glyphicon-remove"></i></span>
 								<span class="input-group-addon"><i class="glyphicon-th glyphicon"></i></span>
 	                		</div>
@@ -80,7 +86,8 @@
 						<div class="form-group">
 								<div class="loop_1">
 								<!--设置按钮-->
-								<button type="button" class="btn btn-primary btn-lg btn-block"> Button Edit</button>
+								<button id="promote" type="button" onclick="change()"  class="btn btn-primary btn-lg btn-block"> Promote</button>
+								<button id="submit" type="submit" style="display: none" class="btn btn-primary btn-lg btn-block"> Submit</button>
 								</div>
 						</div>
 					</form>
@@ -100,5 +107,18 @@
         minView: 2,
         forceParse: 0
     });
+</script>
+<script type="text/javascript">
+	function change(){
+		document.getElementById("nickname").readOnly=false;
+		document.getElementById("height").readOnly=false;
+		document.getElementById("weight").readOnly=false;
+		document.getElementById("work").readOnly=false;
+		document.getElementById("birthday").readOnly=false;
+		document.getElementById("phone").readOnly=false;
+		document.getElementById("address").readOnly=false;
+		document.getElementById("promote").style.display="none";
+		document.getElementById("submit").style.display="";
+		}
 </script>
 {%endblock%}

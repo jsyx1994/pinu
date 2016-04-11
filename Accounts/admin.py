@@ -49,7 +49,7 @@ class UserChangeForm(forms.ModelForm):
     class Meta:
         model = MyUser
         fields = ('lng','lat','last_login_city','email','profile', 'password', 'nick_name','real_name','birthday',
-                'work','sex','height','weight','phone_num', 'is_active', 'is_admin')
+                'work','sex','height','weight','phone_num','address', 'is_active', 'is_admin')
 
     def clean_password(self):
         # Regardless of what the user provides, return the initial value.
@@ -72,7 +72,7 @@ class MyUserAdmin(UserAdmin):
         (None, {'fields': ('email', 'password')}),
         ('Personal location',{'fields':('lng','lat','last_login_city')}),
         ('Personal info', {'fields': ('profile','nick_name','real_name','birthday',
-                                      'sex','work','height','weight','phone_num',)}),
+                                      'sex','work','height','weight','phone_num','address')}),
         ('Permissions', {'fields': ('is_admin',)}),
     )
     # add_fieldsets is not a standard ModelAdmin attribute. UserAdmin
@@ -82,7 +82,7 @@ class MyUserAdmin(UserAdmin):
             'classes': ('wide',),
             'fields': ('lng','lat','last_login_city','email','profile','nick_name','real_name','birthday',
                         'sex','work','height','weight',
-                        'phone_num', 'password1', 'password2')}
+                        'phone_num','address', 'password1', 'password2')}
         ),
     )
     search_fields = ('email',)

@@ -69,18 +69,41 @@ def log_in(request):
 @login_required
 def user_info(request):
     user = request.user
-    context = {
-            'sex':user.get_sex(),
-            'real_name':user.get_real_name(),
-            'nick_name':user.get_nick_name(),
-            'email':user.get_email(),
-            'work':user.get_work(),
-            'phone_num':user.get_phone_num(),
-            'weight':user.get_weight(),
-            'height':user.get_height(),
-            'age':user.get_age(),
-            }
-    return render(request,'accounts/user_info.html',context)
+    if request.method == 'POST':
+        post = request.POST
+        nn = post['nick_name']
+        ht = post['height']
+        wt = post['weight']
+        ad = post['address']
+        #em = post['email']
+        wk = post['work']
+        pn = post['phone_num']
+        bd = post['birthday'].split('-')
+        user.set_birthday(int(bd[0]),int(bd[1]),int(bd[2]))
+        user.set_nick_name(nn)
+        user.set_height(ht)
+        user.set_weight(wt)
+        user.set_address(ad)
+        #user.set_email(em)
+        user.set_work(wk)
+        user.set_phone_num(pn)
+        user.save()
+        return redirect('accounts:user_info')
+    else:
+        context = {
+                'sex':user.get_sex(),
+                'real_name':user.get_real_name(),
+                'nick_name':user.get_nick_name(),
+                'email':user.get_email(),
+                'work':user.get_work(),
+                'birthday':user.get_birthday(),
+                'phone_num':user.get_phone_num(),
+                'weight':user.get_weight(),
+                'height':user.get_height(),
+                'age':user.get_age(),
+                'address':user.get_address(),
+                }
+        return render(request,'accounts/user_info.html',context)
 
 @login_required
 def info_edit(request):
@@ -117,7 +140,7 @@ def log_out(request):
     request.user.set_offline()
     request.user.save()
     logout(request)
-    return render(request,'base.html',{'user':None})
+    return redirect('index')
 
 def fri_detail(request):
     pass
