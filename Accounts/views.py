@@ -67,7 +67,7 @@ def log_in(request):
         return render(request,'accounts/login.html',{'user':user})
 
 @login_required
-def user_info(request,img):
+def user_info(request,img=''):
     user = request.user
     if request.method == 'POST':
         if img == 'img':
@@ -76,7 +76,7 @@ def user_info(request,img):
                 request.user.save()
             except:
                 pass
-        return redirect('accounts:user_info')
+            return redirect('accounts:user_info')
         post = request.POST
         nn = post['nick_name']
         ht = post['height']

@@ -108,8 +108,6 @@ class Activity(models.Model):
     def set_due_time(self,duetime):
 	    self.start_time = due_time
     
-    def set_place():
-        pass
     #get method
     def get_slat(self):
         return self.slat
@@ -142,9 +140,6 @@ class Activity(models.Model):
 
     def get_person_num(self):
 		return self.person_num_limit
-
-    def get_place(self):
-        pass
 
     @property
     def get_category(self):

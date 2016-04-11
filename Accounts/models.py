@@ -258,8 +258,8 @@ class MyUser(AbstractBaseUser):
     def get_pswd():
             pass
 
-    def get_profile():
-        pass
+    def get_profile(self):
+        return self.profile.url
 
     def get_phone_num(self):
         if self.phone_num:
