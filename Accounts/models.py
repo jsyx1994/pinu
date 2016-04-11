@@ -287,10 +287,12 @@ class MyUser(AbstractBaseUser):
         try:
             obj = MyUser.objects.get(nick_name = nick_name)
             # if not added yet then....
-            assert FriendShip.objects.filter(subject = self,friend = obj) == None
+            assert len(FriendShip.objects.filter(subject = self,friend = obj)) == 0
         except MyUser.DoesNotExist:
+            print 'not'
             return False
         except AssertionError:
+            print 'ass'
             return False
         else:
             FriendShip.objects.create_friendship(self,obj)
