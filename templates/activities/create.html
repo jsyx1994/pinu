@@ -11,70 +11,88 @@
 		</div>
 		<div class="col-lg-5" style="padding-top: 30px">
 			<legend class="text-center">Create a new activity</legend>
-				<form>
+				<form action="." method="post">
+				{%csrf_token%}
 				  <div class="form-group">
 				    <label for="title">Title</label>
-				    <input type="email" class="form-control" id="title" placeholder="Title">
+				    <input name="title" type="text" class="form-control" id="title" placeholder="Title" required="required">
 				  </div>
 				  <label for="start">Start time</label>
-				  <div class="form-group input-group date form_datetime " data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input1">
-    					<input name="start_time" id="start" class="form-control" size="16" type="text" value="" readonly="">
+				  <div class="form-group input-group date form_datetime " data-date-format="yyyy-mm-dd hh:ii" data-link-field="dtp_input1">
+    					<input name="start_time" id="start" class="form-control" size="16" type="text" value="" readonly="" required="required">
     					<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
 						<span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
 				  </div>
 
 				  <label for="end">End time</label>
-				  <div class="form-group input-group date form_datetime " data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input1">
-    					<input name="end_time" id="end" class="form-control" size="16" type="text" value="" readonly="">
+				  <div class="form-group input-group date form_datetime" data-date-format="yyyy-mm-dd hh:ii" data-link-field="dtp_input1"> 
+    					<input name="end_time" id="end" class="form-control" size="16" type="text" value="" readonly="" required="required">
     					<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
 						<span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
 				  </div>
 				  <div class="form-group">
-					    <label for="title">Category</label>
-					    <input type="email" class="form-control" id="title" placeholder="Title">
+					    <label for="personlimit">Person limit</label>
+					      <div id="personlimit" class="form-group">
+						    <select name="person_limit" required="required" class="form-control"> 
+						      <option>2</option> 
+						      <option>3</option> 
+						      <option>4</option> 
+						      <option>5</option> 
+						      <option>6</option> 
+						      <option>7</option> 
+						    </select>
+						  </div>
+				  </div>
+				  <div class="form-group">
+					    <label for="category">Category</label>
+					      <div  id="category" class="form-group">
+						    <select name="category" required="required" class="form-control"> 
+						      <option>Sport</option> 
+						      <option>Entertainment</option> 
+						      <option>Travel</option> 
+						    </select>
+						  </div>
 				  </div>
 				  <div class="form-group">
 				  	<label for="spot">Destination</label>
 				 	<input class="form-control" type="text" placeholder="请输入关键字进行搜索" id="tipinput">
 				  </div>
+				  			<div class="form-group">
+				  				<input  style="display: none" name="starting_place" id="source"></input>
+						       	<input style="display: none"  name="destination" id="dest"></input>
+						       	<input style="display: none"  name="slng" id="slng" value="{{request.user.get_lng}}"></input>
+						       	<input style="display: none"  name="slat" id="slat" value="{{request.user.get_lat}}"></input>
+								<input style="display: none"  name="dlng" id="dlng" value="{{request.user.get_lng}}"></input>
+								<input style="display: none"  name="dlat" id="dlat" value="{{request.user.get_lat}}"></input>			
+							</div>
 				  <div class="form-group">
-				  	<button type="button" class="btn btn-default pull-right" data-toggle="modal" data-target="#startplace">
+				  	<button id="viewmap" type="button" class="btn btn-info" data-toggle="modal" data-target="#startplace">
 					  View map
 					</button>
-					<!-- Modal -->
 				  </div>
-					<div class="modal fade" id="startplace" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-					  <div class="modal-dialog" role="document">
-					    <div class="modal-content">
-					      <div class="modal-header">
-					        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					        <h4 class="modal-title" >Change your place</h4>
-					      </div>
-					      <div class="modal-body" style="height:600px">
-					      <!--map-->
-					        <div id="container" ></div>	        
-					      <!---->
-					      </div>
+				  					<!-- Modal -->
+						<div class="modal fade" id="startplace" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+						  <div class="modal-dialog" role="document">
+						    <div class="modal-content">
+						      <div class="modal-header">
+						        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						        <h4 class="modal-title" >Change your place</h4>
+						      </div>
+						      <div class="modal-body" style="height:600px">
+						      <!--map-->
+						        <div id="container"></div>	        
+						      <!---->
+						      </div>
 
-					      <!--footer-->
-					      <div class="modal-footer">
-					       	<input style="display: none" id="source"></input>
-					       	<input style="display: none" id ="dest"></input>
-					        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-					        <button type="button" class="btn btn-primary">Save changes</button>
-					      </div>
-					    </div>
-					  </div>
-					</div>
-				  </div>  
-				  <div class="checkbox">
-				    <label>
-				      <input type="checkbox"> Check me out
-				    </label>
-				  </div>
-				  <div>
-				  </div>
-				  <button type="submit" class="btn btn-default">Submit</button>
+						      <!--footer-->
+						      <div class="modal-footer">			       	
+						        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						        <button type="button" class="btn btn-primary">Save changes</button>
+						      </div>
+						    </div>
+						  </div>
+						</div>
+				  	<button type="submit" class="btn btn-default pull-right">Submit</button>
 				</form>
 		</div>
 	</div>
@@ -104,19 +122,20 @@
 	var map = new AMap.Map('container',{
 	resizeEnable: true,
 	zoom: 11,
-	center: [{{user.get_lng}},{{user.get_lat}}]
+	//center: [{{user.get_lng}},{{user.get_lat}}]
 	});
     var marker1 = new AMap.Marker({
         map:map,
         bubble:true,
-    })
+	});
+
     var marker2 = new AMap.Marker({
             map:map,
             bubble:true,
             draggable: true,
         	cursor: 'move',
         	raiseOnDrag: true
-    })
+    });
     marker1.setLabel({//label默认蓝框白底左上角显示，样式className为：amap-marker-label
 		offset: new AMap.Pixel(20, 20),//修改label相对于maker的位置
 		content: "Starting..."
@@ -128,15 +147,18 @@
 	AMap.event.addListener(marker2,"mouseup",mouseup2);
 	function mouseup2() {
 		var dest = document.getElementById("dest");
+		//alert(marker2.getPosition().getLat());
+		document.getElementById("dlat").value = marker2.getPosition().getLat();
+        document.getElementById("dlng").value = marker2.getPosition().getLng();
 		var geocoder = new AMap.Geocoder({
             city: "010"//城市，默认：“全国”
         });
         geocoder.getAddress(marker2.getPosition(),function(status,result){
         	if(status=='complete'){
-                 dest.value = result.regeocode.formattedAddress
-                 message.innerHTML = ''
+                 dest.value = result.regeocode.formattedAddress;
+                 message.innerHTML = '';
               }else{
-                 message.innerHTML = '无法获取地址'
+                 message.innerHTML = '无法获取地址';
               }
      	});
      	map.setFitView();
@@ -148,14 +170,16 @@
         var source = document.getElementById('source');
         var clickEventListener = map.on('click',function(e){
             marker1.setPosition(e.lnglat);
+            document.getElementById("slng").value = e.lnglat.getLng();
+		    document.getElementById("slat").value = e.lnglat.getLat(); 
             map.setFitView();
           	//alert(marker.getPosition().getLng());
             geocoder.getAddress(e.lnglat,function(status,result){
               if(status=='complete'){
-                 source.value = result.regeocode.formattedAddress
-                 message.innerHTML = ''
+                 source.value = result.regeocode.formattedAddress;             
+                 message.innerHTML = '';
               }else{
-                 message.innerHTML = '无法获取地址'
+                 message.innerHTML = '无法获取地址';
               }
             });
         });
@@ -172,6 +196,20 @@
     function select(e) {
         marker2.setPosition(e.poi.location);
 		marker2.setAnimation('AMAP_ANIMATION_BOUNCE');
+		document.getElementById("dlat").value = marker2.getPosition().getLat();
+        document.getElementById("dlng").value = marker2.getPosition().getLng();
+        var geocoder = new AMap.Geocoder({
+            city: "010"//城市，默认：“全国”
+        });
+        geocoder.getAddress(marker2.getPosition(),function(status,result){
+        	if(status=='complete'){
+                 dest.value = result.regeocode.formattedAddress;
+                 message.innerHTML = '';
+              }else{
+                 message.innerHTML = '无法获取地址';
+              }
+     	});
+     	map.setFitView();
     }
 </script>
 {% endwith %}

@@ -7,14 +7,16 @@ from django.db import models
 from django.conf import settings
 from django.utils import timezone
 class ActivityManager(models.Manager):
-    def create_activity(self,title,category,start_time,due_time,person_num_limit):
+    def create_activity(self,advocator,title,category,start_time,due_time,person_num_limit):
         activity = super(ActivityManager,self).create(
                 title = title,
                 category = category,
                 start_time = start_time,
                 due_time = due_time,
                 person_num_limit = person_num_limit,
+                advocator = advocator,
                 )
+        activity.save()
         return activity
     def get_valid_activity(self):
         list = filter(lambda a:a.is_active,
@@ -25,7 +27,7 @@ class Activity(models.Model):
 	#各种类型的活动，一级活动下可以再分二级。。。。。。
     CATEGORY_LIST=(
 		('SP','运动'),
-		('ET','娱乐'),
+		('EN','娱乐'),
 		('TR','旅行'),
 	)
     #start position of an activity(optional)
@@ -67,11 +69,14 @@ class Activity(models.Model):
     #人数限制
     person_num_limit = models.PositiveSmallIntegerField()
 
-    place=models.CharField(
-        max_length=50,
+    st_place = models.CharField(
+        max_length = 100,
         blank = True,
         )
-
+    ds_place =  models.CharField(
+        max_length = 100,
+        blank = True
+        )
     advocator = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         related_name = 'advocator',
@@ -93,14 +98,16 @@ class Activity(models.Model):
         self.slng = slng
     def set_slat(self,slat):
         self.slat = slat
-    def set_dlng(self,dlat):
-        self.dlat = dlat
-    def set_dlat(self,dlat):
+    def set_dlng(self,dlng):
         self.dlng = dlng
+    def set_dlat(self,dlat):
+        self.dlat = dlat
     def set_title(self,title):
 	    self.title = title
-    def set_place(self,place):
-        self.place = place
+    def set_st_place(self,st_place):
+        self.st_place = st_place
+    def set_ds_place(self,ds_place):
+        self.ds_place = ds_place
     def set_category(self,category):
         self.category = category
     def set_start_time(self,start_time):
@@ -119,8 +126,10 @@ class Activity(models.Model):
         return self.dlng
     def get_title(self):
         return self.title
-    def get_place(self):
-        return self.place
+    def get_st_place(self):
+        return self.st_place
+    def get_ds_palce(self):
+        return self.ds_place
     def get_pub_time(self):
 	    return self.pub_time
 
