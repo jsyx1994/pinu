@@ -2,6 +2,7 @@
 {% load staticfiles %}
 {% block headex %}
 <link href="{%static 'bootstrap-3.3.5/dist/css/bootstrap-datetimepicker.min.css'%}" rel="stylesheet" type="text/css" />
+ <link rel="stylesheet" href="http://cache.amap.com/lbs/static/main1119.css"/>
 {% endblock %}
 {% block content%}
 <div class="container">
@@ -29,27 +30,61 @@
 						<span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
 				  </div>
 				  <div class="form-group">
-				    <label for="category">Category</label>
-				    <div class="form-group">
-					    <select class="form-control"> 
-					      <option>1</option> 
-					      <option>2</option> 
-					      <option>3</option> 
-					      <option>4</option> 
-					      <option>5</option> 
-					      </select>
-					  </div>
+					    <label for="title">Category</label>
+					    <input type="email" class="form-control" id="title" placeholder="Title">
 				  </div>
+				  <div class="form-group">
+				  	<label for="spot">Destination</label>
+				 	<input class="form-control" type="text" placeholder="请输入关键字进行搜索" id="tipinput">
+				  </div>
+				  <div class="form-group">
+				  	<button type="button" class="btn btn-default pull-right" data-toggle="modal" data-target="#startplace">
+					  View map
+					</button>
+					<!-- Modal -->
+				  </div>
+					<div class="modal fade" id="startplace" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+					  <div class="modal-dialog" role="document">
+					    <div class="modal-content">
+					      <div class="modal-header">
+					        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					        <h4 class="modal-title" >Change your place</h4>
+					      </div>
+					      <div class="modal-body" style="height:600px">
+					      <!--map-->
+					        <div id="container" ></div>	        
+					      <!---->
+					      </div>
+
+					      <!--footer-->
+					      <div class="modal-footer">
+					       	<input style="display: none" id="source"></input>
+					       	<input style="display: none" id ="dest"></input>
+					        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					        <button type="button" class="btn btn-primary">Save changes</button>
+					      </div>
+					    </div>
+					  </div>
+					</div>
+				  </div>  
 				  <div class="checkbox">
 				    <label>
 				      <input type="checkbox"> Check me out
 				    </label>
+				  </div>
+				  <div>
 				  </div>
 				  <button type="submit" class="btn btn-default">Submit</button>
 				</form>
 		</div>
 	</div>
 </div>
+ <script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=9e96a5e2d1484110e610c4df54838615&plugin=AMap.Geocoder"></script>
+ <script type="text/javascript"src="http://webapi.amap.com/maps?v=1.3&key=9e96a5e2d1484110e610c4df54838615&plugin=AMap.Autocomplete"></script>
+<script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=9e96a5e2d1484110e610c4df54838615"></script>
+<script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=9e96a5e2d1484110e610c4df54838615&plugin=AMap.Autocomplete,AMap.PlaceSearch"></script>
+<script type="text/javascript" src="http://cache.amap.com/lbs/static/addToolbar.js"></script>
+
 <script language="JavaScript" type="text/javascript" src="{%static 'bootstrap-3.3.5/dist/js/bootstrap-datetimepicker.min.js'%}"></script>
 <script language="JavaScript" type="text/javascript" src="{%static 'bootstrap-3.3.5/dist/js/bootstrap-datetimepicker.zh-CN.js'%}" charset="UTF-8"></script>
 <script type="text/javascript">
@@ -64,4 +99,80 @@
         showMeridian: 1
     });
 </script>
+{% with user=request.user %}
+<script type="text/javascript">
+	var map = new AMap.Map('container',{
+	resizeEnable: true,
+	zoom: 11,
+	center: [{{user.get_lng}},{{user.get_lat}}]
+	});
+    var marker1 = new AMap.Marker({
+        map:map,
+        bubble:true,
+    })
+    var marker2 = new AMap.Marker({
+            map:map,
+            bubble:true,
+            draggable: true,
+        	cursor: 'move',
+        	raiseOnDrag: true
+    })
+    marker1.setLabel({//label默认蓝框白底左上角显示，样式className为：amap-marker-label
+		offset: new AMap.Pixel(20, 20),//修改label相对于maker的位置
+		content: "Starting..."
+	});
+    marker2.setLabel({//label默认蓝框白底左上角显示，样式className为：amap-marker-label
+		offset: new AMap.Pixel(20, 20),//修改label相对于maker的位置
+		content: "Destination"
+	});
+	AMap.event.addListener(marker2,"mouseup",mouseup2);
+	function mouseup2() {
+		var dest = document.getElementById("dest");
+		var geocoder = new AMap.Geocoder({
+            city: "010"//城市，默认：“全国”
+        });
+        geocoder.getAddress(marker2.getPosition(),function(status,result){
+        	if(status=='complete'){
+                 dest.value = result.regeocode.formattedAddress
+                 message.innerHTML = ''
+              }else{
+                 message.innerHTML = '无法获取地址'
+              }
+     	});
+     	map.setFitView();
+    }
+    AMap.plugin('AMap.Geocoder',function(){
+        var geocoder = new AMap.Geocoder({
+            city: "010"//城市，默认：“全国”
+        });
+        var source = document.getElementById('source');
+        var clickEventListener = map.on('click',function(e){
+            marker1.setPosition(e.lnglat);
+            map.setFitView();
+          	//alert(marker.getPosition().getLng());
+            geocoder.getAddress(e.lnglat,function(status,result){
+              if(status=='complete'){
+                 source.value = result.regeocode.formattedAddress
+                 message.innerHTML = ''
+              }else{
+                 message.innerHTML = '无法获取地址'
+              }
+            });
+        });
+    });
+
+    var autoOptions = {
+        input: "tipinput"
+    };
+    var auto = new AMap.Autocomplete(autoOptions);
+    var placeSearch = new AMap.PlaceSearch({
+        map: map
+    });  //构造地点查询类
+    AMap.event.addListener(auto, "select", select);//注册监听，当选中某条记录时会触发
+    function select(e) {
+        marker2.setPosition(e.poi.location);
+		marker2.setAnimation('AMAP_ANIMATION_BOUNCE');
+    }
+</script>
+{% endwith %}
 {% endblock %}
