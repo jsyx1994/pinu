@@ -52,10 +52,10 @@
             {% endif %}
             </a>
             <ul class="dropdown-menu">
-              <li style="padding-left: 20px">Hello,{{user.get_nick_name}}</li>
+              <li style="padding-left: 20px"><small>Hello,{{user.get_nick_name}}</small></li>
               <li role="separator" class="divider"></li>
               <li><a href="{% url 'accounts:user_info' %}">User info</a></li>
-              <li><a href="">New Activity</a></li>
+              <li><a href="{% url 'activities:create' %}">New Activity</a></li>
               <li><a href="#">Friends</a></li>
               <li><a href="#">Messages</a></li>
               <li role="separator" class="divider"></li>
