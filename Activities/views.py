@@ -6,8 +6,10 @@ from django.contrib.auth.decorators import login_required
 from Activities.models import Activity
 from django.http import HttpResponse
 from datetime import datetime
+import operator
 @login_required
-def list(request):
+def list(request,option = 'default'):
+    act_list = act_list = Activity.objects.get_valid_activity()
     if request.method == 'POST':
         #cannot join if have conflict time between two:pass  
         act_id = int(request.POST['act_id'])
@@ -19,8 +21,17 @@ def list(request):
                 request.user.add_friend(nick_name = i.nick_name)
         return redirect('activities:myself')
     else:
-        act_list = Activity.objects.get_valid_activity
-        return render(request,'activities/index.html',{'act_list':act_list})
+        if request.method == 'GET':
+            if option == 'bytime':
+                bytime = operator.attrgetter('pub_time')
+                act_list = sorted(act_list,key = bytime,reverse = True)
+                return render(request,'activities/index.html',{'act_list':act_list})
+            if option == 'nearme':
+                user = request.user
+                act_list = user.nearby_act()
+                return render(request,'activities/index.html',{'act_list':act_list})
+            else:
+                return render(request,'activities/index.html',{'act_list':act_list})
 
 @login_required
 def create(request):

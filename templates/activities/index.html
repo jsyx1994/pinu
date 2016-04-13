@@ -6,25 +6,37 @@
 {%endblock%}
 {%block content%}
 <div class = "container">
-	<div class ="col-md-12">
+<div class="btn-group pull-right" style="padding-bottom: 20px;padding-right: 20px">
+  <a type="button" class="btn btn-info" href="#">Sort(default)</a>
+  <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <span class="caret"></span>
+    <span class="sr-only">Toggle Dropdown</span>
+  </button>
+  <ul class="dropdown-menu">
+    <li><a href="{% url 'activities:index' 'bytime' %}">Latest publish</a></li>
+    <li><a href="{% url 'activities:index' 'nearme' %}">Near Me</a></li>
+    <li><a href="#">Hotest</a></li>
+  </ul>
+</div>
+	  	<div class ="col-md-12">
 		<table id="table" class="table table-hover table-striped">
 		<th>Title</th>
 		<th>Category</th>
 		<th>Advocator</th>
 		<th>Action</th>
-		{% for act in act_list %}
+		{%for act in act_list%}
+		{% with dp=act.get_ds_place sp=act.get_st_place %}
 		<tr>
+		<script type="text/javascript">
+		//alert('{{ds}}');
+		</script>
 			<td>{{act.get_title}}</td>
 			<td>{{act.get_category}}</td>
 			<td><a href="#"><img class="img-circle" src="{{act.advocator.get_profile}}" width="30px" height="30px"></a>{{act.advocator.nick_name}}</td>
+
 			<td>
-				<!--<form action="" method="post">
-				{%csrf_token%}
-					<input type="text" name ="id" value="{{act.id}}"  style="display:none;"/>
-					<input class="btn btn-default btn-sm" type="submit" value="加入">		
-				</form>-->
-				<button class="btn btn-info btn-xs" data-toggle="modal" data-target="#myModal{{forloop.counter}}" type="button">detail</button>
-				<div class="modal fade" id="myModal{{forloop.counter}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+				<button class="btn btn-info btn-xs" onclick="show({{act.id}},{{act.get_slng}},{{act.get_slat}},{{act.get_dlng}},{{act.get_dlat}},'{{sp}}','{{dp}}')" data-toggle="modal" data-target="#default{{act.id}}" type="button">detail</button>
+				<div class="modal fade" id="default{{act.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 				  <div class="modal-dialog" role="document">
 				    <div class="modal-content">
 				      <div class="modal-header">
@@ -34,12 +46,13 @@
 				      <div class="modal-body" >
 				      	<div class="row">
 				      		<div class="container">
-				      	  		<div class="container col-lg-6" id="container{{forloop.counter}}" style="height: 300px"></div>
+				      	  		<div class="container col-lg-6" id="container{{act.id}}" style="height: 300px"></div>
 					      	  	<script type="text/javascript">
-									var map =new AMap.Map('container{{forloop.counter}}',{
+					      	  		function show(id,slng,slat,dlng,dlat,sp,dp){
+					      	  		var map =new AMap.Map('container'+id,{
 								        resizeEnable: true,
 								        zoom:15,
-								        center: [{{act.get_dlng}}, {{act.get_dlat}}],
+								        center: [dlng, dlat],
 								    });
 								    var marker = new AMap.Marker({
 							            map:map,
@@ -50,22 +63,36 @@
 								            image: "http://pic33.nipic.com/20131011/2531170_205042671000_2.jpg"
 							        		})*/
 							        	})
-							        var point = new AMap.LngLat({{act.get_dlng}},{{act.get_dlat}});
+							        var point = new AMap.LngLat(dlng,dlat);
 							        //marker.setPosition(point);
+							        var marker1 = new AMap.Marker({
+							        	map:map,
+							        	bubble:true,
+							        	position:[slng,slat],
+							        })
+							        marker1.setLabel({
+							        	offset: new AMap.Pixel(20,20),
+							        	content:"starting... "+sp
+							        })
 							        marker.setAnimation('AMAP_ANIMATION_BOUNCE');
 									marker.setLabel({//label默认蓝框白底左上角显示，样式className为：amap-marker-label
 									        offset: new AMap.Pixel(20, 20),//修改label相对于maker的位置
-									        content: "destination:{{act.get_place}}"
+									        content: "destination "+dp
 									    });
+									map.setFitView();
+					      	  		}
 							  	</script>
 				      	  	</div>
+				      	</div>
+				      	<div class="text-center">
+				      		<h4><small>Rest time:{{act.get_rest_time}}</small></h4>
 				      	</div>
 				      	{% with advocator=act.advocator %}
 				      	<div class="row" style="padding: 60px">
 				      		<div class="col-lg-4 text-center">
 				      			<legend>Advocator</legend>
 				      			<div>
-				      				<img class="img-circle" src={{advocator.get_profile}} width="100px" height="100px">
+				      				<img class="img-circle" src={{advocator.get_profile}} width="100px" height="100px"> 	
 				      				<div class="text-center">
 				      					<h3><small>Nickname:{{advocator.get_nick_name}}</small></h3>
 										<h3><small>Sex:{{advocator.get_sex}}</small></h3>
@@ -98,8 +125,15 @@
 				</div>
 			</td>
 		</tr>
+		{% endwith %}
 		{%endfor%}
 		</table>
-	</div>
 </div>
+<object></object>
+<script type="text/javascript">
+  /*function tst(){
+    document.getElementById('home').innerHTML=
+    '<img src="{{user.profile.url}}" width="30" height="30" class="img-circle"><span class="caret"></span>';
+  }*/
+</script>
 {%endblock%}

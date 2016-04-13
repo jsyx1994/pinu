@@ -11,7 +11,7 @@ def index(request):
         user = None
     else:
         user = request.user
-    return render(request,'base.html',{'user':user})
+    return render(request,'index.html',{'user':user})
 
 def register(request):
     if request.method == 'POST':

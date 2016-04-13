@@ -1,0 +1,1 @@
+<img src="{{user.profile.url}}" width="30" height="30" class="img-circle"><span class="caret"></span>	

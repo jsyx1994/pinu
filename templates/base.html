@@ -1,8 +1,8 @@
 {%extends "raw.html"%}
 {%load staticfiles%}
 {%block body%}
-  <body>
- <nav class="navbar navbar-default">
+  <body style="padding-top: 70px">
+ <nav class="navbar navbar-default navbar-fixed-top">
    <div class="container">
      <!-- Brand and toggle get grouped for better mobile display -->
      <div class="navbar-header" style="padding-left: 20px">
@@ -35,9 +35,6 @@
          </li>-->
        </ul>
        <div class="navbar-form navbar-right" >
-        <button class="btn btn-default" type="button">
-        Messages <span class="badge">4</span>
-        </button>
          <div class="form-group" style="padding-right: 20px">
          {% if user == None %}
          <a class="btn btn-default" href="{% url 'accounts:login' %}" role="button">Sign in</a>
@@ -57,7 +54,7 @@
               <li><a href="{% url 'accounts:user_info' %}">User info</a></li>
               <li><a href="{% url 'activities:create' %}">New Activity</a></li>
               <li><a href="#">Friends</a></li>
-              <li><a href="#">Messages</a></li>
+              <li><a href="#">Messages<span class="badge">4</span></a></li>
               <li role="separator" class="divider"></li>
               <li> <a href="{% url 'accounts:logout' %}">Log out</a></li>
             </ul>

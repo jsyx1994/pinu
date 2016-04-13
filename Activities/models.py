@@ -128,7 +128,7 @@ class Activity(models.Model):
         return self.title
     def get_st_place(self):
         return self.st_place
-    def get_ds_palce(self):
+    def get_ds_place(self):
         return self.ds_place
     def get_pub_time(self):
 	    return self.pub_time
@@ -140,6 +140,9 @@ class Activity(models.Model):
         #参与活动的剩余时间
     def get_time_left(self):
 		return self.get_due_time() - timezone.now()
+
+    def get_rest_time(self):
+        return self.get_start_time() - timezone.now()
 
     def get_start_time(self):
 	    return self.start_time
