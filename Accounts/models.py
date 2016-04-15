@@ -167,10 +167,18 @@ class MyUser(AbstractBaseUser):
     #Set method
     def set_last_login_city(self,city):
         self.last_login_city = city
+
+    #if the user's longtitude or latitude can't be reached, then do nothing
     def set_lng(self,lng):
-        self.lng = eval(lng)
+        try:
+            self.lng = lng
+        except Exception, e:
+            pass
     def set_lat(self,lat):
-        self.lat = eval(lat)
+        try:
+            self.lat = lat
+        except Exception, e:
+            pass
     def set_real_name(self,real_name):
         self.real_name = real_name
 

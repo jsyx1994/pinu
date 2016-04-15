@@ -7,6 +7,8 @@ from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
 from .models import MyUser as User
 def index(request):
+    if request.method == 'POST':
+        log_in(request) 
     if not request.user.is_authenticated():
         user = None
     else:
@@ -50,12 +52,15 @@ def log_in(request):
     	if user is not None:
             if user.is_active:
     	        login(request,user)
-                user.set_lng(request.POST['lng'])
-                user.set_lat(request.POST['lat'])
-                #should check if the location is changed
-                if user.get_last_login_city() != request.POST['city']:
+                try:
+                    user.set_lng(request.POST['lng'])
+                    user.set_lat(request.POST['lat'])
+                    user.set_last_login_city(request.POST['city'])
+                    if user.get_last_login_city() != request.POST['city']:
+                        pass
+                except Exception, e:
                     pass
-                user.set_last_login_city(request.POST['city'])
+                #should check if the location is changed
                 user.set_online()
                 user.save()
                 return redirect('index')

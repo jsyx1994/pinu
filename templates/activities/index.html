@@ -7,7 +7,7 @@
 {%block content%}
 <div class = "container">
 <div class="btn-group pull-right" style="padding-bottom: 20px;padding-right: 20px">
-  <a type="button" class="btn btn-info" href="#">Sort(default)</a>
+  <a type="button" class="btn btn-info" href="{% url 'activities:index' %}">Sort(default)</a>
   <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
     <span class="caret"></span>
     <span class="sr-only">Toggle Dropdown</span>
@@ -27,9 +27,6 @@
 		{%for act in act_list%}
 		{% with dp=act.get_ds_place sp=act.get_st_place %}
 		<tr>
-		<script type="text/javascript">
-		//alert('{{ds}}');
-		</script>
 			<td>{{act.get_title}}</td>
 			<td>{{act.get_category}}</td>
 			<td><a href="#"><img class="img-circle" src="{{act.advocator.get_profile}}" width="30px" height="30px"></a>{{act.advocator.nick_name}}</td>
@@ -64,16 +61,18 @@
 							        		})*/
 							        	})
 							        var point = new AMap.LngLat(dlng,dlat);
-							        //marker.setPosition(point);
-							        var marker1 = new AMap.Marker({
-							        	map:map,
-							        	bubble:true,
-							        	position:[slng,slat],
-							        })
-							        marker1.setLabel({
-							        	offset: new AMap.Pixel(20,20),
-							        	content:"starting... "+sp
-							        })
+							        marker.setPosition(point);
+							        if (slng!=-360 &&slat!=-360){
+								        var marker1 = new AMap.Marker({
+								        	map:map,
+								        	bubble:true,
+								        	position:[slng,slat],
+								        })
+								        marker1.setLabel({
+								        	offset: new AMap.Pixel(20,20),
+								        	content:"starting... "+sp
+								        })
+							        }
 							        marker.setAnimation('AMAP_ANIMATION_BOUNCE');
 									marker.setLabel({//label默认蓝框白底左上角显示，样式className为：amap-marker-label
 									        offset: new AMap.Pixel(20, 20),//修改label相对于maker的位置

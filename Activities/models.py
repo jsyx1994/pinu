@@ -117,13 +117,25 @@ class Activity(models.Model):
     
     #get method
     def get_slat(self):
-        return self.slat
+        if self.slat:
+            return self.slat
+        else:
+            return -360
     def get_slng(self):
-        return self.slng
+        if self.slng:
+            return self.slng
+        else:
+            return -360
     def get_dlat(self):
-        return self.dlat
+        if self.dlat:
+            return self.dlat
+        else:
+            return -360
     def get_dlng(self):
-        return self.dlng
+        if self.dlng:
+            return self.dlng
+        else :
+            return -360
     def get_title(self):
         return self.title
     def get_st_place(self):
