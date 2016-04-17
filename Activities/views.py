@@ -18,7 +18,7 @@ def list(request,option = 'default'):
         ps_list = Activity.objects.get(pk=act_id).person_joined.all()
         for i in ps_list:
             if i!=request.user:
-                request.user.add_friend(nick_name = i.nick_name)
+                request.user.add_friend(id = i.id)
         return redirect('activities:myself')
     else:
         if request.method == 'GET':

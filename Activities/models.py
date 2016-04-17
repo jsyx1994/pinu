@@ -16,6 +16,7 @@ class ActivityManager(models.Manager):
                 person_num_limit = person_num_limit,
                 advocator = advocator,
                 )
+        activity.person_joined.add(advocator)
         activity.save()
         return activity
     def get_valid_activity(self):
@@ -186,7 +187,7 @@ class Activity(models.Model):
     #是否在进行中
     @property
     def is_going(self):
-        return self.get_start_time() < timzone.now() < self.get_due_time()
+        return self.get_start_time() < timezone.now() < self.get_due_time()
 
     #是否已满
     @property

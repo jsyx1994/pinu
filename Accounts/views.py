@@ -52,13 +52,17 @@ def log_in(request):
     	if user is not None:
             if user.is_active:
     	        login(request,user)
-                if request.POST['lng'] and request.POST['lat'] and request.POST['city']:
-                    user.set_lng(request.POST['lng'])
-                    user.set_lat(request.POST['lat'])
-                    user.set_last_login_city(request.POST['city'])
+
+                try:
+                    if request.POST['lng'] and request.POST['lat'] and request.POST['city']:
+                        user.set_lng(request.POST['lng'])
+                        user.set_lat(request.POST['lat'])
+                        user.set_last_login_city(request.POST['city'])
                     if user.get_last_login_city() != request.POST['city']:
                         pass
-                else:
+                    else:
+                        pass
+                except Exception, e:
                     pass
                 #should check if the location is changed
                 user.set_online()
@@ -154,5 +158,16 @@ def log_out(request):
     logout(request)
     return redirect('index')
 
+@login_required
+def fri_list(request):
+    fri_list = request.user.friends.all()
+    return render(request,'accounts/friends.html',{'fri_list':fri_list})
+
+@login_required
+def fri_delete(request,user_id):
+    request.user.del_friend(id = user_id)
+    return HttpResponse('this works'+user_id)
+    
+@login_required
 def fri_detail(request):
     pass

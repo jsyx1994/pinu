@@ -290,26 +290,28 @@ class MyUser(AbstractBaseUser):
     def is_online(self):
         return self.online
 
-    #通过昵称来添加好友,返回是否添加成功
-    def add_friend(self,nick_name):
+    #通过id来添加好友,返回是否添加成功
+    def add_friend(self,id):
+        #check if subject already add the friend
         try:
-            obj = MyUser.objects.get(nick_name = nick_name)
+            obj = MyUser.objects.get(id = id)
             # if not added yet then....
             assert len(FriendShip.objects.filter(subject = self,friend = obj)) == 0
         except MyUser.DoesNotExist:
-            print 'not'
+            #print 'not'
             return False
         except AssertionError:
-            print 'ass'
+            #print 'ass'
             return False
         else:
             FriendShip.objects.create_friendship(self,obj)
             return True
 
-    #通过昵称来删除好友,返回是否成功
-    def del_friend(self,nick_name):
+    #通过id来删除好友,返回是否成功
+    def del_friend(self,id):
         try:
-            fri = FriendShip.objects.get(friend__nick_name = nick_name)
+            friend = MyUser.objects.get(id = id)
+            fri = FriendShip.objects.get(subject = self,friend = friend)
         except FriendShip.DoesNotExist:
             return False
         else:
@@ -318,15 +320,6 @@ class MyUser(AbstractBaseUser):
 
     def invite_friend(self):
         pass
-
-    def new_act(self,title,category,start_time,due_time,person_num_limit):
-        act = Activity.objects.create_activity(
-                title = title,
-                start_time = start_time,
-                due_time = due_time,
-                person_num_limit = person_num_limit,
-                )
-        act.person_joined.add(self)
 
     def join_act(self,pk):
         '''
@@ -386,8 +379,8 @@ class MyUser(AbstractBaseUser):
             )
         return act_list
 
-    def send_message(self,title,message,nick_name):
-        obj = MyUser.objects.get(nick_name = nick_name)
+    def send_message(self,title,message,id):
+        obj = MyUser.objects.get(id = id)
         Message.objects.create_message(
                 title = title,
                 message = message,
@@ -419,6 +412,7 @@ class MyUser(AbstractBaseUser):
 
 class FriendManager(models.Manager):
     def create_friendship(self,subject,friend):
+        #check if subject already add the friend
         fri = super(FriendManager,self).create(
                 subject = subject,
                 friend = friend,

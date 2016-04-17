@@ -35,25 +35,32 @@
 				{% if act.is_active %}
 					<h3><small>Before begin....</small></h3>
 					<div class="progress">
-					  <div id="progress{{forloop.counter0}}" class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 85.5%">
+					  <div id="progress{{forloop.counter0}}" class="active progress-bar progress-bar-info progress-bar-striped" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 85.5%">
+					    <span class="sr-only">40% Complete (success)</span>
+					  </div>	
+					</div>
+				{% elif act.is_going %}
+					<h3><small>Before end....</small></h3>
+					<div class="progress">
+					  <div id="progress{{forloop.counter0}}" class="active progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 85.5%">
 					    <span class="sr-only">40% Complete (success)</span>
 					  </div>
 					</div>
-					<script>
-						var a = {{act.get_rest_time.total_seconds}};
-						var b = {{act.get_startDpub_time.total_seconds}};
-						var percent = a/b*100;
-						var progress = document.getElementById("progress{{forloop.counter0}}");
-						//alert(progress);
-						if (percent>60){
-							//alert('asdf');
-							progress.className="progress-bar progress-bar-danger progress-bar-striped"
-						}
-						progress.style.width = percent+"%";
-					</script>
-				{% elif act.is_going %}
 				{% elif act.is_due %}
+					<legend>Finished</legend>
 				{% endif %}
+				<script>
+					var a = {{act.get_rest_time.total_seconds}};
+					var b = {{act.get_startDpub_time.total_seconds}};
+					var percent = a/b*100;
+					var progress = document.getElementById("progress{{forloop.counter0}}");
+					//alert(progress);
+					if (percent>60){
+						//alert('asdf');
+						progress.className="active progress-bar progress-bar-danger progress-bar-striped"
+					}
+					progress.style.width = percent+"%";
+				</script>
 				<!-- Button trigger modal -->
 				<button type="button" class="btn btn-primary btn-sm pull-right" data-toggle="modal" data-target="#myModal{{act.id}}" onclick="show({{act.id}},{{act.get_slng}},{{act.get_slat}},{{act.get_dlng}},{{act.get_dlat}},'{{act.get_st_place}}','{{act.get_ds_place}}')">
 				  View map
@@ -69,7 +76,7 @@
 				      		</div>
 				      	<div class="modal-body">
 				      		<!--MAP-->
-				      		<div id="map{{act.id}}" style="height: 300px"></div>
+				      		<div id="map{{act.id}}" style="height: 500px"></div>
 				      		<script type="text/javascript">
 				      			function show(id,slng,slat,dlng,dlat,sp,dp) {
 					      			var map=new AMap.Map("map"+id,{
@@ -98,7 +105,7 @@
 									        offset: new AMap.Pixel(20, 20),//修改label相对于maker的位置
 									        content: "destination "+dp
 									    });
-									map.setFitView();
+									//map.setFitView();
 				      			}
 				      		</script>
 				      	</div>
