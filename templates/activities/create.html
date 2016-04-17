@@ -46,7 +46,7 @@
 				  <div class="form-group">
 					    <label for="category">Category</label>
 					      <div  id="category" class="form-group">
-						    <select name="category" required="required" class="form-control"> 
+						    <select name="category" class="form-control"> 
 						      <option>Sport</option> 
 						      <option>Entertainment</option> 
 						      <option>Travel</option> 
@@ -55,11 +55,11 @@
 				  </div>
 				  <div class="form-group">
 				  	<label for="spot">Destination</label>
-				 	<input class="form-control" type="text" placeholder="请输入关键字进行搜索" id="tipinput">
+				 	<input name="destination" class="form-control" type="text" placeholder="请输入关键字进行搜索" id="tipinput" required="required">
 				  </div>
 				  			<div class="form-group">
 				  				<input  style="display: none" name="starting_place" id="source"></input>
-						       	<input style="display: none"  name="destination" id="dest"></input>
+						       	<!--<input style="display: none"  name="destination" id="dest"></input>-->
 						       	<input style="display: none"  name="slng" id="slng" value="{{request.user.get_lng}}"></input>
 						       	<input style="display: none"  name="slat" id="slat" value="{{request.user.get_lat}}"></input>
 								<input style="display: none"  name="dlng" id="dlng" value="{{request.user.get_lng}}"></input>
@@ -146,7 +146,7 @@
 	});
 	AMap.event.addListener(marker2,"mouseup",mouseup2);
 	function mouseup2() {
-		var dest = document.getElementById("dest");
+		var dest = document.getElementById("tipinput");
 		//alert(marker2.getPosition().getLat());
 		document.getElementById("dlat").value = marker2.getPosition().getLat();
         document.getElementById("dlng").value = marker2.getPosition().getLng();

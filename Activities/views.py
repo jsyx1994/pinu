@@ -71,4 +71,5 @@ def detail(request,activity_id):
 
 @login_required
 def myself(request):
-    return HttpResponse('this works')
+    joined_list = Activity.objects.filter(person_joined=request.user)
+    return render(request,'activities/myself.html',{'joined_list':joined_list})

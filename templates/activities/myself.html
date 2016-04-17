@@ -1,1 +1,27 @@
 {% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+	<div class="container col-lg-3">			
+	</div>
+	<div class="container col-lg-8">
+		{% for act in joined_list %}
+		<div class="row" style="padding-top: 30px">
+			<div class="col-lg-4">
+			{% if act.category == 'EN' %}
+				<img src="/media/categories/entertainment.jpg" class="img-circle" width="200px" height="200px">
+			{% elif act.category == 'SP' %}
+				<img src="/media/categories/sport.jpg" class="img-circle" width="200px" height="200px">
+			{% elif act.category == 'TR' %}
+				<img src="/media/categories/travel.jpg" class="img-circle" width="200px" height="200px">
+			{% endif %}
+			
+			</div>
+			<div class="col-lg-6">
+				
+			</div>	
+		</div>
+		{% endfor %}
+	</div>	
+</div>
+{% endblock %}
