@@ -173,12 +173,12 @@ class MyUser(AbstractBaseUser):
         try:
             self.lng = lng
         except Exception, e:
-            pass
+            self.lng = -360
     def set_lat(self,lat):
         try:
             self.lat = lat
         except Exception, e:
-            pass
+            self.lat = -360
     def set_real_name(self,real_name):
         self.real_name = real_name
 

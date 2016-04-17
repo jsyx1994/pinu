@@ -19,7 +19,7 @@ class ActivityManager(models.Manager):
         activity.save()
         return activity
     def get_valid_activity(self):
-        list = filter(lambda a:a.is_active,
+        list = filter(lambda a:a.is_valid,
                 super(ActivityManager,self).all()
                 )
         return list
@@ -162,6 +162,9 @@ class Activity(models.Model):
     def get_due_time(self):
 	    return self.due_time
 
+    def get_startDpub_time(self):
+        return self.get_start_time() - self.get_pub_time()
+
     def get_person_num(self):
 		return self.person_num_limit
 
@@ -172,6 +175,10 @@ class Activity(models.Model):
     #是否可参与,人数未满并且在可参与的时间段
     @property
     def is_active(self):
+        return self.get_pub_time() < timezone.now() < self.get_start_time()
+    
+    @property
+    def is_valid(self):
         time_ok = self.get_pub_time() < timezone.now() < self.get_start_time()
         num_ok = not self.is_full
         return (time_ok and num_ok)

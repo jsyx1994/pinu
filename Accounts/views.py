@@ -52,13 +52,13 @@ def log_in(request):
     	if user is not None:
             if user.is_active:
     	        login(request,user)
-                try:
+                if request.POST['lng'] and request.POST['lat'] and request.POST['city']:
                     user.set_lng(request.POST['lng'])
                     user.set_lat(request.POST['lat'])
                     user.set_last_login_city(request.POST['city'])
                     if user.get_last_login_city() != request.POST['city']:
                         pass
-                except Exception, e:
+                else:
                     pass
                 #should check if the location is changed
                 user.set_online()
