@@ -379,7 +379,7 @@ class MyUser(AbstractBaseUser):
             )
         return act_list
 
-    def send_message(self,title,message,id):
+    def send_message(self,title,id,message = 'untitled'):
         obj = MyUser.objects.get(id = id)
         Message.objects.create_message(
                 title = title,

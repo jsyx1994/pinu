@@ -77,7 +77,7 @@ class Message(models.Model):
         return self.message
 
     def get_sended_time(self):
-	return self.sended_time
+	return self.sended_time.strftime('%Y-%m-%d %H:%M:%S')
 
     @property
     def is_readed(self):

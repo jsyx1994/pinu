@@ -166,8 +166,16 @@ def fri_list(request):
 @login_required
 def fri_delete(request,user_id):
     request.user.del_friend(id = user_id)
-    return HttpResponse('this works'+user_id)
-    
+    return redirect('accounts:friends')
+
+@login_required
+def send(request,user_id):
+    request.user.send_message(
+        title = request.POST['title'],
+        message = request.POST['message'],
+        id = user_id,
+        )
+    return redirect('accounts:fri_list')
 @login_required
 def fri_detail(request):
     pass

@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content%}
+<div class="container">
+	<h3 class="text-center">Messages</h3>
+	<div class="col-lg-1"></div>
+	<div class="col-lg-10">
+		<table class="table table-hover">
+			<th>Title</th>
+			<th>Sender</th>
+			<th>Sended Time</th>
+			<th>State</th>
+			<th>Action</th>
+			{% for msg in msg_list %}
+				<tr>
+					<td>{{msg.get_title}}</td>
+					<td>{{msg.sender.get_nick_name}}</td>
+					<td>{{msg.get_sended_time}}</td>
+					<td>{{msg.is_readed}}</td>
+				</tr>
+			{% endfor %}
+		</table>
+	</div>
+</div>
+{% endblock %}
