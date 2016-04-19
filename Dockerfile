@@ -2,6 +2,7 @@ FROM ubuntu:14.04
 
 MAINTAINER laowang
 RUN apt-get update
+RUN apt-get install -y python-dev
 RUN apt-get install -y nginx
 
 RUN apt-get install -y python-pip 
