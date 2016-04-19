@@ -4,7 +4,7 @@ MAINTAINER laowang
 RUN apt-get update
 RUN apt-get install -y nginx
 
-RUN apt-get install python-pip 
+RUN apt-get install -y python-pip 
 RUN pip install uwsgi 
 RUN pip install django==1.9.4
 
