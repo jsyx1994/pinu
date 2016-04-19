@@ -5,6 +5,9 @@
 <link rel="stylesheet" href="http://cache.amap.com/lbs/static/main1119.css"/>
 {%endblock%}
 {%block content%}
+{%if error %}
+	<script type="text/javascript">alert("{{error}}")</script>
+{%endif%}
 <div class = "container">
 <div class="btn-group pull-right" style="padding-bottom: 20px;padding-right: 20px">
   <a type="button" class="btn btn-info" href="{% url 'activities:index' %}">Sort(default)</a>
@@ -29,7 +32,7 @@
 		<tr>
 			<td>{{act.get_title}}</td>
 			<td>{{act.get_category}}</td>
-			<td><a href="#"><img class="img-circle" src="{{act.advocator.get_profile}}" width="30px" height="30px"></a>{{act.advocator.nick_name}}</td>
+			<td><a href="{% url 'accounts:detail' act.advocator.id %}"><img class="img-circle" src="{{act.advocator.get_profile}}" width="30px" height="30px"></a>{{act.advocator.nick_name}}</td>
 
 			<td>
 				<button class="btn btn-info btn-xs" onclick="show({{act.id}},{{act.get_slng}},{{act.get_slat}},{{act.get_dlng}},{{act.get_dlat}},'{{sp}}','{{dp}}')" data-toggle="modal" data-target="#default{{act.id}}" type="button">detail</button>
@@ -91,7 +94,7 @@
 				      		<div class="col-lg-4 text-center">
 				      			<legend>Advocator</legend>
 				      			<div>
-				      				<img class="img-circle" src={{advocator.get_profile}} width="100px" height="100px"> 	
+				      				<a href="{% url 'accounts:detail' advocator.id %}"><img class="img-circle" src="{{advocator.get_profile}}" width="100px" height="100px"></a> 	
 				      				<div class="text-center">
 				      					<h3><small>Nickname:{{advocator.get_nick_name}}</small></h3>
 										<h3><small>Sex:{{advocator.get_sex}}</small></h3>
@@ -103,7 +106,7 @@
 				      			<legend>Follower</legend>
 				      			{% for f in act.person_joined.all %}
 				      				{% if f != advocator %}
-									<img class="img-rounded" src="{{f.get_profile}}"  width="40px" height="40px">
+									<a href="{% url 'accounts:detail' f.id %}"><img class="img-rounded" src="{{f.get_profile}}"  width="40px" height="40px"></a>
 				      				<h5><small>{{f.get_nick_name}}</small></h5>
 				      				{% endif %}
 				      			{% endfor %}

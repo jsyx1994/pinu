@@ -156,7 +156,6 @@ class Activity(models.Model):
 
     def get_rest_time(self):
         return self.get_start_time() - timezone.now()
-
     def get_start_time(self):
 	    return self.start_time
 

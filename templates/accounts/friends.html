@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="container">
+	<h3 class="text-center">My friends</h3> 
 	<table class="table table-hover text-center" style="padding-right: 60px">
 	  <th class="text-center"><span class="glyphicon glyphicon-user"></span></th>
 	  <th class="text-center"><span class="glyphicon glyphicon-envelope"></span></th>
@@ -8,7 +9,7 @@
 	  <th class="text-center"><span class="glyphicon glyphicon-th-list"></span></th>
 	  {% for f in fri_list %}
 	  <tr>
-	  	<td><span><img src="{{f.profile.url}}" width="30px" height="30px" class="img-circle"></span>{{f.get_nick_name}}</td>
+	  	<td><span><a href="{% url 'accounts:detail' f.id %}"><img src="{{f.profile.url}}" width="30px" height="30px" class="img-circle"></a></span>{{f.get_nick_name}}</td>
 	  	<td>{{f.get_email}}</td>
 	  	<td>
 	  		{% if f.is_online %}
@@ -19,14 +20,10 @@
 	  	</td>
 	  	<td>
 	  		<div class="btn-group">
-			  	<button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-			    Action <span class="caret"></span>
-			  	</button>
-			  	<ul class="dropdown-menu">
-			    	<li><a href="#" class="text-center" data-toggle="modal" data-target="#messageModal{{forloop.counter0}}">Message<span class="glyphicon glyphicon-send"></a></span></li>
-			    	<li><a href="#" class="text-center">Detail<span class="glyphicon glyphicon-zoom-in"></span></a></li>
-			    	<li><a href="{% url 'accounts:fri_delete' f.id %}" class="text-center">Delete<span class="glyphicon glyphicon-remove-sign"></span></a></li>
-			  	</ul> 
+				<a href="#" class="text-center" data-toggle="modal" data-target="#messageModal{{forloop.counter0}}"><span class="glyphicon glyphicon-send"></a></span>
+			    &nbsp;&nbsp;&nbsp;&nbsp;
+			    <a href="{% url 'accounts:fri_delete' f.id %}" class="text-center"><span class="glyphicon glyphicon-remove-sign"></span></a>
+
 			  	<div class="modal fade" id="messageModal{{forloop.counter0}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
 				  	<div class="modal-dialog" role="document">
 					    <div class="modal-content">
@@ -47,13 +44,13 @@
 						          	</div>
 						          	<div class="form-group">
 						            	<label for="message-text" class="control-label">Message:</label>
-						            	<textarea name="message" class="form-control" id="message-text"></textarea>
+						            	<textarea required="required"  name="message" class="form-control" id="message-text"></textarea>
 						          	</div>
+          					        	<button type="submit" class="btn btn-primary">Send<span class="glyphicon glyphicon-send"></span></button>
 						        </form>
 					      	</div>
 					     	<div class="modal-footer">
 					        	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-					        	<button type="button" onclick="submit({{f.id}})" class="btn btn-primary">Send<span class="glyphicon glyphicon-send"></span></button>
 					      	</div>
 					    </div>
 				  	</div>
@@ -64,9 +61,5 @@
 	  {% endfor %}
 	</table>	
 </div>
-<script type="text/javascript">
-	function submit(id) {
-		document.getElementById("form"+id).submit();
-	}
-</script>
+
 {% endblock %}
