@@ -13,4 +13,3 @@ RUN mkdir -p /var/run/sshd && sed -i "s/UsePrivilegeSeparation./UsePrivilegeSepa
 EXPOSE 80 22
 
 VOLUME ["/pinu"]
-CMD /usr/sbin/nginx
