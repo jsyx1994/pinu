@@ -11,7 +11,7 @@ RUN apt-get install -y nginx
 #RUN echo "\ndaemon off;" >> /etc/nginx/nginx.conf
 #ADD sites-enabled/ /etc/nginx/sites-enabled/
 VOLUME ["/pinu"]
-
+ADD . /pinu/
 EXPOSE 80
 
 #CMD ["/usr/sbin/nginx"]
