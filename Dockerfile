@@ -9,7 +9,7 @@ RUN apt-get install -y python-pip
 RUN pip install uwsgi 
 RUN pip install django==1.9.4
 RUN apt-get install -y openssh-server
-RUN RUN mkdir /var/run/sshd
+RUN mkdir /var/run/sshd
 RUN echo "root:123456" | chpasswd
 
 VOLUME ["/pinu"]
