@@ -12,7 +12,8 @@ RUN apt-get install -y nginx && \
     rm -rf /var/lib/apt/lists/*
 
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf
-ADD sites-enabled/ /etc/nginx/sites-enabled/
+#ADD sites-enabled/ /etc/nginx/sites-enabled/
+VOLUME ["/pinu"]
 ADD . /pinu/
 
 EXPOSE 80
