@@ -11,5 +11,6 @@ RUN pip install django==1.9.4
 RUN apt-get install -y openssh-server
 RUN mkdir /var/run/sshd
 RUN echo "root:123456" | chpasswd
+EXPOSE 80 22
 
 VOLUME ["/pinu"]
