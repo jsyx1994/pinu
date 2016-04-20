@@ -7,9 +7,7 @@ RUN apt-get install -y python-pip
 RUN pip install uwsgi 
 RUN pip install django==1.9.4
 
-RUN apt-get install -y nginx && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+RUN apt-get install -y nginx
 
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 #ADD sites-enabled/ /etc/nginx/sites-enabled/
