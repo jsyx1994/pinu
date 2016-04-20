@@ -1,4 +1,4 @@
-FROM ubuntu:14.04
+FROM tenxcloud/ubuntu
 
 MAINTAINER laowang
 RUN apt-get update
