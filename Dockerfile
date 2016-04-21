@@ -28,4 +28,4 @@ EXPOSE 80
 RUN service nginx reload
 RUN service nginx restart
 
-CMD ["uwsgi","--ini","/pinu/pinu-master/uwsgi.ini"]
+#CMD ["uwsgi","--ini","/pinu/pinu-master/uwsgi.ini"]
