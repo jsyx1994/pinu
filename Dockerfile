@@ -18,6 +18,6 @@ VOLUME ["/pinu"]
 EXPOSE 80
 
 #CMD ["/usr/sbin/nginx"]
-CMD ["service","nginx","reload"]
-CMD ["service","nginx","restart"]
-CMD ["uwsgi","--ini","/pinu/pinu-master/uwsgi.ini"]
+RUN service nginx reload
+RUN service nginx restart
+RUN uwsgi --ini /pinu/pinu-master/uwsgi.ini
