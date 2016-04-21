@@ -11,15 +11,18 @@ import operator
 def list(request,option = 'default'):
     act_list = act_list = Activity.objects.get_valid_activity()
     if request.method == 'POST':
-        #cannot join if have conflict time between two:pass  
+        #cannot join if have conflict time between two:pass 
         act_id = int(request.POST['act_id'])
-        request.user.join_act(pk = act_id)
-        #add all the followers in the activity you joined to your friend list
-        ps_list = Activity.objects.get(pk=act_id).person_joined.all()
-        for i in ps_list:
-            if i!=request.user:
-                request.user.add_friend(id = i.id)
-        return redirect('activities:myself')
+        if request.user.join_act(pk = act_id):
+            #add all the followers in the activity you joined to your friend list,vs
+            ps_list = Activity.objects.get(pk=act_id).person_joined.all()
+            for i in ps_list:
+                if i!=request.user:
+                    request.user.add_friend(id = i.id)
+                    i.add_friend(id = request.user.id)
+            return redirect('activities:myself')
+        else:
+            return render(request,'activities/index.html',{'error':'cannot join:conflict','act_list':act_list})
     else:
         if request.method == 'GET':
             if option == 'bytime':

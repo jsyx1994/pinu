@@ -11,3 +11,7 @@ def list(request):
 @login_required
 def detail(request):
     pass
+
+@login_required
+def delete(request,msg_id):
+	return HttpResponse('this works'+msg_id)

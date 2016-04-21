@@ -166,7 +166,11 @@ def fri_list(request):
 @login_required
 def fri_delete(request,user_id):
     request.user.del_friend(id = user_id)
-    return redirect('accounts:friends')
+    return redirect('accounts:fri_list')
+@login_required
+def fri_add(request,user_id):
+    request.user.add_friend(user_id)
+    return redirect('accounts:detail',user_id)
 
 @login_required
 def send(request,user_id):
@@ -175,7 +179,12 @@ def send(request,user_id):
         message = request.POST['message'],
         id = user_id,
         )
-    return redirect('accounts:fri_list')
+    return redirect('messages:index')
 @login_required
-def fri_detail(request):
-    pass
+def detail(request,user_id):
+    obj = User.objects.get(id = user_id)
+    if request.user in obj.friends.all():
+        is_friend = True
+    else:
+        is_friend = False
+    return render(request,'accounts/user_detail.html',{'obj':obj,'is_friend':is_friend})

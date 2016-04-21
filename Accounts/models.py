@@ -330,6 +330,12 @@ class MyUser(AbstractBaseUser):
         except Activity.DoesNotExist:
             return False
         else:
+            stime = obj.get_start_time()
+            etime = obj.get_due_time()
+            act = Activity.objects.filter(person_joined = self)
+            for i in act:
+                if (stime < i.get_start_time() and etime > i.get_due_time()) or (i.get_start_time() < stime < i.get_due_time()) or (i.get_start_time() < etime < i.get_due_time()):
+                    return False
             obj.person_joined.add(self)
             return True
 
