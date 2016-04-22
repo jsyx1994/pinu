@@ -24,13 +24,16 @@
 	  	<div class ="col-md-12">
 		<table id="table" class="table table-hover table-striped">
 		<th>Title</th>
+		<th>Distance</th>
 		<th>Category</th>
 		<th>Advocator</th>
 		<th>Action</th>
 		{%for act in act_list%}
 		{% with dp=act.get_ds_place sp=act.get_st_place %}
-		<tr>
+		<tr> 	
 			<td>{{act.get_title}}</td>
+			<td id="dis{{forloop.counter0}}">
+			</td>
 			<td>{{act.get_category}}</td>
 			<td><a href="{% url 'accounts:detail' act.advocator.id %}"><img class="img-circle" src="{{act.advocator.get_profile}}" width="30px" height="30px"></a>{{act.advocator.nick_name}}</td>
 
@@ -88,6 +91,7 @@
 				      	</div>
 				      	<div class="text-center">
 				      		<h4><small>Rest time:{{act.get_rest_time}}</small></h4>
+				      		<h4><small>Pub time:{{act.get_pub_time}}</small></h4>
 				      	</div>
 				      	{% with advocator=act.advocator %}
 				      	<div class="row" style="padding: 60px">
@@ -137,5 +141,14 @@
     document.getElementById('home').innerHTML=
     '<img src="{{user.profile.url}}" width="30" height="30" class="img-circle"><span class="caret"></span>';
   }*/
+</script>
+<script type="text/javascript">
+	{% for dist in dist_list%}
+		{% if dist >= 0 %}
+			document.getElementById("dis{{forloop.counter0}}").innerHTML={{dist|floatformat}}+"km";
+		{% else %}
+			document.getElementById("dis{{forloop.counter0}}").innerHTML='unkown';
+		{% endif %}
+	{% endfor %}
 </script>
 {%endblock%}

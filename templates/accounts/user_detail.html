@@ -10,6 +10,11 @@
 				<a href="{% url 'accounts:fri_add' obj.id%}"><small style="padding-right: 5px">request</small><span class="glyphicon glyphicon-plus"></span></a>
 			</div>
 			<div class="form-group">
+				{% if dist >= 0 %}
+					<h4>Between us:{{dist|floatformat}}km</h4>
+				{% else %}
+					<h4>Between us:unkown</h4>
+				{% endif %}
 				<h4>Nickname:{{obj.get_nick_name}}</h4>
 				<h4>Email:{{obj.get_email}}</h4>
 				<h4>Sex:{{obj.get_sex}}</h4>

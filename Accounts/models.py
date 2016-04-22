@@ -355,7 +355,7 @@ class MyUser(AbstractBaseUser):
         lng1 = self.get_lng();
         lat1 = self.get_lat();
         person_list = filter(
-            lambda x: ( calc_dis(lng1=lng1,lat1=lat1,lng2=x.get_lng(),lat2=x.get_lat()) ) < accuracy,
+            lambda x: ( 0 <= calc_dis(lng1=lng1,lat1=lat1,lng2=x.get_lng(),lat2=x.get_lat()) ) < accuracy,
             MyUser.objects.all()
             )
         return person_list
@@ -367,8 +367,8 @@ class MyUser(AbstractBaseUser):
         lng1 = self.get_lng();
         lat1 = self.get_lat();
         act_list = filter(
-            lambda x: (( calc_dis(lng1=lng1,lat1=lat1,lng2=x.get_dlng(),lat2=x.get_dlat()) ) < accuracy)
-                        or (( calc_dis(lng1=lng1,lat1=lat1,lng2=x.get_slng(),lat2=x.get_slat()) ) < accuracy),
+            lambda x: ( 0 <= ( calc_dis(lng1=lng1,lat1=lat1,lng2=x.get_dlng(),lat2=x.get_dlat()) ) < accuracy)
+                        or (0 <= ( calc_dis(lng1=lng1,lat1=lat1,lng2=x.get_slng(),lat2=x.get_slat()) ) < accuracy),
             Activity.objects.get_valid_activity()
             )
         return act_list
@@ -380,7 +380,7 @@ class MyUser(AbstractBaseUser):
         lng1 = self.get_lng();
         lat1 = self.get_lat();
         act_list = filter(
-            lambda x: ( calc_dis(lng1=lng1,lat1=lat1,lng2=x.advocator.get_lng(),lat2=x.advocator.get_lat()) ) < accuracy,
+            lambda x: 0 <= ( calc_dis(lng1=lng1,lat1=lat1,lng2=x.advocator.get_lng(),lat2=x.advocator.get_lat()) ) < accuracy,
             Activity.objects.get_valid_activity()
             )
         return act_list

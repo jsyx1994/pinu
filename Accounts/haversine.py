@@ -10,7 +10,7 @@ def calc_dis(lng1, lat1, lng2, lat2): # 经度1，纬度1，经度2，纬度2 �
     try:
         lng1, lat1, lng2, lat2 = map(radians, [lng1, lat1, lng2, lat2])
     except TypeError:
-        return 1000000
+        return -1000
     # haversine公式
     dlng = lng2 - lng1
     dlat = lat2 - lat1

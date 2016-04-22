@@ -6,6 +6,7 @@ from django.http import HttpResponse
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
 from .models import MyUser as User
+from Accounts.haversine import calc_dis
 def index(request):
     if request.method == 'POST':
         log_in(request) 
@@ -183,8 +184,10 @@ def send(request,user_id):
 @login_required
 def detail(request,user_id):
     obj = User.objects.get(id = user_id)
+    user =request.user
+    dist = calc_dis(user.get_lng(),user.get_lat(),obj.get_lng(),obj.get_lat())
     if request.user in obj.friends.all():
         is_friend = True
     else:
         is_friend = False
-    return render(request,'accounts/user_detail.html',{'obj':obj,'is_friend':is_friend})
+    return render(request,'accounts/user_detail.html',{'obj':obj,'is_friend':is_friend,'dist':dist})

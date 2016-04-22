@@ -6,12 +6,12 @@ from django.contrib.auth.decorators import login_required
 from Activities.models import Activity
 from django.http import HttpResponse
 from datetime import datetime
+from Accounts.haversine import calc_dis
 import operator
 @login_required
 def list(request,option = 'default'):
-    act_list = act_list = Activity.objects.get_valid_activity()
+    #cannot join if have conflict time between two:pass 
     if request.method == 'POST':
-        #cannot join if have conflict time between two:pass 
         act_id = int(request.POST['act_id'])
         if request.user.join_act(pk = act_id):
             #add all the followers in the activity you joined to your friend list,vs
@@ -22,19 +22,25 @@ def list(request,option = 'default'):
                     i.add_friend(id = request.user.id)
             return redirect('activities:myself')
         else:
+            act_list = Activity.objects.get_valid_activity()
+            dist_list = map(lambda x:0.001*calc_dis(request.user.get_lng(),request.user.get_lat(),x.get_slng(),x.get_slat()),act_list)
             return render(request,'activities/index.html',{'error':'cannot join:conflict','act_list':act_list})
-    else:
-        if request.method == 'GET':
-            if option == 'bytime':
-                bytime = operator.attrgetter('pub_time')
-                act_list = sorted(act_list,key = bytime,reverse = True)
-                return render(request,'activities/index.html',{'act_list':act_list})
-            if option == 'nearme':
-                user = request.user
-                act_list = user.nearby_act()
-                return render(request,'activities/index.html',{'act_list':act_list})
-            else:
-                return render(request,'activities/index.html',{'act_list':act_list})
+    if request.method == 'GET':
+        if option == 'bytime':
+            bytime = operator.attrgetter('pub_time')
+            act_list = Activity.objects.get_valid_activity()
+            act_list = sorted(act_list,key = bytime,reverse = True)
+            dist_list = map(lambda x:0.001*calc_dis(request.user.get_lng(),request.user.get_lat(),x.get_slng(),x.get_slat()),act_list)
+            return render(request,'activities/index.html',{'act_list':act_list,'dist_list':dist_list})
+        if option == 'nearme':
+            user = request.user
+            act_list = user.nearby_act()
+            dist_list = map(lambda x:0.001*calc_dis(user.get_lng(),user.get_lat(),x.get_slng(),x.get_slat()),act_list)
+            return render(request,'activities/index.html',{'act_list':act_list,'dist_list':dist_list})
+        else:
+            act_list = Activity.objects.get_valid_activity()
+            dist_list = map(lambda x:0.001*calc_dis(request.user.get_lng(),request.user.get_lat(),x.get_slng(),x.get_slat()),act_list)
+            return render(request,'activities/index.html',{'act_list':act_list,'dist_list':dist_list})
 
 @login_required
 def create(request):
