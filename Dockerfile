@@ -12,7 +12,7 @@ RUN pip install Pillow==2.3.0
 RUN apt-get install -y nginx
 RUN pip install supervisor
 
-RUN rm/etc/nginx/sites-enabled/default
+RUN rm /etc/nginx/sites-enabled/default
 ADD origin2_0.conf /etc/nginx/sites-enabled/
 
 #RUN /etc/init.d/nginx reload
