@@ -2,6 +2,8 @@
 {% block headex %}
 <script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=9e96a5e2d1484110e610c4df54838615"></script>
 <link rel="stylesheet" href="http://cache.amap.com/lbs/static/main1119.css"/>
+<script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=9e96a5e2d1484110e610c4df54838615&plugin=AMap.Driving"></script>
+<script type="text/javascript" src="http://cache.amap.com/lbs/static/addToolbar.js"></script>
 {% endblock %}
 {% block content %}
 <div class="container">
@@ -79,6 +81,11 @@
 				      	<div class="modal-body">
 				      		<!--MAP-->
 				      		<div id="map{{act.id}}" style="height: 500px"></div>
+				      		<div class="panel panel-info">
+								<div class="panel-body">
+									<div id="panel{{act.id}}"></div>
+								</div>
+							</div>
 				      		<script type="text/javascript">
 				      			function show(id,slng,slat,dlng,dlat,sp,dp) {
 					      			var map=new AMap.Map("map"+id,{
@@ -108,7 +115,14 @@
 									        content: "destination "+dp
 									    });
 									//map.setFitView();
-				      			}
+									//driving route
+									var driving = new AMap.Driving({
+									        map: map,
+									        panel: "panel"+id
+									    }); 
+									    // 根据起终点经纬度规划驾车导航路线
+								    driving.search(new AMap.LngLat(slng,slat), new AMap.LngLat(dlng, dlat));
+								}
 				      		</script>
 				      	</div>
 				      	<div class="modal-footer">
