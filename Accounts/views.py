@@ -185,7 +185,7 @@ def send(request,user_id):
 def detail(request,user_id):
     obj = User.objects.get(id = user_id)
     user =request.user
-    dist = calc_dis(user.get_lng(),user.get_lat(),obj.get_lng(),obj.get_lat())
+    dist = 0.001*calc_dis(user.get_lng(),user.get_lat(),obj.get_lng(),obj.get_lat())
     if request.user in obj.friends.all():
         is_friend = True
     else:
