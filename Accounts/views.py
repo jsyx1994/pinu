@@ -7,14 +7,19 @@ from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
 from .models import MyUser as User
 from Accounts.haversine import calc_dis
+from Messages.models import * 
 def index(request):
+    msg_count = ''
     if request.method == 'POST':
         log_in(request) 
     if not request.user.is_authenticated():
         user = None
     else:
         user = request.user
-    return render(request,'index.html',{'user':user})
+        count = len(Message.objects.filter(receiver = user,readed = False))
+        if count:
+            msg_count = count
+    return render(request,'index.html',{'user':user,'msg_count':msg_count})
 
 def register(request):
     if request.method == 'POST':
@@ -186,8 +191,18 @@ def detail(request,user_id):
     obj = User.objects.get(id = user_id)
     user =request.user
     dist = 0.001*calc_dis(user.get_lng(),user.get_lat(),obj.get_lng(),obj.get_lat())
-    if request.user in obj.friends.all():
+    if user in obj.friends.all():
         is_friend = True
     else:
         is_friend = False
-    return render(request,'accounts/user_detail.html',{'obj':obj,'is_friend':is_friend,'dist':dist})
+    if is_friend and(obj in user.friends.all()):
+        is_friend_each_other = True
+    else:
+        is_friend_each_other = False
+
+    user.send_message(
+        title = 'Make a friend',
+        message = 'Hi,nice to meet you,let us make friends',
+        id = user_id,
+        )
+    return render(request,'accounts/user_detail.html',{'obj':obj,'is_friend':is_friend,'is_friend_each_other':is_friend_each_other,'dist':dist})

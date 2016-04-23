@@ -1,13 +1,131 @@
-{% extends "base.html" %}
-{% block content %}
-        <ul>
-            <li>{{real_name}}</li>
-            <li>{{nick_name}}</li>
-            <li>{{sex}}</li>
-            <li>{{birthday}}</li>
-            <li>{{phone_num}}</li>
-            <li>{{work}}</li>
-            <li>{{email}}</li>        
-        </ul>
-       <a class="btn btn-default" href="{% url accounts:edit %}" role="button">编辑</a>
+{%extends "base.html"%}
+{%load staticfiles%}
+{%block headex%}
+<link href="{%static 'bootstrap-3.3.5/dist/css/user_info.css'%}" rel="stylesheet" type="text/css" />
+<link href="{%static 'bootstrap-3.3.5/dist/css/bootstrap-datetimepicker.min.css'%}" rel="stylesheet" type="text/css">
+{%endblock%}
+
+{%block content%}
+	<div class="personal">
+			<div class="header">
+			</div>
+	  		<div class="content">
+		 			<div class="information_3 " style="text-align: center;">
+		 					<div style="padding-bottom: 20px;padding-top:50px;text-align: center;">
+		 						<img src="{{request.user.profile.url}}" class="img-circle" width="150" height="150">
+		 					</div>
+		 					<form  enctype="multipart/form-data" method="post" action="{%url 'accounts:user_info' 'img'%}" > 
+							{%csrf_token%}
+							   <input type="file" name="profile" />
+							   <br /> 
+							   <input type="submit" value="submit" /> 
+							</form>
+
+							<div class="information_5">
+									 <p>真实姓名：{{real_name}}</p>
+							</div>
+							<div class="information_5">
+									 <p>邮箱：{{email}}</p>
+							</div>
+							<div class="information_5">
+									 <p>性别：{{sex}}</p>
+							</div>
+							<div class="information_5">
+						 		<p>年龄：{{age}}</p>
+							</div>
+		  			</div>
+	  		</div>
+			<div class="main" id ="main">
+					<div>
+						<h2 style="text-align: center;padding-bottom: 20px">个人信息</h2>	
+					</div>
+					<form  class="form-horizontal" action="." method="post">
+					{%csrf_token%}
+						<div class="form-group">
+							<label for="nickname" class="col-lg-3 control-label">昵称</label>
+							<div class="col-lg-6">
+								<input name="nick_name" type="text" id="nickname" class="form-control" readonly placeholder="昵称" value="{{nick_name}}">
+							</div>
+	  					</div>							
+						<div class="form-group">
+							<label for="height" class="col-lg-3 control-label" >身高</label>
+							<div class="col-lg-6">
+								<input name="height" type="text" id="height" class="form-control" readonly placeholder="身高(cm)"  value="{{height}}">
+							</div>
+	                     	
+	                   	</div>
+						<div class="form-group">
+							<label for="weight" class="col-lg-3 control-label" >体重</label>
+							<div class="col-lg-6">
+								<input name="weight" type="text" id="weight" class="form-control" readonly placeholder="体重(kg)" value="{{weight}}">
+							</div>
+	                        
+						</div>						
+
+						<div class="form-group">
+							<label for="work" class="col-lg-3 control-label">工作</label>
+							<div class="col-lg-6">
+								<input name="work" id="work" type="text" class="form-control" readonly placeholder="工作" value="{{work}}">
+							</div>
+	    				</div>
+						<div class="form-group">
+							<label for="address" class="col-lg-3 control-label">住址</label>
+							<div class="col-lg-6">
+								<input name="address" id="address" type="text" class="form-control" readonly placeholder="住址" value="{{address}}">
+							</div>	   	
+	  					</div>	
+						<div class="form-group">
+							<label for="phone" class="col-lg-3 control-label">手机</label>
+							<div class="col-lg-6">	    						
+								<input name="phone_num" id="phone" type="text" class="form-control" readonly placeholder="手机" value="{{phone_num}}">
+							</div>
+	  					</div>
+	  					<div class="form-group" >
+							<label for="birthday" class="col-lg-3 control-label" >生日</label>
+	                		<div id="birthday" class="input-group date form_date col-lg-6" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+	                   		    <input name="birthday" class="form-control col-lg-6" size="16" type="text" placeholder="生日" readonly 
+	                   		    {%if birthday%}value="{{birthday.year}}-{{birthday.month}}-{{birthday.day}}"{%endif%}
+	                   		    >
+	                    		<span class="input-group-addon"><i class="glyphicon glyphicon-remove"></i></span>
+								<span class="input-group-addon"><i class="glyphicon-th glyphicon"></i></span>
+	                		</div>
+						</div>
+						<div class="form-group">
+								<div class="loop_1">
+								<!--设置按钮-->
+								<button id="promote" type="button" onclick="change()"  class="btn btn-primary btn-lg btn-block">修改</button>
+								<button id="submit" type="submit" style="display: none" class="btn btn-primary btn-lg btn-block">保存</button>
+								</div>
+						</div>
+					</form>
+			</div>		
+	</div>
+
+<script language="JavaScript" type="text/javascript" src="{%static 'bootstrap-3.3.5/dist/js/bootstrap-datetimepicker.js'%}"></script>
+<script language="JavaScript" type="text/javascript" src="{%static 'bootstrap-3.3.5/dist/js/bootstrap-datetimepicker.zh-CN.js'%}"></script>
+<script type="text/javascript">
+    $('.form_date').datetimepicker({
+        language: 'zh-CN',
+        weekStart: 1,
+        todayBtn: 1,
+  	    autoclose: 1,
+  	    todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        forceParse: 0
+    });
+</script>
+<script type="text/javascript">
+	function change(){
+		document.getElementById("nickname").readOnly=false;
+		document.getElementById("height").readOnly=false;
+		document.getElementById("weight").readOnly=false;
+		document.getElementById("work").readOnly=false;
+		document.getElementById("birthday").readOnly=false;
+		document.getElementById("phone").readOnly=false;
+		document.getElementById("address").readOnly=false;
+		document.getElementById("promote").style.display="none";
+		document.getElementById("submit").style.display="";
+		}
+</script>
 {%endblock%}

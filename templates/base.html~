@@ -1,57 +1,68 @@
 {%extends "raw.html"%}
 {%load staticfiles%}
 {%block body%}
-  <body>
- <nav class="navbar navbar-default">
-   <div class="container-fluid">
+  <body style="padding-top: 70px">
+ <nav class="navbar navbar-default navbar-fixed-top">
+   <div class="container">
      <!-- Brand and toggle get grouped for better mobile display -->
-     <div class="navbar-header">
+     <div class="navbar-header" style="padding-left: 20px">
        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
          <span class="sr-only">Toggle navigation</span>
          <span class="icon-bar"></span>
          <span class="icon-bar"></span>
          <span class="icon-bar"></span>
        </button>
-       <a class="navbar-brand" href="#">PinU</a>
+       <a class="navbar-brand" href=""><img height="30px" width="30px" alt="Brand" src="{% static 'favicon.ico' %}"></a>
      </div>
 
      <!-- Collect the nav links, forms, and other content for toggling -->
      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
        <ul class="nav navbar-nav">
-         <li class="active"><a href="{% url 'index' %}">Home<span class="sr-only">(current)</span></a></li>
-         <li><a href="{% url 'activities:index' %}">Activity</a></li>
-         <li><a href="#">Blog</a></li>
-         <li class="dropdown">
-           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">DownMenu <span class="caret"></span></a>
-           <ul class="dropdown-menu">
-             <li><a href="">Action</a></li>
-             <li><a href="#">Another action</a></li>
-             <li><a href="#">Something else here</a></li>
-             <li role="separator" class="divider"></li>
-             <li><a href="#">Separated link</a></li>
-             <li role="separator" class="divider"></li>
-             <li><a href="#">One more separated link</a></li>
-           </ul>
-         </li>
+         <li></li>
+         <li><a href="{% url 'index' %}">主页<span class="sr-only">(current)</span></a></li>
+         <li><a href="{% url 'activities:index' %}">活动</a></li>
+         <li><a href="#">游记</a></li>
        </ul>
-       <form class="navbar-form navbar-right" role="search">
-         <div class="form-group">
-         <a class="btn btn-default" href="{% url 'accounts:login' %}" role="button">Sign in</a>
-         <a class="btn btn-default" href="{% url 'accounts:register' %}" role="button">Sign up</a>
+       <div class="navbar-form navbar-right" >
+         <div class="form-group" style="padding-right: 20px">
+         {% if user == None %}
+         <a class="btn btn-default" href="{% url 'accounts:login' %}" role="button">登录</a>
+         <a class="btn btn-default" href="{% url 'accounts:register' %}" role="button">注册</a>
+         {% else %}
+         <div>
+            <a href="{% url 'activities:create' %}"><span class="glyphicon glyphicon-plus" style="font-size: 15px"></span></a>
+            &nbsp;&nbsp;
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            {% if request.user.profile %}
+            <img src="{{user.profile.url}}" width="30" height="30" class="img-circle"><span class="caret"></span>
+            {% else %}
+            <img src="/media/profiles/default_profile.jpg" width="30" height="30" class="img-circle"><span class="caret"></span>
+            {% endif %}
+            </a>
+            <ul class="dropdown-menu">
+              <li style="padding-left: 20px"><small>你好,{{user.get_nick_name}}</small></li>
+              <li role="separator" class="divider"></li>
+              <li><a href="{% url 'accounts:user_info' %}">个人信息</a></li>
+              <li><a href="{% url 'activities:create' %}">发起活动</a></li>
+              <li><a href="{% url 'activities:myself' %}">我的活动</a></li>
+              <li><a href="{% url 'accounts:fri_list' %}">我的好友</a></li>
+              <li><a href="{% url 'messages:index' %}">我的消息</a></li>
+              <li role="separator" class="divider"></li>
+              <li> <a href="{% url 'accounts:logout' %}">注销</a></li>
+            </ul>
+            <a href="{% url 'messages:index' %}"><span class="badge" style="background-color: red">{{msg_count}}</span></a>
+         </div>
+         {% endif %}
         </div>
-       </form>
+       </div>
      </div>
    </div><!-- /.container-fluid -->
   </nav>
-{%endblock%}
-
       {%block content%}
-      
-      {%endblock%}
 
+
+      {%endblock%}
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="{%static 'bootstrap-3.3.5/dist/js/jquery.js'%}"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="{%static 'bootstrap-3.3.5/dist/js/bootstrap.min.js'%}"></script>
   </body>
+  {%endblock%}
 </html>

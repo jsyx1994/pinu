@@ -10,28 +10,28 @@
 		<div class="col-lg-3">
 		</div>
 		<div class="col-lg-5" style="padding-top: 30px">
-			<legend class="text-center">Create a new activity</legend>
+			<legend class="text-center">发起一个活动</legend>
 				<form action="." method="post">
 				{%csrf_token%}
 				  <div class="form-group">
-				    <label for="title">Title</label>
-				    <input name="title" type="text" class="form-control" id="title" placeholder="Title" required="required">
+				    <label for="title">主题</label>
+				    <input name="title" type="text" class="form-control" id="title" placeholder="请选择一个主题" required="required">
 				  </div>
-				  <label for="start">Start time</label>
+				  <label for="start">开始时间</label>
 				  <div class="form-group input-group date form_datetime " data-date-format="yyyy-mm-dd hh:ii" data-link-field="dtp_input1">
     					<input name="start_time" id="start" class="form-control" size="16" type="text" value="" readonly="" required="required">
     					<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
 						<span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
 				  </div>
 
-				  <label for="end">End time</label>
+				  <label for="end">结束时间</label>
 				  <div class="form-group input-group date form_datetime" data-date-format="yyyy-mm-dd hh:ii" data-link-field="dtp_input1"> 
     					<input name="end_time" id="end" class="form-control" size="16" type="text" value="" readonly="" required="required">
     					<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
 						<span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
 				  </div>
 				  <div class="form-group">
-					    <label for="personlimit">Person limit</label>
+					    <label for="personlimit">人数限制</label>
 					      <div id="personlimit" class="form-group">
 						    <select name="person_limit" required="required" class="form-control"> 
 						      <option>2</option> 
@@ -44,17 +44,17 @@
 						  </div>
 				  </div>
 				  <div class="form-group">
-					    <label for="category">Category</label>
+					    <label for="category">活动类别</label>
 					      <div  id="category" class="form-group">
 						    <select name="category" class="form-control"> 
-						      <option>Sport</option> 
-						      <option>Entertainment</option> 
-						      <option>Travel</option> 
+						      <option>运动</option> 
+						      <option>娱乐</option> 
+						      <option>旅行</option> 
 						    </select>
 						  </div>
 				  </div>
 				  <div class="form-group">
-				  	<label for="spot">Destination</label>
+				  	<label for="spot">目的地</label>
 				 	<input name="destination" class="form-control" type="text" placeholder="请输入关键字进行搜索" id="tipinput" required="required">
 				  </div>
 				  			<div class="form-group">
@@ -67,7 +67,7 @@
 							</div>
 				  <div class="form-group">
 				  	<button id="viewmap" type="button" class="btn btn-info" data-toggle="modal" data-target="#startplace">
-					  View map
+					  查看地图
 					</button>
 				  </div>
 				  					<!-- Modal -->
@@ -86,13 +86,12 @@
 
 						      <!--footer-->
 						      <div class="modal-footer">			       	
-						        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-						        <button type="button" class="btn btn-primary">Save changes</button>
+						        <button type="button" class="btn btn-default" data-dismiss="modal">保存</button>
 						      </div>
 						    </div>
 						  </div>
 						</div>
-				  	<button type="submit" class="btn btn-default pull-right">Submit</button>
+				  	<button type="submit" class="btn btn-default pull-right">发起</button>
 				</form>
 		</div>
 	</div>
@@ -136,13 +135,15 @@
         	cursor: 'move',
         	raiseOnDrag: true
     });
+    // = document.getElementById("source");
+    //dt = document.getElementById("tipinput");
     marker1.setLabel({//label默认蓝框白底左上角显示，样式className为：amap-marker-label
 		offset: new AMap.Pixel(20, 20),//修改label相对于maker的位置
-		content: "Starting..."
+		content: "出发地："//+st.value
 	});
     marker2.setLabel({//label默认蓝框白底左上角显示，样式className为：amap-marker-label
 		offset: new AMap.Pixel(20, 20),//修改label相对于maker的位置
-		content: "Destination"
+		content: "目的地:"//+dt.value
 	});
 	AMap.event.addListener(marker2,"mouseup",mouseup2);
 	function mouseup2() {
@@ -161,6 +162,7 @@
                  message.innerHTML = '无法获取地址';
               }
      	});
+
      	map.setFitView();
     }
     AMap.plugin('AMap.Geocoder',function(){
@@ -195,7 +197,6 @@
     AMap.event.addListener(auto, "select", select);//注册监听，当选中某条记录时会触发
     function select(e) {
         marker2.setPosition(e.poi.location);
-		marker2.setAnimation('AMAP_ANIMATION_BOUNCE');
 		document.getElementById("dlat").value = marker2.getPosition().getLat();
         document.getElementById("dlng").value = marker2.getPosition().getLng();
         var geocoder = new AMap.Geocoder({

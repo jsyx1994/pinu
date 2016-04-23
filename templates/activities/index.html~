@@ -92,7 +92,7 @@
 				      	</div>
 				      	<div class="text-center">
 				      		<h4><small>剩余时间:{{act.get_rest_time.days}}天</small></h4>
-				      		<h4><small>发布时间:{{act.get_pub_time|date:'y-m-d h:m'}}</small></h4>
+				      		<h4><small>发布时间:{{act.get_pub_time}}</small></h4>
 				      	</div>
 				      	{% with advocator=act.advocator %}
 				      	<div class="row" style="padding: 60px">

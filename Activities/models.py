@@ -148,12 +148,12 @@ class Activity(models.Model):
 
         #活动进行的时间
     def get_time_last(self):
-	    return self.get_due_time() - self.get_start_time()
+	    return self.get_due_time() - timezone.now()
 
         #参与活动的剩余时间
     def get_time_left(self):
 		return self.get_due_time() - timezone.now()
-
+    #before begin...
     def get_rest_time(self):
         return self.get_start_time() - timezone.now()
     def get_start_time(self):
@@ -161,7 +161,8 @@ class Activity(models.Model):
 
     def get_due_time(self):
 	    return self.due_time
-
+    def get_startDdue_time(self):
+        return self.get_due_time() - self.get_start_time()
     def get_startDpub_time(self):
         return self.get_start_time() - self.get_pub_time()
 

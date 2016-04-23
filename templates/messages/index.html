@@ -6,15 +6,15 @@
 	<div class="col-lg-1"></div>
 	<div class="col-lg-10">
 		<table class="table table-hover">
-			<th class="text-center">Title</th>
-			<th class="text-center">Sender</th>
-			<th class="text-center">Sended Time</th>
-			<th class="text-center">State</th>
-			<th class="text-center">Action</th>
+			<th class="text-center"><span class="glyphicon glyphicon-paperclip"></span>Title</th>
+			<th class="text-center"><span class="glyphicon glyphicon-user"></span> Sender</th>
+			<th class="text-center"><span class="glyphicon glyphicon-time"></span> Sended Time</th>
+			<th class="text-center"><span class="glyphicon glyphicon-bookmark"></span> State</th>
+			<th class="text-center"><span class="glyphicon glyphicon-th-list"></span> Action</th>
 			{% for msg in msg_list %}
 				<tr class="text-center">
 					<td>{{msg.get_title}}</td>
-					<td>{{msg.sender.get_nick_name}}</td>
+					<td><a href="{% url 'accounts:detail' msg.sender.id %}"><img class="img-circle" src="{{msg.sender.get_profile}}" height="30px" width="30px"></a>{{msg.sender.get_nick_name}}</td>
 					<td>{{msg.get_sended_time}}</td>
 					<td>
 						{% if msg.is_readed %}
@@ -25,11 +25,8 @@
 					</td>
 					<td>
 					<!-- Single button -->
-					 	<a href=""data-toggle="modal" data-target="#messageModal{{forloop.counter0}}"><span class="glyphicon glyphicon-zoom-in"></span></a>
-
+					 	<a href="#" data-toggle="modal" data-target="#messageModal{{forloop.counter0}}"><span class="glyphicon glyphicon-zoom-in"></span></a>
 						<a href="{% url 'messages:delete' msg.id %}" style="padding-left: 20px"><span class="glyphicon glyphicon-remove"></span></a>
-
-
 						<div class="modal fade" id="messageModal{{forloop.counter0}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
 						  	<div class="modal-dialog" role="document">
 							    <div class="modal-content">
@@ -64,7 +61,6 @@
 		  									        	<input type="text" name="title" style="display: none;" value="Reply@{{msg.get_title}}"></input>
 	  									        	</form>
 										  		</div>
-
 											</div>
 							      	</div>
 							    </div>
@@ -72,6 +68,9 @@
 						</div>
 					</td>
 				</tr>
+			<script type="text/javascript">
+				{{msg.set_readed}}
+			</script>
 			{% endfor %}
 		</table>
 	</div>

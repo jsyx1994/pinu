@@ -62,6 +62,7 @@ class Message(models.Model):
     #set method
     def set_readed(self):
         self.readed = True
+        self.save()
 
     def set_title(self,title):
         self.title = title

@@ -24,7 +24,7 @@ def list(request,option = 'default'):
         else:
             act_list = Activity.objects.get_valid_activity()
             dist_list = map(lambda x:0.001*calc_dis(request.user.get_lng(),request.user.get_lat(),x.get_slng(),x.get_slat()),act_list)
-            return render(request,'activities/index.html',{'error':'cannot join:conflict','act_list':act_list,'dist_list':dist_list})
+            return render(request,'activities/index.html',{'error':'cannot join:conflict','act_list':act_list})
     if request.method == 'GET':
         if option == 'bytime':
             bytime = operator.attrgetter('pub_time')
@@ -60,7 +60,7 @@ def create(request):
             cat = 'EN'
         elif cat == '运动':
             cat = 'SP'
-        elif cat == '旅行':
+        elif cat == '旅游':
             cat == 'TR'
         act = Activity.objects.create_activity(
             title = post['title'],
