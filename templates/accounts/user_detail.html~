@@ -11,7 +11,7 @@
 				<a href="{% url 'accounts:fri_add' obj.id%}"><small style="padding-right: 5px">request</small><span class="glyphicon glyphicon-plus" style="font-size: 20px"></span></a>
 			</div>
 			{% endif %}
-			<div class="form-group center-block" style="padding-top: 20px;width: 350px">
+			<div class="form-group">
 				{% if dist >= 0 %}
 					<div class="panel panel-default">
 					  <div class="panel-heading">距离</div>

@@ -7,8 +7,19 @@
 {% endblock %}
 {% block content %}
 <div class="container">
-	<div class="container col-lg-3">			
-	</div>
+	<div class="container col-lg-3" style="padding-top: 30px">	
+		<div class="well sidebar-nav">
+			<ul class="nav nav-list" role="tablist">
+				<li class="nav-header">过滤器</li>
+				<li class="active"><a href="{% url 'activities:myself' %}">所有</a></li>
+				<li><a href="{% url 'activities:myself' 'as_advocator' %}">作为发起者</a></li>
+				<li><a href="{% url 'activities:myself' 'as_follower' %}">作为追随者</a></li>
+				<li><a href="{% url 'activities:myself' 'before_begin' %}">招募中</a></li>
+				<li><a href="{% url 'activities:myself' 'going' %}">正在进行</a></li>
+				<li><a href="{% url 'activities:myself' 'finish' %}">已经结束</a></li>
+			</ul>
+		</div>
+	</div>	
 	<div class="container col-lg-8">
 		{% for act in joined_list %}
 		<div class="row" style="padding-top: 30px">

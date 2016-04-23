@@ -56,11 +56,11 @@ def create(request):
         st = datetime(int(st1[0]),int(st1[1]),int(st1[2]),int(st2[0]),int(st2[1]))
         ed = datetime(int(ed1[0]),int(ed1[1]),int(ed1[2]),int(ed2[0]),int(ed2[1]))
         cat = post['category']
-        if cat == '娱乐':
+        if cat == u'娱乐':
             cat = 'EN'
-        elif cat == '运动':
+        elif cat == u'运动':
             cat = 'SP'
-        elif cat == '旅行':
+        elif cat == u'旅行':
             cat == 'TR'
         act = Activity.objects.create_activity(
             title = post['title'],
@@ -86,6 +86,16 @@ def detail(request,activity_id):
     return render(request,'activities/detail.html')
 
 @login_required
-def myself(request):
+def myself(request,option = ''):
     joined_list = Activity.objects.filter(person_joined=request.user)
+    if option == 'as_advocator':
+        joined_list = joined_list.filter(advocator = request.user)
+    if option == 'before_begin':
+        joined_list = filter(lambda x: x.is_active,joined_list)
+    if option == 'going':
+        joined_list = filter(lambda x: x.is_going,joined_list)
+    if option == 'finish':
+        joined_list = filter(lambda x: x.is_due,joined_list)
+    if option == 'as_follower':
+        joined_list = filter(lambda x: request.user in x.person_joined.all(),joined_list.exclude(advocator = request.user))
     return render(request,'activities/myself.html',{'joined_list':joined_list})
