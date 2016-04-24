@@ -176,6 +176,13 @@ def fri_delete(request,user_id):
 @login_required
 def fri_add(request,user_id):
     request.user.add_friend(user_id)
+    obj = MyUser.obj.get(id = user_id)
+    if request.user not in obj.friends.all():
+        user.send_message(
+            title = '好友请求',
+            message = '你好，交个朋友吧',
+            id = user_id,
+            )
     return redirect('accounts:detail',user_id)
 
 @login_required
@@ -199,10 +206,4 @@ def detail(request,user_id):
         is_friend_each_other = True
     else:
         is_friend_each_other = False
-
-    user.send_message(
-        title = '好友请求',
-        message = '你好，交个朋友吧',
-        id = user_id,
-        )
     return render(request,'accounts/user_detail.html',{'obj':obj,'is_friend':is_friend,'is_friend_each_other':is_friend_each_other,'dist':dist})

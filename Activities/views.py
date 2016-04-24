@@ -7,6 +7,7 @@ from Activities.models import Activity
 from django.http import HttpResponse
 from datetime import datetime
 from Accounts.haversine import calc_dis
+from django.utils import timezone
 import operator
 @login_required
 def list(request,option = 'default'):
@@ -24,7 +25,7 @@ def list(request,option = 'default'):
         else:
             act_list = Activity.objects.get_valid_activity()
             dist_list = map(lambda x:0.001*calc_dis(request.user.get_lng(),request.user.get_lat(),x.get_slng(),x.get_slat()),act_list)
-            return render(request,'activities/index.html',{'error':'cannot join:conflict','act_list':act_list,'dist_list':dist_list})
+            return render(request,'activities/index.html',{'error':'时间冲突！','act_list':act_list,'dist_list':dist_list})
     if request.method == 'GET':
         if option == 'bytime':
             bytime = operator.attrgetter('pub_time')
@@ -55,6 +56,8 @@ def create(request):
         ed2 = y1.split(':')
         st = datetime(int(st1[0]),int(st1[1]),int(st1[2]),int(st2[0]),int(st2[1]))
         ed = datetime(int(ed1[0]),int(ed1[1]),int(ed1[2]),int(ed2[0]),int(ed2[1]))
+        if  not (timezone.now() > st > ed):
+            return HttpResponse('please choose right time')
         cat = post['category']
         if cat == u'娱乐':
             cat = 'EN'
@@ -82,8 +85,10 @@ def create(request):
         return render(request,'activities/create.html')
 
 @login_required
-def detail(request,activity_id):
-    return render(request,'activities/detail.html')
+def quit(request,activity_id):
+    act = Activity.objects.get(id =activity_id)
+    act.person_joined.remove(request.user)
+    return redirect('activities:myself')
 
 @login_required
 def myself(request,option = ''):

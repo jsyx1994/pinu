@@ -1,5 +1,5 @@
 #coding:utf-8
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from .models import Message
@@ -24,4 +24,7 @@ def detail(request):
 
 @login_required
 def delete(request,msg_id):
-	return HttpResponse('this works'+msg_id)
+	msg = Message.objects.get(id = msg_id)
+	msg.rcver_preserved = False
+	msg.save()
+	return redirect('messages:index')

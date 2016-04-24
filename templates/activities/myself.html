@@ -83,7 +83,7 @@
 				<h5>结束日期:{{act.get_due_time|date:"y-m-d h:m"}}</h5>
 				<div>
 					{% if act.get_rest_time.days > 3 %}
-					<button type="button" class="btn btn-danger pull-right">退出</button>
+					<a href="{% url 'activities:quit' act.id %}" type="button" class="btn btn-danger pull-right">退出</a>
 					{% endif %}
 					<div class="btn-group" role="group" aria-label="...">
 						<!--<button type="button" class="btn btn-success">Invite friend</button>-->
