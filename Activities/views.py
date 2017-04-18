@@ -56,11 +56,7 @@ def create(request):
         ed2 = y1.split(':')
         st = datetime(int(st1[0]),int(st1[1]),int(st1[2]),int(st2[0]),int(st2[1]))
         ed = datetime(int(ed1[0]),int(ed1[1]),int(ed1[2]),int(ed2[0]),int(ed2[1]))
-<<<<<<< HEAD
         if (timezone.now() > st > ed):
-=======
-        if  not (timezone.now() > st > ed):
->>>>>>> f8745000b2c71be117643a4f840682f8805343a9
             return HttpResponse('please choose right time')
         cat = post['category']
         if cat == u'娱乐':
@@ -107,8 +103,4 @@ def myself(request,option = ''):
         joined_list = filter(lambda x: x.is_due,joined_list)
     if option == 'as_follower':
         joined_list = filter(lambda x: request.user in x.person_joined.all(),joined_list.exclude(advocator = request.user))
-<<<<<<< HEAD
     return render(request,'activities/myself.html',{'joined_list':joined_list})
-=======
-    return render(request,'activities/myself.html',{'joined_list':joined_list})
->>>>>>> f8745000b2c71be117643a4f840682f8805343a9
