@@ -1,0 +1,283 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block headex %}
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="Aaban Responsive web template, Bootstrap Web Templates, Flat Web Templates, Andriod Compatible web template, 
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyErricsson, Motorola web design" />
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<link href="{% static 'css/bootstrap.css'%}" rel='stylesheet' type='text/css' />
+<link href="{% static 'css/style.css'%}" rel='stylesheet' type='text/css' />
+<link rel="stylesheet" href="{% static 'css/animate.css'%}">
+
+<script src="{% static 'js/wow.min.js'%}"></script>
+<script>
+	new WOW().init();
+</script>
+
+<script src="{% static 'js/jquery-1.11.0.min.js'%}"></script>
+
+<!---- start-smoth-scrolling---->
+<script type="text/javascript" src="{% static 'js/move-top.js'%}"></script>
+<script type="text/javascript" src="{% static 'js/easing.js'%}"></script>
+<script type="text/javascript">
+			jQuery(document).ready(function($) {
+				$(".scroll").click(function(event){		
+					event.preventDefault();
+					$('html,body').animate({scrollTop:$(this.hash).offset().top},1000);
+				});
+			});
+</script>
+<!--start-smoth-scrolling-->
+</head>
+{% endblock %}
+
+
+
+
+<!--start-header-->
+	<!-- script-for-menu -->
+	<!-- script-for-menu -->
+{%block content%}
+		 <script>
+				$("span.menu").click(function(){
+					$(" ul.navig").slideToggle("slow" , function(){
+					});
+				});
+		 </script>
+		 <!-- script-for-menu -->
+	<!--search-scripts-->
+					<script src="{% static 'js/classie.js'%}"></script>
+					<script src="{% static 'js/uisearch.js'%}"></script>
+						<script>
+							new UISearch( document.getElementById( 'sb-search' ) );
+						</script>
+	<!--//search-scripts-->
+	<!--banner-starts-->
+		<div class="banner" id="home">
+			<div class="container">
+					<div  id="top" class="callbacks_container">
+								    </div>
+			      	<div class="col-lg-5" style="padding-top: 200px">
+			      	{% if not user %}
+			      		 <form class="form-horizontal" action="." method="post">
+			      		 {%csrf_token%}
+						  <div class="form-group">
+						    <label for="inputEmail3" class="col-sm-2 control-label">邮箱</label>
+						    <div class="col-sm-10">
+						      <input name="email" class="form-control" id="inputEmail3" placeholder="邮箱" type="email">
+						    </div>
+						  </div>
+						  <div class="form-group">
+						    <label for="inputPassword3" class="col-sm-2 control-label">密码</label>
+						    <div class="col-sm-10">
+						      <input name="password" class="form-control" id="inputPassword3" placeholder="密码" type="password">
+						    </div>
+						  </div>
+						  <div class="form-group">
+						    <div class="col-sm-offset-2 col-sm-10">
+						      <div class="checkbox">
+						        <label>
+						          <input type="checkbox"> 记住我
+						        </label>
+						      </div>
+						    </div>
+						  </div>
+						  <div class="form-group">
+						    <div class="col-sm-offset-2 col-sm-10">
+						      <button type="submit" class="btn btn-default pull-right" style="background-color: transparent; ">登录</button>
+						    </div>
+						  </div>
+						</form>
+			      	</div>
+			      	{%else%}
+			      		<div class="container">
+			      			<h2>保持年轻，就要背起行囊。</h2> 
+			      		</div>
+			      		<br>
+			      		<br>
+			      		<div class="container" style="padding-left: 300px">
+			      			<h2>无论是爱情还是青春，其实都在旅行的路上。</h2>
+			      		</div>
+			      		<br>
+			      		<br>
+			      		<br>
+			      		<div class="container" style="padding-left: 400px">
+			      			<h1>不旅行，就会老。</h1>
+			      		</div>
+			      	{%endif%}
+			  <div class="clearfix"> </div>
+				</div>
+			</div>
+		</div>
+	<!--banner-ends--> 
+	<!--Slider-Starts-Here-->
+				<script src="{% static 'js/responsiveslides.min.js'%}"></script>
+			 <script>
+			    // You can also use "$(window).load(function() {"
+			    $(function () {
+			      // Slideshow 4
+			      $("#slider4").responsiveSlides({
+			        auto: true,
+			        pager: true,
+			        nav: true,
+			        speed: 500,
+			        namespace: "callbacks",
+			        before: function () {
+			          $('.events').append("<li>before event fired.</li>");
+			        },
+			        after: function () {
+			          $('.events').append("<li>after event fired.</li>");
+			        }
+			      });
+			
+			    });
+			  </script>
+			<!--End-slider-script-->
+	
+	
+	
+	
+				 <script>
+						$(document).ready(function() {
+						$('.popup-with-zoom-anim').magnificPopup({
+							type: 'inline',
+							fixedContentPos: false,
+							fixedBgPos: true,
+							overflowY: 'auto',
+							closeBtnInside: true,
+							preloader: false,
+							midClick: true,
+							removalDelay: 300,
+							mainClass: 'my-mfp-zoom-in'
+						});
+																						
+						});
+				</script>								  
+			<!--fea-video-->
+			<!--pop-up-box-->
+			<script type="text/javascript" src="{% static 'js/modernizr.custom.53451.js'%}"></script>  
+			<link href="{% static 'css/popuo-box.css'%}" rel="stylesheet" type="text/css" media="all">
+			<script src="{% static 'js/jquery.magnific-popup.js'%}" type="text/javascript"></script>
+			<!--pop-up-box-->
+	<div class="container">
+		<div id="start" class="row">
+			<div class="col-lg-6 wow bounceInLeft" data-wow-duration="2s" date-wow-delay="1s">
+				<img class="img-circle" src="/media/tutorial/start.png">
+			</div>
+			<div class="col-lg-6 center-block bounceInRight wow " data-wow-duration="2s" data-wow-delay="2s" style="padding-top: 150px">
+				<h1 class="text-center">开始</h1>
+				<br>
+				<p class="text-center"> 花一分钟注册帐号</p>
+				<p class="text-center"> 即可查看所有发起的活动</p>
+				<p class="text-center"> 精彩活动给你好看！</p>
+			</div>
+		</div>
+		<div id="choose" class="container">
+			<div class="col-lg-6 pull-right wow bounceInRight" data-wow-duration="2s" date-wow-delay="1s">
+				<img class="img-circle" src="/media/tutorial/choose.png">
+			</div>
+			<div class="col-lg-6 text-center wow bounceInLeft wow"  data-wow-duration="2s" data-wow-delay="1.5s" style="padding-top: 250px">
+				<h1>选择一个活动</h1>
+				<br>
+				<p>查看详情并考虑是否加入</p>
+				<p>年轻即出发！</p>
+			</div>
+		</div>
+		<div id="myself" class="container"					>
+			<div class="col-lg-6 wow bounceInLeft" data-wow-duration="2s" date-wow-delay="1s">
+				<img class="img-circle" src="/media/tutorial/myself.png">
+			</div>
+			<div class="col-lg-6 text-center wow bounceInRight"  data-wow-duration="2s" data-wow-delay="1.5s" style="padding-top: 250px">
+				<h1>活动进度及管理</h1>
+				<br>
+				<p>时刻了解活动的进度</p>
+				<p>活动动态了然于胸！</p>			
+			</div>
+		</div>
+		<div id="look" class="container">
+			<div class="col-lg-6 pull-right wow bounceInRight" date-wow-duration="2s" date-wow-delay="1s">
+				<img class="img-circle" src="/media/tutorial/look.png">
+			</div>
+			<div class="col-lg-6 text-center wow bounceInLeft" data-wow-duration="2s" data-wow-delay="1.5s" style="padding-top: 250px">
+				<h1>活动路线</h1>
+				<br>
+				<p>自动导出活动路线</p>
+				<p>妈妈再也不用担心我迷路！</p>		
+			</div>
+		</div>
+		<div id="create" class="container">
+			<div class="col-lg-6 wow bounceInLeft" data-wow-duration="2s" date-wow-delay="1s">
+				<img class="img-circle" src="/media/tutorial/create.png">
+			</div>
+			<div class="col-lg-6 text-center wow bounceInRight" data-wow-duration="2s" data-wow-delay="1.5s" style="padding-top: 250px">
+				<h1>发起活动</h1>
+				<br>
+				<p>还不够？</p>
+				<p>那么你可以带领自己的“驴友”！</p>		
+			</div>
+		</div>
+		<div id="create" class="container">
+			<div class="col-lg-6 pull-right wow bounceInRight" date-wow-duration="2s" date-wow-delay="1s">
+				<img class="img-circle" src="/media/tutorial/DIY.png">
+			</div>
+			<div class="col-lg-6 text-center wow bounceInLeft" data-wow-duration="2s" data-wow-delay="1.5s" style="padding-top: 250px">
+				<h1>DIY地点</h1>
+				<br>
+				<p>左键选择出发地</p>
+				<p>拖拽目的地来选择新的目的地</p>
+				<p>将活动“玩弄于股掌之中”</p>		
+			</div>
+		</div>
+	</div>
+	
+
+		<a href="#home" id="toTop" class="scroll" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>
+		<!--services-starts-->
+	<div class="container text-center wow bounceInUp">
+		<legend><h1><strong>你还在等什么?</strong></h1></legend>
+		<a href="{% url 'activities:index' %}">马上参加活动	</a>
+	</div>
+	<div class="services" id="services">
+		<div class="container">
+			<!--<div class="services-top">
+				<h3>我的拼游</h3>
+				<span> </span>
+			</div>-->
+			<div class="services-bottom wow bounceInUp">
+				<div class="col-md-4 services-left">
+					<div class="service-one">
+						<img src="{% static 'images/service-1.png'%}" alt="" />
+						<h4>拼运动</h4>
+						<p>
+						运动是去除各种坏心情的有效方法，在学习工作之余，拼几个附近的小伙伴一起去运动吧，打打球，跑跑步，锻锻炼，让身体更加出彩！
+						</p>
+						<p><a class="btn btn-primary" href="{% url 'activities:index' %}">点击查看</a> <a class="btn" href="{% url 'activities:create' %}">我要发起</a></p>
+					</div>
+				</div>
+				<div class="col-md-4 services-left">
+					<div class="service-one">
+						<img src="{% static 'images/services-3.png'%}" alt="" />
+						<h4>拼出游</h4>
+						<p>
+						室内紧张的快节奏是不是已经让你无法呼吸，那就出去走走，让更广阔的视野疏散你眉头的结，一个背包，一群人！
+						</p>
+						<p><a class="btn btn-primary" href="{% url 'activities:index' %}">点击查看</a> <a class="btn" href="{% url 'activities:create' %}">我要发起</a></p>
+					</div>
+				</div>
+				<div class="col-md-4 services-left">
+					<div class="service-one">
+						<img src="{% static 'images/service-2.png'%}"	 alt="" />
+						<h4>拼娱乐</h4>
+						<p>
+						在身体得到锻炼之后，精神是不是也要放松放松呢，叫上几个认识的，不认识的小伙伴们，唱唱k，一起放飞自我吧！
+						</p>
+						<p><a class="btn btn-primary" href="{% url 'activities:index' %}">点击查看</a> <a class="btn" href="{% url 'activities:create' %}">我要发起</a></p>
+					</div>
+				</div>
+				<div class="clearfix"></div>
+			</div>
+		</div>
+	</div>
+	<!--services-ends-->
+{%endblock%}

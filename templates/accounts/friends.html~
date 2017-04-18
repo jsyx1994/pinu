@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+	<h3 class="text-center">我的好友</h3> 
+	<table class="table table-hover text-center" style="padding-right: 60px">
+	  <th class="text-center"><span class="glyphicon glyphicon-user"></span></th>
+	  <th class="text-center"><span class="glyphicon glyphicon-envelope"></span></th>
+	  <th class="text-center"><span class="glyphicon glyphicon-cloud"></span></th>
+	  <th class="text-center"><span class="glyphicon glyphicon-th-list"></span></th>
+	  {% for f in fri_list %}
+	  <tr>
+	  	<td><span><a href="{% url 'accounts:detail' f.id %}"><img src="{{f.profile.url}}" width="30px" height="30px" class="img-circle"></a></span>{{f.get_nick_name}}</td>
+	  	<td>{{f.get_email}}</td>
+	  	<td>
+	  		{% if f.is_online %}
+	  			<button type="button" class="btn btn-success btn-sm" disabled="disabled">在线</button>
+	  		{% else %}
+	  			<button type="button" class="btn btn-danger btn-sm" disabled="disabled">离线</button>
+	  		{% endif %}
+	  	</td>
+	  	<td>
+	  		<div class="btn-group">
+				<a href="#" class="text-center" data-toggle="modal" data-target="#messageModal{{forloop.counter0}}"><span class="glyphicon glyphicon-send"></a></span>
+			    &nbsp;&nbsp;&nbsp;&nbsp;
+			    <a href="{% url 'accounts:fri_delete' f.id %}" class="text-center"><span class="glyphicon glyphicon-remove-sign"></span></a>
+
+			  	<div class="modal fade" id="messageModal{{forloop.counter0}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+				  	<div class="modal-dialog" role="document">
+					    <div class="modal-content">
+						    <div class="modal-header">
+						    	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						        <h4 class="modal-title" id="exampleModalLabel">发送一则消息</h4>
+						    </div>
+					     	<div class="modal-body">
+					        	<form action="{% url 'accounts:send' f.id %}" method="post" id="form{{f.id}}">
+					        	{% csrf_token %}
+						          	<div class="form-group">
+						            	<label for="recipient-name" class="control-label">对象</label>
+						            	<input type="text" class="form-control" readonly="readonly" id="recipient-name" value="@{{f.get_nick_name}}">
+						          	</div>
+						          	<div class="form-group">
+						            	<label for="title" class="control-label">标题</label>
+						            	<input name="title" type="text" class="form-control" id="title" value="无标题" placeholder="请输入标题（可选）">
+						          	</div>
+						          	<div class="form-group">
+						            	<label for="message-text" class="control-label">内容：</label>
+						            	<textarea required="required"  name="message" class="form-control" id="message-text"></textarea>
+						          	</div>
+          					        	<button type="submit" class="btn btn-primary">发送<span class="glyphicon glyphicon-send"></span></button>
+						        </form>
+					      	</div>
+					     	<div class="modal-footer">
+					        	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					      	</div>
+					    </div>
+				  	</div>
+				</div>
+			</div>
+	  	</td>
+	  </tr>
+	  {% endfor %}
+	</table>	
+</div>
+
+{% endblock %}

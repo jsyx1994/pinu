@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{%block content%}
+	{% for act in act_list %}
+		<p>{{act.title}}</p>
+		<p>{{act.get_category}}</p>
+		<form action="" method="post">
+		{%csrf_token%}
+			<input type="text" name ="id" value="{{act.id}}"  style="display:none;"/>
+			<input class="btn btn-default" type="submit" value="加入">		
+		</form>
+		<hr>
+	{%endfor%}
+	<a href="{% url 'activities:create' %}" >创建</a>
+{%endblock%}

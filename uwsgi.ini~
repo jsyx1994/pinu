@@ -1,0 +1,8 @@
+[uwsgi] 
+chdir=/home/xxx/Desktop/origin2_0
+module=origin2_0.wsgi
+socket=/tmp/origin2_0.sock
+chmod-socket=666
+;very permissive
+;chmod-socket=664
+;more sensiable

@@ -1,0 +1,108 @@
+<div class ="col-md-12">
+		<table id="table" class="table table-hover table-striped">
+		<th>Title</th>
+		<th>Category</th>
+		<th>Advocator</th>
+		<th>Action</th>
+		{% for act in act_list %}
+		<tr>
+			<td>{{act.get_title}}</td>
+			<td>{{act.get_category}}</td>
+			<td><a href="#"><img class="img-circle" src="{{act.advocator.get_profile}}" width="30px" height="30px"></a>{{act.advocator.nick_name}}</td>
+			<td>
+				<!--<form action="" method="post">
+				{%csrf_token%}
+					<input type="text" name ="id" value="{{act.id}}"  style="display:none;"/>
+					<input class="btn btn-default btn-sm" type="submit" value="加入">		
+				</form>-->
+				<button class="btn btn-info btn-xs" data-toggle="modal" data-target="#myModal{{forloop.counter}}" type="button">detail</button>
+				<div class="modal fade" id="myModal{{forloop.counter}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+				  <div class="modal-dialog" role="document">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				        <h4 class="modal-title" id="myModalLabel">{{act.get_title}}</h4>
+				      </div>
+				      <div class="modal-body" >
+				      	<div class="row">
+				      		<div class="container">
+				      	  		<div class="container col-lg-6" id="container{{forloop.counter}}" style="height: 300px"></div>
+					      	  	<script type="text/javascript">
+									var map =new AMap.Map('container{{forloop.counter}}',{
+								        resizeEnable: true,
+								        zoom:15,
+								        center: [{{act.get_dlng}}, {{act.get_dlat}}],
+								    });
+								    var marker = new AMap.Marker({
+							            map:map,
+							            //position: [116.405467, 39.907761],
+							            bubble:true,
+							            /*icon: new AMap.Icon({            
+								            size: new AMap.Size(40, 50),  //图标大小
+								            image: "http://pic33.nipic.com/20131011/2531170_205042671000_2.jpg"
+							        		})*/
+							        	})
+							        var point = new AMap.LngLat({{act.get_dlng}},{{act.get_dlat}});
+							        //marker.setPosition(point);
+							        var marker1 = new AMap.Marker({
+							        	map:map,
+							        	bubble:true,
+							        	position:[{{act.get_slng}},{{act.get_slat}}],
+							        })
+							        marker1.setLabel({
+							        	offset: new AMap.Pixel(20,20),
+							        	content:"starting...{{act.get_st_place}}"
+							        })
+							        marker.setAnimation('AMAP_ANIMATION_BOUNCE');
+									marker.setLabel({//label默认蓝框白底左上角显示，样式className为：amap-marker-label
+									        offset: new AMap.Pixel(20, 20),//修改label相对于maker的位置
+									        content: "destination {{act.get_ds_place}}"
+									    });
+									map.setFitView();
+							  	</script>
+				      	  	</div>
+				      	</div>
+				      	<div class="text-center">
+				      		<h4><small>Rest time:{{act.get_rest_time}}</small></h4>
+				      	</div>
+				      	{% with advocator=act.advocator %}
+				      	<div class="row" style="padding: 60px">
+				      		<div class="col-lg-4 text-center">
+				      			<legend>Advocator</legend>
+				      			<div>
+				      				<img class="img-circle" src={{advocator.get_profile}} width="100px" height="100px"> 	
+				      				<div class="text-center">
+				      					<h3><small>Nickname:{{advocator.get_nick_name}}</small></h3>
+										<h3><small>Sex:{{advocator.get_sex}}</small></h3>
+										<h3><small>Age:{{advocator.get_age}}</small></h3>
+				      				</div>
+				      			</div>
+				      		</div>
+				      		<div class="col-lg-4 pull-right text-center">
+				      			<legend>Follower</legend>
+				      			{% for f in act.person_joined.all %}
+				      				{% if f != advocator %}
+									<img class="img-rounded" src="{{f.get_profile}}"  width="40px" height="40px">
+				      				<h5><small>{{f.get_nick_name}}</small></h5>
+				      				{% endif %}
+				      			{% endfor %}
+				      		</div>
+				      	</div>
+				      	{% endwith%}
+				      </div>
+				      <div class="modal-footer">
+				        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+				        <form action="." method="post">
+				        {%csrf_token%}
+					        <input type="text" name ="act_id" value="{{act.id}}" style="display:none;"/>
+					        <button type="submit" class="btn btn-primary">Join</button>
+				        </form>
+				      </div>
+				    </div>
+				  </div>
+				</div>
+			</td>
+		</tr>
+		{%endfor%}
+		</table>
+	</div>
