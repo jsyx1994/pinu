@@ -56,7 +56,7 @@ def create(request):
         ed2 = y1.split(':')
         st = datetime(int(st1[0]),int(st1[1]),int(st1[2]),int(st2[0]),int(st2[1]))
         ed = datetime(int(ed1[0]),int(ed1[1]),int(ed1[2]),int(ed2[0]),int(ed2[1]))
-        if (timezone.now() > st > ed):
+        if (not (timezone.now() < st < ed)):
             return HttpResponse('please choose right time')
         cat = post['category']
         if cat == u'娱乐':
