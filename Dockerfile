@@ -1,6 +1,7 @@
 FROM index.tenxcloud.com/tenxcloud/ubuntu
 
 MAINTAINER laowang
+
 RUN apt-get update
 RUN apt-get install -y python-dev
 RUN apt-get install -y python-pip
