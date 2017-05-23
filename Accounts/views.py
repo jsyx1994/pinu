@@ -2,7 +2,7 @@
 from django.shortcuts import render,redirect
 
 # Create your views here.
-from django.http import HttpResponse
+from django.http import HttpResponse,Http404
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
 from .models import MyUser as User
@@ -166,6 +166,7 @@ def info_edit(request):
 @login_required
 def log_out(request):
     request.user.set_offline()
+    request.user.sam = ''
     request.user.save()
     logout(request)
     return redirect('index')
@@ -223,26 +224,37 @@ def send(request):
     randomlength = 20;
     sam = sample(encode,randomlength)
     try:
-        uid = MyUser.objects.get(email = email).id
+        user = MyUser.objects.get(email = email)
+        uid = user.id
         #return HttpResponse(uid)
     except MyUser.DoesNotExist as e:
         return HttpResponse('the user does not exist')
     email_title = 'Change password'
     email_body = str('Click following url to redirect:http://127.0.0.1:8000/accounts/changepasswd/')+ str(uid) + '/'+ ''.join(sam)
     send_status = send_mail(email_title,email_body,settings.EMAIL_HOST_USER,[email])
+    user.sam = ''.join(sam) #turn list to string
+    user.save()
     if send_status == 1: 
         return HttpResponse('Check your email')
     else:
         return HttpResponse('send error')
 
-def change_passwd(request,user_id):
+def change_passwd(request,user_id,sam):
+    #return HttpResponse(sam+'  '+MyUser.objects.get(pk=user_id).sam )
+    try:
+        user = MyUser.objects.get(pk=user_id)
+    except Exception as e:
+        raise e
+    else:
+        if user.sam != sam:
+            raise Http404()
     try:
         request.POST['password1']
     except Exception as e:
         return render(request,'accounts/change_passwd.html',{'uid':user_id})
     else:
         password = request.POST['password1']
-        user = MyUser.objects.get(pk=user_id)
+        
         user.set_pswd(password)
         user.save()
-        return HttpResponse('Ok?')
+        return redirect('accounts:login')

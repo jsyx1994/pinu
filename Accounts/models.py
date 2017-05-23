@@ -50,6 +50,11 @@ class MyUserManager(BaseUserManager):
 
 class MyUser(AbstractBaseUser):
     #longtitude
+    sam = models.CharField(
+        max_length = 30,
+        blank =True,
+        )
+
     lng = models.FloatField(
         default = None,
         null = True,
