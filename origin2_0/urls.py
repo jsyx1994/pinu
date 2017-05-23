@@ -24,6 +24,7 @@ urlpatterns = [
     url(r'^accounts/',include('Accounts.urls',namespace = 'accounts')),
     url(r'^activities/',include('Activities.urls',namespace = 'activities')),
     url(r'^messages/',include('Messages.urls',namespace = 'messages')),
+    url(r'^captcha/', include('captcha.urls')),
     ]
 if settings.DEBUG:
     urlpatterns += (

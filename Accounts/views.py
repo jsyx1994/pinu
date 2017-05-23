@@ -13,11 +13,13 @@ from random import sample
 from django.shortcuts import get_object_or_404
 from Accounts.models import MyUser
 from django.conf import settings
+from .forms import CapchaFieldForm
 
 def index(request):
     msg_count = ''
     if request.method == 'POST':
-        log_in(request) 
+        captcha = False
+        log_in(request,captcha) 
     if not request.user.is_authenticated():
         user = None
     else:
@@ -52,9 +54,18 @@ def register(request):
     else:
         return render(request,'accounts/register.html')
 
-def log_in(request):
+def log_in(request,captcha = True):
     user = None
     if request.method == 'POST':
+        #return HttpResponse(form.)
+        if captcha:
+            form = CapchaFieldForm(request.POST)
+            if form.is_valid():
+                pass
+            else:
+                form = CapchaFieldForm()
+                #return HttpResponse()
+                return render(request,'accounts/login.html',{'form':form})
         email = request.POST['email']
     	password = request.POST['password']
     	user = authenticate(
@@ -83,9 +94,11 @@ def log_in(request):
     	    else:
     		    pass
     	else:
-            return render(request,'accounts/login.html',{'error':'账户或密码错误'})
+            form = CapchaFieldForm()
+            return render(request,'accounts/login.html',{'error':'账户或密码错误','form':form})
     else:
-        return render(request,'accounts/login.html',{'user':user})
+        form = CapchaFieldForm()
+        return render(request,'accounts/login.html',{'user':user,'form':form})
 
 @login_required
 def user_info(request,img=''):

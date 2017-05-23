@@ -19,4 +19,5 @@ urlpatterns = [
     url(r'^changepasswd/(?P<user_id>[0-9]+)/(?P<sam>[0-9a-zA-Z]+)/$',views.change_passwd,name = 'change_passwd'),
     #url(r'^friends/(?P<fri_id>[0-9]+)/$',views.fri_detail,name = 'fri_detail'),
     #url(r'^friends/list',views.list,name = ''),
+
 ]

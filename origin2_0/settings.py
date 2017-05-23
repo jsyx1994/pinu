@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'Messages',
     'Activities',
     'Diaries',
+    'captcha',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -140,3 +141,5 @@ EMAIL_HOST_USER = 'djangoproject@sina.com'
 EMAIL_HOST_PASSWORD = 'admin123'
 
 DEFAULT_FROM_EMAIL = 'djangoproject@sina.com'
+
+CAPTCHA_CHALLENGE_FUNCT = 'captcha.helpers.math_challenge'
