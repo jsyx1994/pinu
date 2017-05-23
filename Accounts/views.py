@@ -8,6 +8,12 @@ from django.contrib.auth.decorators import login_required
 from .models import MyUser as User
 from Accounts.haversine import calc_dis
 from Messages.models import * 
+from django.core.mail import send_mail
+from random import sample
+from django.shortcuts import get_object_or_404
+from Accounts.models import MyUser
+from django.conf import settings
+
 def index(request):
     msg_count = ''
     if request.method == 'POST':
@@ -207,3 +213,36 @@ def detail(request,user_id):
     else:
         is_friend_each_other = False
     return render(request,'accounts/user_detail.html',{'obj':obj,'is_friend':is_friend,'is_friend_each_other':is_friend_each_other,'dist':dist})
+
+def forget(request):
+    return render(request,'accounts/forget_input_id.html')
+
+def send(request):
+    email = request.POST['email']
+    encode = 'QAZWSXEDCRFVTGBYHNUJMIKOLPqazwsxedcrfvtgbyhnujmikolp0123456789'
+    randomlength = 20;
+    sam = sample(encode,randomlength)
+    try:
+        uid = MyUser.objects.get(email = email).id
+        #return HttpResponse(uid)
+    except MyUser.DoesNotExist as e:
+        return HttpResponse('the user does not exist')
+    email_title = 'Change password'
+    email_body = str('Click following url to redirect:http://127.0.0.1:8000/accounts/changepasswd/')+ str(uid) + '/'+ ''.join(sam)
+    send_status = send_mail(email_title,email_body,settings.EMAIL_HOST_USER,[email])
+    if send_status == 1: 
+        return HttpResponse('Check your email')
+    else:
+        return HttpResponse('send error')
+
+def change_passwd(request,user_id):
+    try:
+        request.POST['password1']
+    except Exception as e:
+        return render(request,'accounts/change_passwd.html',{'uid':user_id})
+    else:
+        password = request.POST['password1']
+        user = MyUser.objects.get(pk=user_id)
+        user.set_pswd(password)
+        user.save()
+        return HttpResponse('Ok?')

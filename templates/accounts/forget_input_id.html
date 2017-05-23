@@ -1,0 +1,11 @@
+{% extends 'raw.html'%}
+{%load staticfiles%}
+
+{% block content %}
+	<h1>Find your password</h1>
+	<form method="POST" action="{% url 'accounts:send_mail' %}">
+	{% csrf_token %}
+		<input type="email" name="email" required="required">
+		<input type="submit" name="submit">
+	</form>
+{% endblock %}

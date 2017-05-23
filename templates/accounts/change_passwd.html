@@ -1,0 +1,32 @@
+{% extends 'raw.html'%}
+{%load staticfiles%}
+
+{% block content %}
+	<h1>Change your password</h1>
+	<form name ="form" method="POST" action="." onsubmit="return check();">
+	{% csrf_token %}
+		<input type="password" id="password1" name="password1" required="required">
+		<input type="password" id="password2" name="password2" required="required">
+		<input type="submit" name="submit">
+	</form>
+	<script type="text/javascript">
+		function check()
+		{
+			var x,y;
+			x=document.getElementById("password1");
+			y=document.getElementById("password2");
+
+			if( x.value!= y.value) 
+			{
+				alert("两次密码不同，请重新输入");
+				//printf(x,y);
+				return false;	
+			}
+			else
+			{
+				return true;
+			}
+        	
+		}
+	</script>
+{% endblock %}

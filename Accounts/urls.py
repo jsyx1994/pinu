@@ -13,6 +13,10 @@ urlpatterns = [
     url(r'^send/(?P<user_id>[0-9]+)/$',views.send,name = 'send'),
     url(r'^(?P<user_id>[0-9]+)/detail$',views.detail,name = 'detail'),
     url(r'^friends/(?P<user_id>[0-9]+)/fri_add$',views.fri_add,name = 'fri_add'),
+
+    url(r'^forgetpasswd/$',views.forget,name = 'forget_pswd'),
+    url(r'^forgetpasswd/send_mail/$',views.send,name = 'send_mail'),
+    url(r'^changepasswd/(?P<user_id>[0-9]+)/[0-9a-zA-Z]+/$',views.change_passwd,name = 'change_passwd'),
     #url(r'^friends/(?P<fri_id>[0-9]+)/$',views.fri_detail,name = 'fri_detail'),
     #url(r'^friends/list',views.list,name = ''),
 ]

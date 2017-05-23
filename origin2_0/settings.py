@@ -132,3 +132,11 @@ STATICFILES_DIRS = (
             os.path.join(BASE_DIR, "common_static"),
             )
 AUTH_USER_MODEL='Accounts.MyUser'
+
+EMAIL_HOST = 'smtp.sina.com'
+
+EMAIL_HOST_USER = 'djangoproject@sina.com'
+
+EMAIL_HOST_PASSWORD = 'admin123'
+
+DEFAULT_FROM_EMAIL = 'djangoproject@sina.com'

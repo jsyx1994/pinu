@@ -56,7 +56,7 @@
 
 			        <div class="form-group">
 			          <div class="col-md-12">
-			            <input type="submit" value="创建账户" onclick="check()" class="btn btn-info pull-right">
+			            <input type="submit" value="创建账户" onclick="return check();" class="btn btn-info pull-right">
 			            <a href="{% url 'accounts:login' %}" class="pull-left">登录</a>
 			          </div>
 			        </div>	
@@ -71,8 +71,11 @@
 			y=document.getElementById("password2");
 			if (x.value!=y.value)
 			{
-				alert("Please check your two password again");
+				alert("两次密码不同，请重新输入");
+
+				return false;
 			}
+			return true;
 		}
 	</script>
 </body>
