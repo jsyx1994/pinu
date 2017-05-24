@@ -6,6 +6,7 @@ from django.db import models
 # Create your models here.
 from django.conf import settings
 from django.utils import timezone
+from ckeditor.fields import RichTextField
 class DiaryManager(models.Manager):
     def create_diary(self,title,content):
         diary = super(DiaryManager,self).create(
@@ -14,12 +15,15 @@ class DiaryManager(models.Manager):
                 )
         return diary
 class Diary(models.Model):
-	title=models.CharField(max_length=50)
-	content=models.TextField()
+	title=models.CharField(max_length=50,verbose_name='标题')
+	content=RichTextField(verbose_name='内容')
 	finished_time=models.DateTimeField(
                 default = timezone.now,
                 )
-	friendly=models.BooleanField(default=False)
+	public=models.BooleanField(
+		verbose_name='公开',
+		default=True,
+		)
 
 	author=models.ForeignKey(
                 settings.AUTH_USER_MODEL,

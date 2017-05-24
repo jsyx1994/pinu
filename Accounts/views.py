@@ -196,9 +196,9 @@ def fri_delete(request,user_id):
 @login_required
 def fri_add(request,user_id):
     request.user.add_friend(user_id)
-    obj = MyUser.obj.get(id = user_id)
+    obj = MyUser.objects.get(id = user_id)
     if request.user not in obj.friends.all():
-        user.send_message(
+        request.user.send_message(
             title = '好友请求',
             message = '你好，交个朋友吧',
             id = user_id,

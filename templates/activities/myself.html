@@ -89,6 +89,9 @@
 						<!--<button type="button" class="btn btn-success">Invite friend</button>-->
 						<button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal{{act.id}}" onclick="show({{act.id}},{{act.get_slng}},{{act.get_slat}},{{act.get_dlng}},{{act.get_dlat}},'{{act.get_st_place}}','{{act.get_ds_place}}')">
 						  查看活动图
+						{% if act.is_due %}
+							<button type="button" onclick="window.open('{% url 'diaries:edit' act.id %}');" class="btn btn-success" href="#">写游记</button>
+						{% endif %}
 					</div>
 				</div>
 

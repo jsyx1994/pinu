@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block content%}
+<h1 class="text-center"> 编辑你的游记({{act_title}}) </h1>
+
+<div class="container text-center" style="margin-top: 60px">
+	<div class="form-group">
+		<form role="form" class="" method="post" action=".">
+		{% csrf_token %}
+			{{form.media}}
+			{{form.as_p}}
+			<button class="submit sucess" type="submit">提交</button>
+		</form>
+
+	</div>
+
+</div>
+{% endblock %}

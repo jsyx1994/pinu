@@ -25,6 +25,8 @@ urlpatterns = [
     url(r'^activities/',include('Activities.urls',namespace = 'activities')),
     url(r'^messages/',include('Messages.urls',namespace = 'messages')),
     url(r'^captcha/', include('captcha.urls')),
+    url(r'^diaries/',include('Diaries.urls',namespace = 'diaries')),
+    url(r'^ckeditor/', include('ckeditor_uploader.urls')),
     ]
 if settings.DEBUG:
     urlpatterns += (
