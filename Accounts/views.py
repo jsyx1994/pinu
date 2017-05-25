@@ -14,6 +14,8 @@ from django.shortcuts import get_object_or_404
 from Accounts.models import MyUser
 from django.conf import settings
 from .forms import CapchaFieldForm
+from django.contrib.sites.shortcuts import get_current_site
+
 
 def index(request):
     msg_count = ''
@@ -232,6 +234,10 @@ def forget(request):
     return render(request,'accounts/forget_input_id.html')
 
 def send(request):
+    import sys
+    reload(sys)   
+    sys.setdefaultencoding('utf8')  
+    current_site =  get_current_site(request)
     email = request.POST['email']
     encode = 'QAZWSXEDCRFVTGBYHNUJMIKOLPqazwsxedcrfvtgbyhnujmikolp0123456789'
     randomlength = 20;
@@ -241,16 +247,16 @@ def send(request):
         uid = user.id
         #return HttpResponse(uid)
     except MyUser.DoesNotExist as e:
-        return HttpResponse('the user does not exist')
+        return HttpResponse('<h1>用户不存在</h1>')
     email_title = 'Change password'
-    email_body = str('Click following url to redirect:http://127.0.0.1:8000/accounts/changepasswd/')+ str(uid) + '/'+ ''.join(sam)
+    email_body = str('点击下面链接跳转:http://')+ str(current_site) + str('/accounts/changepasswd/')+ str(uid) + '/'+ ''.join(sam)
     send_status = send_mail(email_title,email_body,settings.EMAIL_HOST_USER,[email])
     user.sam = ''.join(sam) #turn list to string
     user.save()
     if send_status == 1: 
-        return HttpResponse('Check your email')
+        return HttpResponse('<h1>请检查您的邮箱</h1>')
     else:
-        return HttpResponse('send error')
+        return HttpResponse('<h1>发送错误,请重试</h1')
 
 def change_passwd(request,user_id,sam):
     #return HttpResponse(sam+'  '+MyUser.objects.get(pk=user_id).sam )

@@ -2,10 +2,13 @@
 {%load staticfiles%}
 
 {% block content %}
-	<h1>Find your password</h1>
+<div class="container text-center vertical-middle-sm" style="margin-top: 100px">
+	<h1>找回密码</h1>
 	<form method="POST" action="{% url 'accounts:send_mail' %}">
 	{% csrf_token %}
-		<input type="email" name="email" required="required">
-		<input type="submit" name="submit">
+		<input type="email" name="email" required="required" placeholder="请输入注册邮箱">
+		<input type="submit" name="submit" value="发送邮件">
 	</form>
+</div>
+	
 {% endblock %}

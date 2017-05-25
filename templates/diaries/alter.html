@@ -2,11 +2,11 @@
 {% load staticfiles %}
 
 {% block content%}
-<h3 class="text-center"> 编辑你的游记({{act_title}}) </h3>
+<h3 class="text-center"> 修改你的游记({{act_title}}) </h3>
 
 <div class="container text-center" style="margin-top: 60px">
 	<div class="form-group">
-		<form role="form" class="" method="post" action=".">
+		<form role="form" class="" method="post" action="{% url 'diaries:alter' dia_id %}">
 		{% csrf_token %}
 			{{form.media}}
 			{{form.as_p}}

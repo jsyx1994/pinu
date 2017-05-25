@@ -7,6 +7,7 @@ from django.db import models
 from django.conf import settings
 from django.utils import timezone
 from ckeditor.fields import RichTextField
+from Activities.models import Activity
 class DiaryManager(models.Manager):
     def create_diary(self,title,content):
         diary = super(DiaryManager,self).create(
@@ -29,6 +30,10 @@ class Diary(models.Model):
                 settings.AUTH_USER_MODEL,
                 default=None,
                 )
+	act_belonged = models.ForeignKey(
+				Activity,
+				default =None,
+				)
         objects = DiaryManager()
 	def __unicode__(self):
 		return self.title

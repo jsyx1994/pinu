@@ -1,31 +1,26 @@
-{% extends 'base.html' %}
+{%  extends 'base.html'%}
 {% load staticfiles %}
 
+{% block content %}
 
-{%block content%}
-	<h3 class="text-center">游记欣赏</h3>
+	<h3 class="text-center">我的游记</h3>
 	<div class="container">
 		<div class ="col-md-12" style="margin-top: 60px" >
 			<table id="table" class="table table-hover table-striped">
 			<th><span class="glyphicon glyphicon-tag"></span>标题</th>
-			<th><span class="glyphicon glyphicon-flag"></span>作者</th>
 			<th><span class="glyphicon glyphicon-time"></span>发表日期</th>
 			<th><span class="glyphicon glyphicon-zoom-in"></span></th>
+			<th><span class="glyphicon glyphicon-pencil"></span></th>
 			{%for diary in diaries%}
 				<tr>
 				<td>{{diary.get_title}}</td>
-				<td>
-					<span>
-						<a href="{% url 'accounts:detail' diary.author.id %}"><img class="img-circle" src="{{diary.author.get_profile}}" width="30px" height="30px">
-						</a>{{diary.author.get_nick_name}}
-					</span>
-				</td>
 				<td>{{diary.get_finished_time|date:'y-m-d h:m'}}</td>
 				<td><a href="{% url 'diaries:detail' diary.id %}" class="btn btn-info btn-xs" type="button">详情</a></td>
+				<td><a href="{% url 'diaries:alter' diary.id %}" class="btn btn-success btn-xs" type="button">修改</td>
 				</tr>
 			{%endfor%}
 			</table>
 		</div>
 	</div>
-	  
-{%endblock%}
+	
+{% endblock %}
