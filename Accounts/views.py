@@ -66,7 +66,7 @@ def log_in(request,captcha = True):
                 pass
             else:
                 form = CapchaFieldForm()
-                #return HttpResponse()
+                return HttpResponse("验证码错误!")
                 return render(request,'accounts/login.html',{'form':form})
         email = request.POST['email']
     	password = request.POST['password']

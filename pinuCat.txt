@@ -1,0 +1,38 @@
+.
+├── Accounts
+│   └── migrations
+├── Activities
+│   └── migrations
+├── common_static
+│   ├── ajax
+│   ├── bootstrap-3.3.5
+│   ├── ckeditor
+│   ├── css
+│   ├── images
+│   └── js
+├── demo
+├── Diaries
+│   └── migrations
+├── media
+│   ├── categories
+│   ├── profiles
+│   └── tutorial
+├── Messages
+│   └── migrations
+├── origin2_0
+├── otherthing
+├── static
+│   ├── admin
+│   ├── ajax
+│   ├── bootstrap-3.3.5
+│   ├── ckeditor
+│   ├── css
+│   ├── images
+│   └── js
+└── templates
+    ├── accounts
+    ├── activities
+    ├── diaries
+    └── messages
+
+35 directories
