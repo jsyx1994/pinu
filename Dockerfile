@@ -9,6 +9,8 @@ RUN apt-get install -y vim
 RUN pip install uwsgi 
 RUN pip install django==1.9.4
 RUN pip install Pillow==2.3.0
+RUN pip install django-simple-captcha
+RUN pip install django-ckeditor
 
 RUN apt-get install -y nginx
 
