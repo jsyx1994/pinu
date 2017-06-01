@@ -62,7 +62,7 @@
 											</button>
 											<div class="collapse" id="collapseExample{{msg.id}}">
 										  		<div class="well">
-										  			<form id="form{{msg.id}}" action="{%url 'accounts:send' msg.sender.id%}" method="post">
+										  			<form id="form{{msg.id}}" action="{%url 'accounts:send' msg.sender.id %}" method="post">
 											  		{% csrf_token %}
 												  		<div class="form-group">
 												  			<textarea required="required" class="form-control" name="message"></textarea>

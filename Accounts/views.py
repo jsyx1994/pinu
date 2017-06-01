@@ -233,7 +233,7 @@ def detail(request,user_id):
 def forget(request):
     return render(request,'accounts/forget_input_id.html')
 
-def send(request):
+def send_email(request):
     import sys
     reload(sys)   
     sys.setdefaultencoding('utf8')  
