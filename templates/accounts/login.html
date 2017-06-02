@@ -28,7 +28,7 @@
 	    	document.getElementById("lng").value=data.position.getLng();
     	}
     	function onError(data){
-    		alert('please turn on the location service of your browser');
+    		alert('请打开您的浏览器定位服务');
     	}
 	    map.getCity(function (result){
 	      	document.getElementById("city").value=result.city;
@@ -46,8 +46,8 @@
 			<form class="form-horizontal templatemo-container templatemo-login-form-1 margin-bottom-30" role="form" action="." method="post">
 			{%csrf_token%}
 			    <!--lng&&lat-->
-			    <input name="lng" type="text" id="lng" style="display: none;" ></input>
-			    <input name="lat" type="text" id="lat" style="display: none;" ></input>
+			    <input name="lng" type="text" id="lng"  style="display: none;"></input>
+			    <input name="lat" type="text" id="lat"  style="display: none;"></input>
 			    <!--city-->
 			    <input name="city" type="text" id="city" style="display: none;"></input>
 		        <div class="form-group">
