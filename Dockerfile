@@ -3,14 +3,13 @@ FROM index.tenxcloud.com/tenxcloud/ubuntu
 MAINTAINER laowang
 
 RUN apt-get update
+RUN apt-get -y install libz-dev libjpeg-dev libfreetype6-dev
 RUN apt-get install -y python-dev
 RUN apt-get install -y python-pip
 RUN apt-get install -y vim
 RUN pip install uwsgi 
-RUN pip install django==1.9.4
-RUN pip install Pillow==2.3.0
-RUN pip install django-simple-captcha
-RUN pip install django-ckeditor
+RUN pip install django==1.11.1
+RUN pip install Pillow
 
 RUN apt-get install -y nginx
 
