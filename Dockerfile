@@ -8,7 +8,7 @@ RUN apt-get install -y python-dev
 RUN apt-get install -y python-pip
 RUN apt-get install -y vim
 RUN pip install uwsgi 
-RUN pip install django==1.11.1
+RUN pip install django
 RUN pip install Pillow
 
 RUN apt-get install -y nginx
