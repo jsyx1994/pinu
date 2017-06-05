@@ -50,7 +50,7 @@ def register(request):
                 sex = sex,
             )
         except:
-            return HttpResponse('nick_name or email already be taken')
+            return HttpResponse('昵称或邮箱已存在')
         else:
             return redirect('accounts:login')
     else:
@@ -248,7 +248,7 @@ def send_email(request):
         #return HttpResponse(uid)
     except MyUser.DoesNotExist as e:
         return HttpResponse('<h1>用户不存在</h1>')
-    email_title = 'Change password'
+    email_title = '拼游网更改密码'
     email_body = str('点击下面链接跳转:http://')+ str(current_site) + str('/accounts/changepasswd/')+ str(uid) + '/'+ ''.join(sam)
     send_status = send_mail(email_title,email_body,settings.EMAIL_HOST_USER,[email])
     user.sam = ''.join(sam) #turn list to string
