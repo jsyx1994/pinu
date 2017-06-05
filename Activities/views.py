@@ -59,12 +59,13 @@ def create(request):
         if (not (timezone.now() < st < ed)):
             return HttpResponse('please choose right time')
         cat = post['category']
+
         if cat == u'娱乐':
-            cat = 'EN'
-        elif cat == u'运动':
-            cat = 'SP'
-        elif cat == u'旅行':
-            cat == 'TR'
+            cat = u'EN'
+        if cat == u'运动':
+            cat = u'SP'
+        if cat == u'旅行':
+            cat == u'TR'
         act = Activity.objects.create_activity(
             title = post['title'],
             category = cat,
